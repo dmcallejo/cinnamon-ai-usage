@@ -1,0 +1,60 @@
+/* Colors stay neutral where possible so the applet follows the panel theme. */
+
+.applet-label.ai-usage-warning,
+.ai-usage-limit-value.ai-usage-warning {
+    color: #f0a30a;
+}
+
+.applet-label.ai-usage-critical,
+.ai-usage-limit-value.ai-usage-critical {
+    color: #e5484d;
+    font-weight: bold;
+}
+
+.ai-usage-provider {
+    font-weight: bold;
+}
+
+.ai-usage-limit {
+    spacing: 4px;
+    padding: 2px 0;
+}
+
+.ai-usage-limit-value {
+    font-weight: bold;
+    padding-left: 12px;
+}
+
+.ai-usage-limit-detail,
+.ai-usage-dim {
+    font-size: 0.9em;
+    color: rgba(128, 128, 128, 1);
+}
+
+.ai-usage-bar {
+    height: 6px;
+    border-radius: 3px;
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+.ai-usage-bar-fill {
+    height: 6px;
+    border-radius: 3px;
+    background-color: #3a8fd9;
+}
+
+.ai-usage-bar-fill.ai-usage-warning {
+    background-color: #f0a30a;
+}
+
+.ai-usage-bar-fill.ai-usage-critical {
+    background-color: #e5484d;
+}
+
+.ai-usage-info {
+    max-width: 22em;
+}
+
+.ai-usage-error {
+    color: #e5484d;
+}

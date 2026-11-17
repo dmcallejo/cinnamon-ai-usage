@@ -1,0 +1,5 @@
+*.mo
+*~
+.idea/
+.vscode/
+node_modules/

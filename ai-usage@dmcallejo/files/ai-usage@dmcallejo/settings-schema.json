@@ -1,0 +1,112 @@
+{
+    "layout": {
+        "type": "layout",
+        "pages": ["general-page", "providers-page"],
+        "general-page": {
+            "type": "page",
+            "title": "General",
+            "sections": ["panel-section", "refresh-section", "alerts-section"]
+        },
+        "providers-page": {
+            "type": "page",
+            "title": "Providers",
+            "sections": ["anthropic-section"]
+        },
+        "panel-section": {
+            "type": "section",
+            "title": "Panel",
+            "keys": ["panel-display", "show-reset-in-panel", "show-extra-usage"]
+        },
+        "refresh-section": {
+            "type": "section",
+            "title": "Updates",
+            "keys": ["refresh-interval"]
+        },
+        "alerts-section": {
+            "type": "section",
+            "title": "Alerts",
+            "keys": ["warning-threshold", "critical-threshold", "notify-critical"]
+        },
+        "anthropic-section": {
+            "type": "section",
+            "title": "Claude (Anthropic)",
+            "keys": ["anthropic-enabled", "anthropic-credentials-path", "anthropic-help"]
+        }
+    },
+
+    "panel-display": {
+        "type": "combobox",
+        "default": "highest",
+        "description": "Panel text",
+        "options": {
+            "Highest usage": "highest",
+            "Main limit of each provider": "primary",
+            "All limits": "all",
+            "Icon only": "icon"
+        },
+        "tooltip": "Which percentages to show next to the icon. The menu always shows every limit."
+    },
+    "show-reset-in-panel": {
+        "type": "switch",
+        "default": true,
+        "description": "Show time until reset in the panel",
+        "tooltip": "Only shown when the panel displays a single limit.",
+        "dependency": "panel-display!=icon"
+    },
+    "show-extra-usage": {
+        "type": "switch",
+        "default": true,
+        "description": "Show extra usage spending in the menu",
+        "tooltip": "Pay-as-you-go credits used after the plan limits are reached, when your plan has them enabled."
+    },
+    "refresh-interval": {
+        "type": "spinbutton",
+        "default": 5,
+        "min": 1,
+        "max": 60,
+        "step": 1,
+        "units": "minutes",
+        "description": "Refresh every"
+    },
+    "warning-threshold": {
+        "type": "spinbutton",
+        "default": 75,
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "units": "%",
+        "description": "Warning level"
+    },
+    "critical-threshold": {
+        "type": "spinbutton",
+        "default": 90,
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "units": "%",
+        "description": "Critical level"
+    },
+    "notify-critical": {
+        "type": "switch",
+        "default": true,
+        "description": "Send a notification when a limit reaches the critical level"
+    },
+
+    "anthropic-enabled": {
+        "type": "switch",
+        "default": true,
+        "description": "Show Claude usage"
+    },
+    "anthropic-credentials-path": {
+        "type": "entry",
+        "default": "",
+        "description": "Claude Code credentials file",
+        "tooltip": "Leave empty to use $CLAUDE_CONFIG_DIR/.credentials.json or ~/.claude/.credentials.json.",
+        "dependency": "anthropic-enabled"
+    },
+    "anthropic-help": {
+        "type": "label",
+        "description": "Uses the sign-in stored by Claude Code. It is read only and never sent anywhere except api.anthropic.com.",
+        "dependency": "anthropic-enabled"
+    }
+}

@@ -1,0 +1,283 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ai-usage@dmcallejo 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-applets/issues\n"
+"POT-Creation-Date: 2026-11-17 13:29+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: applet.js:70
+msgid "AI usage limits"
+msgstr ""
+
+#: applet.js:80 applet.js:353
+msgid "Refresh now"
+msgstr ""
+
+#: applet.js:171
+#, javascript-format
+msgid "Could not reach %s. Check your connection."
+msgstr ""
+
+#: applet.js:241
+#, javascript-format
+msgid "Resets in %s (%s)"
+msgstr ""
+
+#: applet.js:295
+#, javascript-format
+msgid "%s: %s, resets in %s"
+msgstr ""
+
+#: applet.js:303 applet.js:313
+msgid "No provider is enabled. Enable one in the applet settings."
+msgstr ""
+
+#: applet.js:319
+#, javascript-format
+msgid "%s (%s plan)"
+msgstr ""
+
+#: applet.js:330
+#, javascript-format
+msgid "%s of %s"
+msgstr ""
+
+#: applet.js:336
+msgid "Loading..."
+msgstr ""
+
+#: applet.js:342
+#, javascript-format
+msgid "Open %s usage page"
+msgstr ""
+
+#: applet.js:351
+#, javascript-format
+msgid "Updated at %s"
+msgstr ""
+
+#: applet.js:410
+#, javascript-format
+msgid "%s: %s at %s"
+msgstr ""
+
+#: applet.js:411
+#, javascript-format
+msgid "Resets in %s."
+msgstr ""
+
+#: lib/util.js:38
+msgid "now"
+msgstr ""
+
+#: lib/util.js:40
+msgid "<1m"
+msgstr ""
+
+#: lib/util.js:42
+#, javascript-format
+msgid "%dm"
+msgstr ""
+
+#: lib/util.js:46
+#, javascript-format
+msgid "%dh %sm"
+msgstr ""
+
+#: lib/util.js:50
+#, javascript-format
+msgid "%dd %dh"
+msgstr ""
+
+#: providers/anthropic.js:30
+msgid "Current session"
+msgstr ""
+
+#: providers/anthropic.js:32
+msgid "Weekly, all models"
+msgstr ""
+
+#: providers/anthropic.js:34
+msgid "Weekly, Opus"
+msgstr ""
+
+#: providers/anthropic.js:36
+msgid "Weekly, Sonnet"
+msgstr ""
+
+#: providers/anthropic.js:92 providers/anthropic.js:108
+msgid "Extra usage"
+msgstr ""
+
+#: providers/anthropic.js:175
+#, javascript-format
+msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
+msgstr ""
+
+#: providers/anthropic.js:178
+#, javascript-format
+msgid "Could not parse %s."
+msgstr ""
+
+#: providers/anthropic.js:185
+#, javascript-format
+msgid ""
+"No Claude subscription sign-in found in %s. API keys do not have plan "
+"limits."
+msgstr ""
+
+#: providers/anthropic.js:189
+msgid "The Claude Code sign-in has expired. Open Claude Code to renew it."
+msgstr ""
+
+#: providers/anthropic.js:205
+msgid "Claude rejected the sign-in. Open Claude Code to renew it."
+msgstr ""
+
+#: providers/anthropic.js:208
+msgid "Too many requests. Retrying later."
+msgstr ""
+
+#: providers/anthropic.js:210
+#, javascript-format
+msgid "Unexpected response from Claude (HTTP %d)."
+msgstr ""
+
+#: providers/anthropic.js:214
+msgid "Claude returned no usage data."
+msgstr ""
+
+#. metadata.json->name
+msgid "AI Usage Limits"
+msgstr ""
+
+#. metadata.json->description
+msgid ""
+"Shows the usage limits of your AI subscriptions (Claude) in the panel, with "
+"time until they reset."
+msgstr ""
+
+#. settings-schema.json->general-page->title
+msgid "General"
+msgstr ""
+
+#. settings-schema.json->providers-page->title
+msgid "Providers"
+msgstr ""
+
+#. settings-schema.json->panel-section->title
+msgid "Panel"
+msgstr ""
+
+#. settings-schema.json->refresh-section->title
+msgid "Updates"
+msgstr ""
+
+#. settings-schema.json->alerts-section->title
+msgid "Alerts"
+msgstr ""
+
+#. settings-schema.json->anthropic-section->title
+msgid "Claude (Anthropic)"
+msgstr ""
+
+#. settings-schema.json->panel-display->description
+msgid "Panel text"
+msgstr ""
+
+#. settings-schema.json->panel-display->options
+msgid "Highest usage"
+msgstr ""
+
+#. settings-schema.json->panel-display->options
+msgid "Main limit of each provider"
+msgstr ""
+
+#. settings-schema.json->panel-display->options
+msgid "All limits"
+msgstr ""
+
+#. settings-schema.json->panel-display->options
+msgid "Icon only"
+msgstr ""
+
+#. settings-schema.json->panel-display->tooltip
+msgid ""
+"Which percentages to show next to the icon. The menu always shows every "
+"limit."
+msgstr ""
+
+#. settings-schema.json->show-reset-in-panel->description
+msgid "Show time until reset in the panel"
+msgstr ""
+
+#. settings-schema.json->show-reset-in-panel->tooltip
+msgid "Only shown when the panel displays a single limit."
+msgstr ""
+
+#. settings-schema.json->show-extra-usage->description
+msgid "Show extra usage spending in the menu"
+msgstr ""
+
+#. settings-schema.json->show-extra-usage->tooltip
+msgid ""
+"Pay-as-you-go credits used after the plan limits are reached, when your plan"
+" has them enabled."
+msgstr ""
+
+#. settings-schema.json->refresh-interval->units
+msgid "minutes"
+msgstr ""
+
+#. settings-schema.json->refresh-interval->description
+msgid "Refresh every"
+msgstr ""
+
+#. settings-schema.json->warning-threshold->units
+#. settings-schema.json->critical-threshold->units
+msgid "%"
+msgstr ""
+
+#. settings-schema.json->warning-threshold->description
+msgid "Warning level"
+msgstr ""
+
+#. settings-schema.json->critical-threshold->description
+msgid "Critical level"
+msgstr ""
+
+#. settings-schema.json->notify-critical->description
+msgid "Send a notification when a limit reaches the critical level"
+msgstr ""
+
+#. settings-schema.json->anthropic-enabled->description
+msgid "Show Claude usage"
+msgstr ""
+
+#. settings-schema.json->anthropic-credentials-path->description
+msgid "Claude Code credentials file"
+msgstr ""
+
+#. settings-schema.json->anthropic-credentials-path->tooltip
+msgid ""
+"Leave empty to use $CLAUDE_CONFIG_DIR/.credentials.json or "
+"~/.claude/.credentials.json."
+msgstr ""
+
+#. settings-schema.json->anthropic-help->description
+msgid ""
+"Uses the sign-in stored by Claude Code. It is read only and never sent "
+"anywhere except api.anthropic.com."
+msgstr ""

@@ -1,0 +1,295 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ai-usage@dmcallejo 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-applets/issues\n"
+"POT-Creation-Date: 2026-11-17 13:29+0100\n"
+"PO-Revision-Date: 2026-11-17 13:30\n"
+"Last-Translator: dmcallejo\n"
+"Language-Team: Catalan\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: applet.js:70
+msgid "AI usage limits"
+msgstr "Límits d'ús d'IA"
+
+#: applet.js:80 applet.js:353
+msgid "Refresh now"
+msgstr "Actualitza ara"
+
+#: applet.js:171
+#, javascript-format
+msgid "Could not reach %s. Check your connection."
+msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
+
+#: applet.js:241
+#, javascript-format
+msgid "Resets in %s (%s)"
+msgstr "Es restableix en %s (%s)"
+
+#: applet.js:295
+#, javascript-format
+msgid "%s: %s, resets in %s"
+msgstr "%s: %s, es restableix en %s"
+
+#: applet.js:303 applet.js:313
+msgid "No provider is enabled. Enable one in the applet settings."
+msgstr ""
+"No hi ha cap proveïdor activat. Activa'n un a la configuració de la "
+"miniaplicació."
+
+#: applet.js:319
+#, javascript-format
+msgid "%s (%s plan)"
+msgstr "%s (pla %s)"
+
+#: applet.js:330
+#, javascript-format
+msgid "%s of %s"
+msgstr "%s de %s"
+
+#: applet.js:336
+msgid "Loading..."
+msgstr "S'està carregant..."
+
+#: applet.js:342
+#, javascript-format
+msgid "Open %s usage page"
+msgstr "Obre la pàgina d'ús de %s"
+
+#: applet.js:351
+#, javascript-format
+msgid "Updated at %s"
+msgstr "Actualitzat a les %s"
+
+#: applet.js:410
+#, javascript-format
+msgid "%s: %s at %s"
+msgstr "%s: %s al %s"
+
+#: applet.js:411
+#, javascript-format
+msgid "Resets in %s."
+msgstr "Es restableix en %s."
+
+#: lib/util.js:38
+msgid "now"
+msgstr "ara"
+
+#: lib/util.js:40
+msgid "<1m"
+msgstr "<1 min"
+
+#: lib/util.js:42
+#, javascript-format
+msgid "%dm"
+msgstr "%d min"
+
+#: lib/util.js:46
+#, javascript-format
+msgid "%dh %sm"
+msgstr "%d h %s min"
+
+#: lib/util.js:50
+#, javascript-format
+msgid "%dd %dh"
+msgstr "%d d %d h"
+
+#: providers/anthropic.js:30
+msgid "Current session"
+msgstr "Sessió actual"
+
+#: providers/anthropic.js:32
+msgid "Weekly, all models"
+msgstr "Setmanal, tots els models"
+
+#: providers/anthropic.js:34
+msgid "Weekly, Opus"
+msgstr "Setmanal, Opus"
+
+#: providers/anthropic.js:36
+msgid "Weekly, Sonnet"
+msgstr "Setmanal, Sonnet"
+
+#: providers/anthropic.js:92 providers/anthropic.js:108
+msgid "Extra usage"
+msgstr "Ús addicional"
+
+#: providers/anthropic.js:175
+#, javascript-format
+msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
+msgstr ""
+"No s'ha trobat cap sessió de Claude Code a %s. Inicia sessió primer amb "
+"Claude Code."
+
+#: providers/anthropic.js:178
+#, javascript-format
+msgid "Could not parse %s."
+msgstr "No s'ha pogut llegir %s."
+
+#: providers/anthropic.js:185
+#, javascript-format
+msgid ""
+"No Claude subscription sign-in found in %s. API keys do not have plan "
+"limits."
+msgstr ""
+"No hi ha cap sessió de subscripció de Claude a %s. Les claus d'API no tenen "
+"límits de pla."
+
+#: providers/anthropic.js:189
+msgid "The Claude Code sign-in has expired. Open Claude Code to renew it."
+msgstr "La sessió de Claude Code ha caducat. Obre Claude Code per renovar-la."
+
+#: providers/anthropic.js:205
+msgid "Claude rejected the sign-in. Open Claude Code to renew it."
+msgstr "Claude ha rebutjat la sessió. Obre Claude Code per renovar-la."
+
+#: providers/anthropic.js:208
+msgid "Too many requests. Retrying later."
+msgstr "Massa peticions. Es tornarà a provar més tard."
+
+#: providers/anthropic.js:210
+#, javascript-format
+msgid "Unexpected response from Claude (HTTP %d)."
+msgstr "Resposta inesperada de Claude (HTTP %d)."
+
+#: providers/anthropic.js:214
+msgid "Claude returned no usage data."
+msgstr "Claude no ha retornat dades d'ús."
+
+#. metadata.json->name
+msgid "AI Usage Limits"
+msgstr "Límits d'ús d'IA"
+
+#. metadata.json->description
+msgid ""
+"Shows the usage limits of your AI subscriptions (Claude) in the panel, with "
+"time until they reset."
+msgstr ""
+"Mostra al quadre els límits d'ús de les teves subscripcions d'IA (Claude) i "
+"quant falta perquè es restableixin."
+
+#. settings-schema.json->general-page->title
+msgid "General"
+msgstr "General"
+
+#. settings-schema.json->providers-page->title
+msgid "Providers"
+msgstr "Proveïdors"
+
+#. settings-schema.json->panel-section->title
+msgid "Panel"
+msgstr "Quadre"
+
+#. settings-schema.json->refresh-section->title
+msgid "Updates"
+msgstr "Actualitzacions"
+
+#. settings-schema.json->alerts-section->title
+msgid "Alerts"
+msgstr "Avisos"
+
+#. settings-schema.json->anthropic-section->title
+msgid "Claude (Anthropic)"
+msgstr "Claude (Anthropic)"
+
+#. settings-schema.json->panel-display->description
+msgid "Panel text"
+msgstr "Text del quadre"
+
+#. settings-schema.json->panel-display->options
+msgid "Highest usage"
+msgstr "Ús més alt"
+
+#. settings-schema.json->panel-display->options
+msgid "Main limit of each provider"
+msgstr "Límit principal de cada proveïdor"
+
+#. settings-schema.json->panel-display->options
+msgid "All limits"
+msgstr "Tots els límits"
+
+#. settings-schema.json->panel-display->options
+msgid "Icon only"
+msgstr "Només la icona"
+
+#. settings-schema.json->panel-display->tooltip
+msgid ""
+"Which percentages to show next to the icon. The menu always shows every "
+"limit."
+msgstr ""
+"Quins percentatges es mostren al costat de la icona. El menú sempre mostra "
+"tots els límits."
+
+#. settings-schema.json->show-reset-in-panel->description
+msgid "Show time until reset in the panel"
+msgstr "Mostra al quadre el temps fins al restabliment"
+
+#. settings-schema.json->show-reset-in-panel->tooltip
+msgid "Only shown when the panel displays a single limit."
+msgstr "Només es mostra quan el quadre ensenya un únic límit."
+
+#. settings-schema.json->show-extra-usage->description
+msgid "Show extra usage spending in the menu"
+msgstr "Mostra al menú la despesa en ús addicional"
+
+#. settings-schema.json->show-extra-usage->tooltip
+msgid ""
+"Pay-as-you-go credits used after the plan limits are reached, when your plan"
+" has them enabled."
+msgstr ""
+"Crèdits de pagament per ús consumits en arribar als límits del pla, si el "
+"teu pla els té activats."
+
+#. settings-schema.json->refresh-interval->units
+msgid "minutes"
+msgstr "minuts"
+
+#. settings-schema.json->refresh-interval->description
+msgid "Refresh every"
+msgstr "Actualitza cada"
+
+#. settings-schema.json->warning-threshold->units
+#. settings-schema.json->critical-threshold->units
+msgid "%"
+msgstr "%"
+
+#. settings-schema.json->warning-threshold->description
+msgid "Warning level"
+msgstr "Nivell d'avís"
+
+#. settings-schema.json->critical-threshold->description
+msgid "Critical level"
+msgstr "Nivell crític"
+
+#. settings-schema.json->notify-critical->description
+msgid "Send a notification when a limit reaches the critical level"
+msgstr "Envia una notificació quan un límit arribi al nivell crític"
+
+#. settings-schema.json->anthropic-enabled->description
+msgid "Show Claude usage"
+msgstr "Mostra l'ús de Claude"
+
+#. settings-schema.json->anthropic-credentials-path->description
+msgid "Claude Code credentials file"
+msgstr "Fitxer de credencials de Claude Code"
+
+#. settings-schema.json->anthropic-credentials-path->tooltip
+msgid ""
+"Leave empty to use $CLAUDE_CONFIG_DIR/.credentials.json or "
+"~/.claude/.credentials.json."
+msgstr ""
+"Deixa-ho buit per utilitzar $CLAUDE_CONFIG_DIR/.credentials.json o "
+"~/.claude/.credentials.json."
+
+#. settings-schema.json->anthropic-help->description
+msgid ""
+"Uses the sign-in stored by Claude Code. It is read only and never sent "
+"anywhere except api.anthropic.com."
+msgstr ""
+"Utilitza la sessió desada per Claude Code. Només es llegeix i mai no s'envia"
+" enlloc excepte a api.anthropic.com."
