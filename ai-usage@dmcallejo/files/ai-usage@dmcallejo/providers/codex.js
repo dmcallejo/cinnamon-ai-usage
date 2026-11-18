@@ -108,6 +108,11 @@ class CodexProvider {
         return "Codex";
     }
 
+    // Generic symbol in icons/; users can pick another one in the settings.
+    get iconFile() {
+        return "provider-codex-symbolic.svg";
+    }
+
     get dashboardUrl() {
         return DASHBOARD_URL;
     }

@@ -15,7 +15,8 @@ ai-usage@dmcallejo/                 What goes into the Spices pull request
     lib/util.js                     Pure helpers (formatting, thresholds)
     lib/errors.js                   ProviderError and ErrorKind
     lib/http.js                     Async libsoup 2/3 wrapper
-    lib/files.js                    Async JSON file reader
+    lib/files.js                    Async JSON file reader and file watcher
+    lib/panel.js                    Pure logic for the panel segments
     providers/anthropic.js          Claude provider
     providers/codex.js              Codex (OpenAI) provider
     settings-schema.json, stylesheet.css, icons/, po/
@@ -35,6 +36,10 @@ to review:
 - Translatable strings are complete sentences with `%s`/`%d` tokens.
 - No minified code, binaries or compiled translations (`.mo`).
 - Network access only to the enabled providers' official domains.
+- Modules under `lib/` and `providers/` do not load other modules: Cinnamon
+  resolves `require()` paths from the applet directory, not from the calling
+  file, so helpers are passed in (`ctx` for providers, `options` for
+  `lib/panel.js`).
 
 ## Adding a provider
 
@@ -49,6 +54,7 @@ to review:
        get id() { return ExampleProvider.id; }
        get name() { return "Example"; }                // shown in the UI
        get dashboardUrl() { return "https://..."; }    // or null
+       get iconFile() { return "provider-example-symbolic.svg"; } // in icons/
        watchPaths() { return ["/path/to/credentials"]; } // optional
        async fetch(cancellable) {
            // return {plan, limits: [{id, label, percent, resetsAt}], spend}
@@ -75,11 +81,15 @@ to review:
    matters most first: the "Main limit of each provider" panel mode uses it.
 
 2. Register the class in `PROVIDER_CLASSES` in `applet.js`.
-3. Add an `<id>-mode` combobox (`auto`, `on`, `off`, default `auto`), any
-   `<id>-<key>` settings, and a section to `settings-schema.json`. Copy the
-   Codex entries.
-4. Add tests under `tests/` with a fixture of a real (anonymised) response.
-5. Run `make pot` and update the translations you can.
+3. Draw a 16x16 symbolic SVG in `icons/` (single color `#bebebe`). Do not
+   copy the provider's logo: Anthropic and OpenAI both forbid shipping or
+   recoloring their marks without permission, and panel icons are recolored
+   by the theme.
+4. Add an `<id>-mode` combobox (`auto`, `on`, `off`, default `auto`), any
+   `<id>-icon` iconfilechooser, any `<id>-<key>` settings, and a section to
+   `settings-schema.json`. Copy the Codex entries.
+5. Add tests under `tests/` with a fixture of a real (anonymised) response.
+6. Run `make pot` and update the translations you can.
 
 Secrets such as API keys should not be stored in plain settings if it can be
 avoided; prefer reading the credentials file of the provider's official CLI,

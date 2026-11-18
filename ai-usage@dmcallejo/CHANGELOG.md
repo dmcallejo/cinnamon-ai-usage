@@ -7,6 +7,9 @@
 - Providers show automatically when their sign-in is found, including
   sign-ins made while the applet runs. Each can be set to "Always" or
   "Never" instead.
+- The panel shows a symbol per provider next to its percentages, in every
+  display mode. Each provider's icon can be replaced with any theme icon or
+  image file.
 - Fix: rate limiting (HTTP 429) was reported as a connection error and the
   15-minute back-off did not apply on libsoup 3.
 

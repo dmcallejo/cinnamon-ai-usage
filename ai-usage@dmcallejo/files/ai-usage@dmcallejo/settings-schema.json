@@ -52,6 +52,7 @@
             "title": "Claude (Anthropic)",
             "keys": [
                 "anthropic-mode",
+                "anthropic-icon",
                 "anthropic-credentials-path",
                 "anthropic-help"
             ]
@@ -61,6 +62,7 @@
             "title": "Codex (OpenAI)",
             "keys": [
                 "codex-mode",
+                "codex-icon",
                 "codex-auth-path",
                 "codex-help"
             ]
@@ -141,6 +143,13 @@
         "tooltip": "Leave empty to use $CLAUDE_CONFIG_DIR/.credentials.json or ~/.claude/.credentials.json.",
         "dependency": "anthropic-mode!=off"
     },
+    "anthropic-icon": {
+        "type": "iconfilechooser",
+        "default": "",
+        "description": "Panel icon",
+        "tooltip": "Leave empty to use the built-in Claude symbol. You can choose any icon or image file instead.",
+        "dependency": "anthropic-mode!=off"
+    },
     "anthropic-help": {
         "type": "label",
         "description": "Uses the sign-in stored by Claude Code. It is read only and never sent anywhere except api.anthropic.com.",
@@ -162,6 +171,13 @@
         "default": "",
         "description": "Codex CLI credentials file",
         "tooltip": "Leave empty to use $CODEX_HOME/auth.json or ~/.codex/auth.json.",
+        "dependency": "codex-mode!=off"
+    },
+    "codex-icon": {
+        "type": "iconfilechooser",
+        "default": "",
+        "description": "Panel icon",
+        "tooltip": "Leave empty to use the built-in Codex symbol. You can choose any icon or image file instead.",
         "dependency": "codex-mode!=off"
     },
     "codex-help": {

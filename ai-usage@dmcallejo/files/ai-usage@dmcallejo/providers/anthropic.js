@@ -147,6 +147,11 @@ class AnthropicProvider {
         return "Claude";
     }
 
+    // Generic symbol in icons/; users can pick another one in the settings.
+    get iconFile() {
+        return "provider-claude-symbolic.svg";
+    }
+
     get dashboardUrl() {
         return DASHBOARD_URL;
     }

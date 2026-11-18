@@ -1,11 +1,21 @@
 /* Colors stay neutral where possible so the applet follows the panel theme. */
 
+.ai-usage-panel {
+    spacing: 8px;
+}
+
+.ai-usage-segment {
+    spacing: 4px;
+}
+
 .applet-label.ai-usage-warning,
+.system-status-icon.ai-usage-warning,
 .ai-usage-limit-value.ai-usage-warning {
     color: #f0a30a;
 }
 
 .applet-label.ai-usage-critical,
+.system-status-icon.ai-usage-critical,
 .ai-usage-limit-value.ai-usage-critical {
     color: #e5484d;
     font-weight: bold;

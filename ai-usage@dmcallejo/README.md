@@ -17,8 +17,11 @@ so more services can be added later.
 
 ## Features
 
+- A symbol per provider in the panel, so you can tell which one each
+  percentage belongs to. Choose your own icon or image per provider if you
+  prefer.
 - Panel text with the highest usage, the main limit of each provider, every
-  limit, or just the icon.
+  limit, or just the icons.
 - Optional countdown to the next reset in the panel.
 - Popup menu with a progress bar, percentage and reset time for every limit.
 - Warning and critical colors with configurable thresholds.
@@ -77,7 +80,16 @@ Codex's `/status` command does.
 | Show Claude usage | When signed in | Or Always / Never |
 | Claude Code credentials file | empty | Custom path to `.credentials.json` |
 | Show Codex usage | When signed in | Or Always / Never |
+| Panel icon (per provider) | built-in symbol | Any theme icon or image file |
 | Codex CLI credentials file | empty | Custom path to `auth.json` |
+
+## Icons
+
+The built-in provider symbols are generic drawings made for this applet. They
+are not the logos of Anthropic or OpenAI, whose trademark guidelines do not
+allow logos to be shipped or recolored without permission. If you want a
+different picture in your own panel, pick it under **Panel icon**; images
+keep their own colors, symbolic icons follow the panel theme.
 
 ## Privacy
 

@@ -6,6 +6,7 @@ const Gettext = imports.gettext;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const St = imports.gi.St;
+const Clutter = imports.gi.Clutter;
 
 const UUID = "ai-usage@dmcallejo";
 
@@ -19,6 +20,7 @@ const util = require("./lib/util");
 const {ErrorKind, ProviderError} = require("./lib/errors");
 const {HttpClient} = require("./lib/http");
 const {readJSON, watchFile} = require("./lib/files");
+const {panelSegments} = require("./lib/panel");
 const {AnthropicProvider} = require("./providers/anthropic");
 const {CodexProvider} = require("./providers/codex");
 
@@ -44,7 +46,7 @@ function isCancelled(error) {
     return error instanceof GLib.Error && error.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED);
 }
 
-class AiUsageApplet extends Applet.TextIconApplet {
+class AiUsageApplet extends Applet.Applet {
     constructor(metadata, orientation, panelHeight, instanceId) {
         super(orientation, panelHeight, instanceId);
 
@@ -55,6 +57,8 @@ class AiUsageApplet extends Applet.TextIconApplet {
         this._refreshStartedAt = 0;
         this._monitors = [];
         this._watchDebounceId = 0;
+        // Custom icon path -> whether the file exists; checked asynchronously.
+        this._iconFileExists = new Map();
         this._destroyed = false;
         this._lastUpdated = null;
         this._notified = new Set();
@@ -74,11 +78,17 @@ class AiUsageApplet extends Applet.TextIconApplet {
             // Providers read their own settings on demand; changes only need a new request.
             for (const key of ProviderClass.settingKeys || [])
                 this.settings.bind(`${id}-${key}`, `_setting_${id}_${key}`, () => this._onProvidersChanged());
+            // Optional custom panel icon; empty means the built-in symbol.
+            this.settings.bind(`${id}-icon`, `_setting_${id}_icon`, () => {
+                this._iconFileExists.clear();
+                this._render();
+            });
         }
 
         this._http = new HttpClient(`cinnamon-applet-${metadata.uuid}/${metadata.version || "dev"}`);
 
-        this.set_applet_icon_symbolic_path(`${metadata.path}/icons/ai-usage-symbolic.svg`);
+        this._panelBox = new St.BoxLayout({style_class: "ai-usage-panel", y_align: Clutter.ActorAlign.CENTER});
+        this.actor.add_child(this._panelBox);
         this.set_applet_tooltip(_("AI usage limits"));
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
@@ -282,28 +292,6 @@ class AiUsageApplet extends Applet.TextIconApplet {
             actor.add_style_class_name(`ai-usage-${severity}`);
     }
 
-    // Limits shown in the panel, in provider order. Each entry keeps its provider.
-    _panelEntries() {
-        const entries = [];
-        for (const state of this._visibleStates()) {
-            if (!state.data)
-                continue;
-            const limits = state.data.limits;
-            if (this.panelDisplay === "primary") {
-                if (limits.length > 0)
-                    entries.push({state, limit: limits[0]});
-            } else {
-                for (const limit of limits)
-                    entries.push({state, limit});
-            }
-        }
-        if (this.panelDisplay === "highest" && entries.length > 1) {
-            const highest = entries.reduce((a, b) => (b.limit.percent > a.limit.percent ? b : a));
-            return [highest];
-        }
-        return entries;
-    }
-
     _resetText(limit) {
         if (!limit.resetsAt)
             return "";
@@ -324,40 +312,112 @@ class AiUsageApplet extends Applet.TextIconApplet {
     _render() {
         if (this._destroyed)
             return;
-        this._renderLabel();
+        this._renderPanel();
         this._renderTooltip();
     }
 
-    _renderLabel() {
-        const entries = this._panelEntries();
+    _isVertical() {
+        return this._orientation === St.Side.LEFT || this._orientation === St.Side.RIGHT;
+    }
+
+    // Built-in symbolic icons follow the panel theme; custom icons (an icon
+    // name or an image path chosen in the settings) keep their own colors.
+    _makeIcon(customValue, builtinFile, severity) {
+        const value = (customValue || "").trim();
+        let gicon;
+        let symbolic;
+        const path = value.includes("/") ? util.expandHome(value, GLib.get_home_dir()) : null;
+        if (path && this._customIconUsable(path)) {
+            gicon = new Gio.FileIcon({file: Gio.File.new_for_path(path)});
+            symbolic = path.includes("-symbolic");
+        } else if (value && !path) {
+            gicon = new Gio.ThemedIcon({name: value});
+            symbolic = value.endsWith("-symbolic");
+        } else {
+            gicon = new Gio.FileIcon({file: Gio.File.new_for_path(`${this._metadata.path}/icons/${builtinFile}`)});
+            symbolic = true;
+        }
+        const iconType = symbolic ? St.IconType.SYMBOLIC : St.IconType.FULLCOLOR;
+        const icon = new St.Icon({
+            gicon,
+            icon_type: iconType,
+            style_class: symbolic ? "system-status-icon" : "applet-icon",
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+        const size = this.getPanelIconSize(iconType);
+        if (size)
+            icon.set_icon_size(size);
+        if (symbolic)
+            this._setSeverityClass(icon, severity);
+        return icon;
+    }
+
+    // Unknown paths are checked in the background and the panel re-rendered;
+    // until then, and when the file is missing, the built-in symbol is used.
+    _customIconUsable(path) {
+        if (this._iconFileExists.has(path))
+            return this._iconFileExists.get(path);
+        this._iconFileExists.set(path, false);
+        Gio.File.new_for_path(path).query_info_async(Gio.FILE_ATTRIBUTE_STANDARD_TYPE,
+            Gio.FileQueryInfoFlags.NONE, GLib.PRIORITY_DEFAULT, null, (file, result) => {
+                let exists = false;
+                try {
+                    exists = file.query_info_finish(result).get_file_type() === Gio.FileType.REGULAR;
+                } catch (e) {
+                    exists = false;
+                }
+                if (this._destroyed || !exists)
+                    return;
+                this._iconFileExists.set(path, true);
+                this._render();
+            });
+        return false;
+    }
+
+    _addPanelSegment(icon, text, severity) {
+        const segment = new St.BoxLayout({style_class: "ai-usage-segment", vertical: this._isVertical()});
+        segment.add_child(icon);
+        if (text) {
+            const label = new St.Label({text, style_class: "applet-label", y_align: Clutter.ActorAlign.CENTER});
+            this._setSeverityClass(label, severity);
+            segment.add_child(label);
+        }
+        this._panelBox.add_child(segment);
+    }
+
+    _renderPanel() {
         const visible = this._visibleStates();
         const hasError = visible.some((state) => state.error);
-        let text = "";
-        let severity = util.SEVERITY_NORMAL;
+        const byId = new Map(visible.map((state) => [state.provider.id, state]));
+        const providers = visible
+            .filter((state) => state.data)
+            .map((state) => ({id: state.provider.id, limits: state.data.limits}));
+        const segments = panelSegments(providers, this.panelDisplay, {
+            showReset: this.showResetInPanel,
+            compact: this._isVertical(),
+            severity: (percent) => this._severity(percent),
+            resetText: (limit) => this._resetText(limit),
+            formatPercent: util.formatPercent,
+        });
 
-        if (this.panelDisplay !== "icon") {
-            if (entries.length === 0) {
-                text = visible.length === 0 ? "" : (hasError ? "!" : "…");
-            } else {
-                const parts = entries.map(({limit}) => util.formatPercent(limit.percent));
-                text = parts.join(" · ");
-                if (this.showResetInPanel && entries.length === 1) {
-                    const reset = this._resetText(entries[0].limit);
-                    if (reset)
-                        text = `${text} · ${reset}`;
-                }
-            }
+        this._panelBox.destroy_all_children();
+        this._panelBox.set_vertical(this._isVertical());
+
+        if (segments.length === 0) {
+            // Nothing to show yet: the applet's own icon plus a status mark.
+            let text = "";
+            if (visible.length > 0 && this.panelDisplay !== "icon")
+                text = hasError ? "!" : "\u2026";
+            this._addPanelSegment(this._makeIcon("", "ai-usage-symbolic.svg", util.SEVERITY_NORMAL), text, util.SEVERITY_NORMAL);
         }
-        for (const {limit} of entries) {
-            const s = this._severity(limit.percent);
-            if (s === util.SEVERITY_CRITICAL || (s === util.SEVERITY_WARNING && severity === util.SEVERITY_NORMAL))
-                severity = s;
+        for (const segment of segments) {
+            const {provider} = byId.get(segment.providerId);
+            const custom = this[`_setting_${provider.id}_icon`];
+            this._addPanelSegment(this._makeIcon(custom, provider.iconFile, segment.severity), segment.text, segment.severity);
         }
 
-        this.set_applet_label(text);
-        this._setSeverityClass(this._applet_label, severity);
         // Dim the applet while showing data that failed to refresh.
-        this.actor.opacity = hasError && entries.length > 0 ? 160 : 255;
+        this.actor.opacity = hasError && segments.length > 0 ? 160 : 255;
     }
 
     _renderTooltip() {
@@ -501,6 +561,14 @@ class AiUsageApplet extends Applet.TextIconApplet {
     }
 
     // ----- Applet hooks --------------------------------------------------
+
+    on_orientation_changed() {
+        this._render();
+    }
+
+    on_panel_icon_size_changed() {
+        this._render();
+    }
 
     on_applet_clicked() {
         this.menu.toggle();

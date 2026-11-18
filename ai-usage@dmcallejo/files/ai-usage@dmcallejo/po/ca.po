@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 10:17+0100\n"
+"POT-Creation-Date: 2026-11-18 10:41+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Catalan\n"
@@ -13,35 +13,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:82
+#: applet.js:92
 msgid "AI usage limits"
 msgstr "Límits d'ús d'IA"
 
-#: applet.js:92 applet.js:438
+#: applet.js:102 applet.js:498
 msgid "Refresh now"
 msgstr "Actualitza ara"
 
-#: applet.js:249
+#: applet.js:259
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
 
-#: applet.js:319
+#: applet.js:307
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Es restableix en %s (%s)"
 
-#: applet.js:374
+#: applet.js:434
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, es restableix en %s"
 
-#: applet.js:388
+#: applet.js:448
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 "Tots els proveïdors estan desactivats a la configuració de la miniaplicació."
 
-#: applet.js:389
+#: applet.js:449
 msgid ""
 "No sign-in found. Sign in to Claude Code or the Codex CLI, then the applet "
 "picks it up automatically."
@@ -49,36 +49,36 @@ msgstr ""
 "No s'ha trobat cap sessió. Inicia sessió a Claude Code o a la CLI de Codex i"
 " la miniaplicació la detectarà automàticament."
 
-#: applet.js:404
+#: applet.js:464
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (pla %s)"
 
-#: applet.js:415
+#: applet.js:475
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:421
+#: applet.js:481
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: applet.js:427
+#: applet.js:487
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Obre la pàgina d'ús de %s"
 
-#: applet.js:436
+#: applet.js:496
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualitzat a les %s"
 
-#: applet.js:495
+#: applet.js:555
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:496
+#: applet.js:556
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Es restableix en %s."
@@ -126,19 +126,19 @@ msgstr "Setmanal, Sonnet"
 msgid "Extra usage"
 msgstr "Ús addicional"
 
-#: providers/anthropic.js:181
+#: providers/anthropic.js:186
 #, javascript-format
 msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
 msgstr ""
 "No s'ha trobat cap sessió de Claude Code a %s. Inicia sessió primer amb "
 "Claude Code."
 
-#: providers/anthropic.js:184 providers/codex.js:144
+#: providers/anthropic.js:189 providers/codex.js:149
 #, javascript-format
 msgid "Could not parse %s."
 msgstr "No s'ha pogut llegir %s."
 
-#: providers/anthropic.js:191
+#: providers/anthropic.js:196
 #, javascript-format
 msgid ""
 "No Claude subscription sign-in found in %s. API keys do not have plan "
@@ -147,7 +147,7 @@ msgstr ""
 "No hi ha cap sessió de subscripció de Claude a %s. Les claus d'API no tenen "
 "límits de pla."
 
-#: providers/anthropic.js:195
+#: providers/anthropic.js:200
 msgid ""
 "The Claude Code sign-in has expired. Send a message in Claude Code to renew "
 "it."
@@ -155,23 +155,23 @@ msgstr ""
 "La sessió de Claude Code ha caducat. Envia un missatge a Claude Code per "
 "renovar-la."
 
-#: providers/anthropic.js:211
+#: providers/anthropic.js:216
 msgid ""
 "Claude rejected the sign-in. Send a message in Claude Code to renew it."
 msgstr ""
 "Claude ha rebutjat la sessió. Envia un missatge a Claude Code per renovar-"
 "la."
 
-#: providers/anthropic.js:214 providers/codex.js:173
+#: providers/anthropic.js:219 providers/codex.js:178
 msgid "Too many requests. Retrying later."
 msgstr "Massa peticions. Es tornarà a provar més tard."
 
-#: providers/anthropic.js:216
+#: providers/anthropic.js:221
 #, javascript-format
 msgid "Unexpected response from Claude (HTTP %d)."
 msgstr "Resposta inesperada de Claude (HTTP %d)."
 
-#: providers/anthropic.js:220
+#: providers/anthropic.js:225
 msgid "Claude returned no usage data."
 msgstr "Claude no ha retornat dades d'ús."
 
@@ -201,29 +201,29 @@ msgstr "%s, %s"
 msgid "Code review"
 msgstr "Revisió de codi"
 
-#: providers/codex.js:141
+#: providers/codex.js:146
 #, javascript-format
 msgid "No Codex sign-in found at %s. Sign in with the Codex CLI first."
 msgstr ""
 "No s'ha trobat cap sessió de Codex a %s. Inicia sessió primer amb la CLI de "
 "Codex."
 
-#: providers/codex.js:151
+#: providers/codex.js:156
 #, javascript-format
 msgid "No ChatGPT sign-in found in %s. API keys do not have plan limits."
 msgstr ""
 "No hi ha cap sessió de ChatGPT a %s. Les claus d'API no tenen límits de pla."
 
-#: providers/codex.js:170
+#: providers/codex.js:175
 msgid "ChatGPT rejected the Codex sign-in. Run Codex to renew it."
 msgstr "ChatGPT ha rebutjat la sessió de Codex. Executa Codex per renovar-la."
 
-#: providers/codex.js:175
+#: providers/codex.js:180
 #, javascript-format
 msgid "Unexpected response from Codex (HTTP %d)."
 msgstr "Resposta inesperada de Codex (HTTP %d)."
 
-#: providers/codex.js:179
+#: providers/codex.js:184
 msgid "Codex returned no usage data."
 msgstr "Codex no ha retornat dades d'ús."
 
@@ -377,6 +377,19 @@ msgstr ""
 "Deixa-ho buit per utilitzar $CLAUDE_CONFIG_DIR/.credentials.json o "
 "~/.claude/.credentials.json."
 
+#. settings-schema.json->anthropic-icon->description
+#. settings-schema.json->codex-icon->description
+msgid "Panel icon"
+msgstr "Icona del quadre"
+
+#. settings-schema.json->anthropic-icon->tooltip
+msgid ""
+"Leave empty to use the built-in Claude symbol. You can choose any icon or "
+"image file instead."
+msgstr ""
+"Deixa-ho buit per utilitzar el símbol de Claude inclòs. Pots triar qualsevol"
+" icona o imatge en lloc seu."
+
 #. settings-schema.json->anthropic-help->description
 msgid ""
 "Uses the sign-in stored by Claude Code. It is read only and never sent "
@@ -407,6 +420,14 @@ msgstr "Fitxer de credencials de la CLI de Codex"
 msgid "Leave empty to use $CODEX_HOME/auth.json or ~/.codex/auth.json."
 msgstr ""
 "Deixa-ho buit per utilitzar $CODEX_HOME/auth.json o ~/.codex/auth.json."
+
+#. settings-schema.json->codex-icon->tooltip
+msgid ""
+"Leave empty to use the built-in Codex symbol. You can choose any icon or "
+"image file instead."
+msgstr ""
+"Deixa-ho buit per utilitzar el símbol de Codex inclòs. Pots triar qualsevol "
+"icona o imatge en lloc seu."
 
 #. settings-schema.json->codex-help->description
 msgid ""

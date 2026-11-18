@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Generic mark for the Claude provider: a "C" with a small spark.
+       Deliberately not Anthropic's logo (see CONTRIBUTING.md). -->
+  <g fill="#bebebe">
+    <path d="M11.54 2.46A7 7 0 1 0 11.54 13.54L10.47 12.47A5.5 5.5 0 1 1 10.47 3.53Z"/>
+    <path d="M13 5.2l.55 1.75L15.3 7.5l-1.75.55L13 9.8l-.55-1.75L10.7 7.5l1.75-.55z"/>
+  </g>
+</svg>
