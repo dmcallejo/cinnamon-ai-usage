@@ -3,7 +3,12 @@
 ## 1.1.0
 
 - New Codex provider: 5-hour and weekly Codex limits of a ChatGPT plan, read
-  from the Codex CLI sign-in. Off by default.
+  from the Codex CLI sign-in.
+- Providers show automatically when their sign-in is found, including
+  sign-ins made while the applet runs. Each can be set to "Always" or
+  "Never" instead.
+- Fix: rate limiting (HTTP 429) was reported as a connection error and the
+  15-minute back-off did not apply on libsoup 3.
 
 ## 1.0.1
 

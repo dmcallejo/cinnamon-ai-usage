@@ -45,7 +45,9 @@ class HttpClient {
                     const bytes = session.send_and_read_finish(result);
                     const data = bytes ? bytes.get_data() : null;
                     resolve({
-                        status: message.get_status(),
+                        // get_status() throws for codes missing from the
+                        // Soup.Status enum, such as 429; the raw property doesn't.
+                        status: message.status_code,
                         text: data ? new TextDecoder().decode(data) : "",
                     });
                 } catch (e) {

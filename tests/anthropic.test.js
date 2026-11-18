@@ -101,10 +101,10 @@ test("watches the credentials file so renewals are picked up at once", () => {
     assert.deepEqual(makeProvider({settings: {"credentials-path": "/x/c.json"}}).provider.watchPaths(), ["/x/c.json"]);
 });
 
-test("missing credentials file is a config error", async () => {
+test("missing credentials file means not signed in", async () => {
     const readError = Object.assign(new Error("nope"), {code: "ENOENT"});
     const {provider, calls} = makeProvider({readError});
-    await assertProviderError(provider.fetch(null), ErrorKind.CONFIG);
+    await assertProviderError(provider.fetch(null), ErrorKind.NOT_FOUND);
     assert.equal(calls.http.length, 0);
 });
 

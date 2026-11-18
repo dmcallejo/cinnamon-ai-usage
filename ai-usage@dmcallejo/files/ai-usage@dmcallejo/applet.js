@@ -23,8 +23,12 @@ const {AnthropicProvider} = require("./providers/anthropic");
 const {CodexProvider} = require("./providers/codex");
 
 // To add a provider: implement the interface described in providers/README.md,
-// add its class here and an "<id>-enabled" switch to settings-schema.json.
+// add its class here and an "<id>-mode" combobox to settings-schema.json.
 const PROVIDER_CLASSES = [AnthropicProvider, CodexProvider];
+
+const MODE_AUTO = "auto";
+const MODE_ON = "on";
+const MODE_OFF = "off";
 
 const LABEL_TICK_SECONDS = 60;
 const MIN_REFRESH_MINUTES = 1;
@@ -66,7 +70,7 @@ class AiUsageApplet extends Applet.TextIconApplet {
         this.settings.bind("refresh-interval", "refreshInterval", () => this._startRefreshTimer());
         for (const ProviderClass of PROVIDER_CLASSES) {
             const id = ProviderClass.id;
-            this.settings.bind(`${id}-enabled`, `${id}Enabled`, () => this._onProvidersChanged());
+            this.settings.bind(`${id}-mode`, `${id}Mode`, () => this._onProvidersChanged());
             // Providers read their own settings on demand; changes only need a new request.
             for (const key of ProviderClass.settingKeys || [])
                 this.settings.bind(`${id}-${key}`, `_setting_${id}_${key}`, () => this._onProvidersChanged());
@@ -108,7 +112,7 @@ class AiUsageApplet extends Applet.TextIconApplet {
             getenv: (name) => GLib.getenv(name),
         };
         this._states = PROVIDER_CLASSES
-            .filter((ProviderClass) => this[`${ProviderClass.id}Enabled`])
+            .filter((ProviderClass) => this._providerMode(ProviderClass) !== MODE_OFF)
             .map((ProviderClass) => {
                 const providerCtx = Object.assign({}, ctx, {
                     getSetting: (key) => this.settings.getValue(`${ProviderClass.id}-${key}`),
@@ -118,9 +122,22 @@ class AiUsageApplet extends Applet.TextIconApplet {
                     data: null,
                     error: null,
                     backoffUntil: 0,
+                    mode: this._providerMode(ProviderClass),
+                    // Automatic providers stay hidden until a sign-in is found.
+                    signedIn: true,
                 };
             });
         this._watchProviderFiles();
+    }
+
+    _providerMode(ProviderClass) {
+        const mode = this[`${ProviderClass.id}Mode`];
+        return mode === MODE_ON || mode === MODE_OFF ? mode : MODE_AUTO;
+    }
+
+    // Providers shown in the panel and menu.
+    _visibleStates() {
+        return this._states.filter((state) => state.mode === MODE_ON || state.signedIn);
     }
 
     // ----- Credential file watching ---------------------------------------
@@ -210,10 +227,17 @@ class AiUsageApplet extends Applet.TextIconApplet {
         try {
             state.data = await state.provider.fetch(cancellable);
             state.error = null;
+            state.signedIn = true;
         } catch (e) {
             if (isCancelled(e) || cancellable.is_cancelled())
                 return;
-            if (e instanceof ProviderError) {
+            if (e instanceof ProviderError && e.kind === ErrorKind.NOT_FOUND) {
+                // Not signed in: hidden in automatic mode, an error otherwise.
+                state.signedIn = false;
+                state.data = null;
+                state.error = state.mode === MODE_ON ? e.message : null;
+            } else if (e instanceof ProviderError) {
+                state.signedIn = true;
                 state.error = e.message;
                 if (e.kind === ErrorKind.RATE_LIMITED)
                     state.backoffUntil = Date.now() + RATE_LIMIT_BACKOFF_MS;
@@ -261,7 +285,7 @@ class AiUsageApplet extends Applet.TextIconApplet {
     // Limits shown in the panel, in provider order. Each entry keeps its provider.
     _panelEntries() {
         const entries = [];
-        for (const state of this._states) {
+        for (const state of this._visibleStates()) {
             if (!state.data)
                 continue;
             const limits = state.data.limits;
@@ -306,13 +330,14 @@ class AiUsageApplet extends Applet.TextIconApplet {
 
     _renderLabel() {
         const entries = this._panelEntries();
-        const hasError = this._states.some((state) => state.error);
+        const visible = this._visibleStates();
+        const hasError = visible.some((state) => state.error);
         let text = "";
         let severity = util.SEVERITY_NORMAL;
 
         if (this.panelDisplay !== "icon") {
             if (entries.length === 0) {
-                text = this._states.length === 0 ? "" : (hasError ? "!" : "…");
+                text = visible.length === 0 ? "" : (hasError ? "!" : "…");
             } else {
                 const parts = entries.map(({limit}) => util.formatPercent(limit.percent));
                 text = parts.join(" · ");
@@ -337,7 +362,7 @@ class AiUsageApplet extends Applet.TextIconApplet {
 
     _renderTooltip() {
         const lines = [];
-        for (const state of this._states) {
+        for (const state of this._visibleStates()) {
             const {provider, data, error} = state;
             const plan = data && data.plan ? ` (${data.plan})` : "";
             lines.push(`${provider.name}${plan}`);
@@ -354,8 +379,14 @@ class AiUsageApplet extends Applet.TextIconApplet {
                 lines.push(error);
         }
         if (lines.length === 0)
-            lines.push(_("No provider is enabled. Enable one in the applet settings."));
+            lines.push(this._noProviderText());
         this.set_applet_tooltip(lines.join("\n"));
+    }
+
+    _noProviderText() {
+        if (this._states.length === 0)
+            return _("All providers are turned off in the applet settings.");
+        return _("No sign-in found. Sign in to Claude Code or the Codex CLI, then the applet picks it up automatically.");
     }
 
     // ----- Menu ----------------------------------------------------------
@@ -363,11 +394,11 @@ class AiUsageApplet extends Applet.TextIconApplet {
     _buildMenu() {
         this.menu.removeAll();
 
-        if (this._states.length === 0) {
-            this._addInfoItem(_("No provider is enabled. Enable one in the applet settings."));
-        }
+        const visible = this._visibleStates();
+        if (visible.length === 0)
+            this._addInfoItem(this._noProviderText());
 
-        for (const state of this._states) {
+        for (const state of visible) {
             const {provider, data, error} = state;
             const title = data && data.plan
                 ? _("%s (%s plan)").format(provider.name, data.plan)
@@ -449,7 +480,7 @@ class AiUsageApplet extends Applet.TextIconApplet {
 
     _notifyCriticalLimits() {
         const current = new Set();
-        for (const {provider, data} of this._states) {
+        for (const {provider, data} of this._visibleStates()) {
             if (!data)
                 continue;
             for (const limit of data.limits) {

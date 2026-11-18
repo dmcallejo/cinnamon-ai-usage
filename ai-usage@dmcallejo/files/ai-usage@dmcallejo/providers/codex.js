@@ -137,7 +137,7 @@ class CodexProvider {
             auth = await readJSON(path, cancellable);
         } catch (e) {
             if (e.code === "ENOENT") {
-                throw new ProviderError(ErrorKind.CONFIG,
+                throw new ProviderError(ErrorKind.NOT_FOUND,
                     _("No Codex sign-in found at %s. Sign in with the Codex CLI first.").format(path));
             }
             if (e.code === "EINVAL")

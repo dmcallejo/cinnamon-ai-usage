@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 10:13+0100\n"
+"POT-Creation-Date: 2026-11-18 10:17+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Spanish\n"
@@ -13,64 +13,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:78
+#: applet.js:82
 msgid "AI usage limits"
 msgstr "Límites de uso de IA"
 
-#: applet.js:88 applet.js:407
+#: applet.js:92 applet.js:438
 msgid "Refresh now"
 msgstr "Actualizar ahora"
 
-#: applet.js:225
+#: applet.js:249
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No se pudo contactar con %s. Revisa tu conexión."
 
-#: applet.js:295
+#: applet.js:319
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Se restablece en %s (%s)"
 
-#: applet.js:349
+#: applet.js:374
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, se restablece en %s"
 
-#: applet.js:357 applet.js:367
-msgid "No provider is enabled. Enable one in the applet settings."
+#: applet.js:388
+msgid "All providers are turned off in the applet settings."
 msgstr ""
-"No hay ningún proveedor activado. Activa uno en la configuración del applet."
+"Todos los proveedores están desactivados en la configuración del applet."
 
-#: applet.js:373
+#: applet.js:389
+msgid ""
+"No sign-in found. Sign in to Claude Code or the Codex CLI, then the applet "
+"picks it up automatically."
+msgstr ""
+"No se encontró ninguna sesión. Inicia sesión en Claude Code o en la CLI de "
+"Codex y el applet la detectará automáticamente."
+
+#: applet.js:404
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (plan %s)"
 
-#: applet.js:384
+#: applet.js:415
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:390
+#: applet.js:421
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: applet.js:396
+#: applet.js:427
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Abrir la página de uso de %s"
 
-#: applet.js:405
+#: applet.js:436
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualizado a las %s"
 
-#: applet.js:464
+#: applet.js:495
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:465
+#: applet.js:496
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Se restablece en %s."
@@ -332,9 +340,30 @@ msgstr "Nivel crítico"
 msgid "Send a notification when a limit reaches the critical level"
 msgstr "Enviar una notificación cuando un límite alcance el nivel crítico"
 
-#. settings-schema.json->anthropic-enabled->description
+#. settings-schema.json->anthropic-mode->description
 msgid "Show Claude usage"
 msgstr "Mostrar el uso de Claude"
+
+#. settings-schema.json->anthropic-mode->options
+#. settings-schema.json->codex-mode->options
+msgid "When signed in"
+msgstr "Si hay sesión iniciada"
+
+#. settings-schema.json->anthropic-mode->options
+#. settings-schema.json->codex-mode->options
+msgid "Always"
+msgstr "Siempre"
+
+#. settings-schema.json->anthropic-mode->options
+#. settings-schema.json->codex-mode->options
+msgid "Never"
+msgstr "Nunca"
+
+#. settings-schema.json->anthropic-mode->tooltip
+msgid "\"When signed in\" shows Claude only if a Claude Code sign-in is found."
+msgstr ""
+"«Si hay sesión iniciada» muestra Claude solo si se encuentra una sesión de "
+"Claude Code."
 
 #. settings-schema.json->anthropic-credentials-path->description
 msgid "Claude Code credentials file"
@@ -356,17 +385,19 @@ msgstr ""
 "Usa la sesión guardada por Claude Code. Solo se lee y nunca se envía a "
 "ningún sitio salvo a api.anthropic.com."
 
-#. settings-schema.json->codex-enabled->description
+#. settings-schema.json->codex-mode->description
 msgid "Show Codex usage"
 msgstr "Mostrar el uso de Codex"
 
-#. settings-schema.json->codex-enabled->tooltip
+#. settings-schema.json->codex-mode->tooltip
 msgid ""
-"Codex usage limits of your ChatGPT plan. ChatGPT chat message limits are not"
-" available."
+"\"When signed in\" shows Codex only if a Codex CLI sign-in is found. These "
+"are the Codex limits of your ChatGPT plan; ChatGPT chat message limits are "
+"not available."
 msgstr ""
-"Límites de uso de Codex de tu plan de ChatGPT. Los límites de mensajes del "
-"chat de ChatGPT no están disponibles."
+"«Si hay sesión iniciada» muestra Codex solo si se encuentra una sesión de la"
+" CLI de Codex. Son los límites de Codex de tu plan de ChatGPT; los límites "
+"de mensajes del chat de ChatGPT no están disponibles."
 
 #. settings-schema.json->codex-auth-path->description
 msgid "Codex CLI credentials file"

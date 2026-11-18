@@ -177,7 +177,7 @@ class AnthropicProvider {
             credentials = await readJSON(path, cancellable);
         } catch (e) {
             if (e.code === "ENOENT") {
-                throw new ProviderError(ErrorKind.CONFIG,
+                throw new ProviderError(ErrorKind.NOT_FOUND,
                     _("No Claude Code sign-in found at %s. Sign in with Claude Code first.").format(path));
             }
             if (e.code === "EINVAL")

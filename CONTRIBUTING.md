@@ -64,13 +64,20 @@ to review:
    `getSetting(key)`. Providers must not use `imports.*` or `require()` so
    they stay testable under Node.
 
+   When the credentials file does not exist, throw
+   `ProviderError(ErrorKind.NOT_FOUND, ...)`: in the default "When signed in"
+   mode the applet then hides the provider instead of showing an error.
+   Return the credentials path from `watchPaths()` so a new sign-in is
+   picked up immediately.
+
    `percent` is 0 to 100, `resetsAt` a `Date` or `null`, `spend` either
    `null` or `{label, used, limit, currency, percent}`. Put the limit that
    matters most first: the "Main limit of each provider" panel mode uses it.
 
 2. Register the class in `PROVIDER_CLASSES` in `applet.js`.
-3. Add `<id>-enabled` (and any `<id>-<key>` settings) plus a section to
-   `settings-schema.json`.
+3. Add an `<id>-mode` combobox (`auto`, `on`, `off`, default `auto`), any
+   `<id>-<key>` settings, and a section to `settings-schema.json`. Copy the
+   Codex entries.
 4. Add tests under `tests/` with a fixture of a real (anonymised) response.
 5. Run `make pot` and update the translations you can.
 

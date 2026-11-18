@@ -51,7 +51,7 @@
             "type": "section",
             "title": "Claude (Anthropic)",
             "keys": [
-                "anthropic-enabled",
+                "anthropic-mode",
                 "anthropic-credentials-path",
                 "anthropic-help"
             ]
@@ -60,7 +60,7 @@
             "type": "section",
             "title": "Codex (OpenAI)",
             "keys": [
-                "codex-enabled",
+                "codex-mode",
                 "codex-auth-path",
                 "codex-help"
             ]
@@ -123,39 +123,50 @@
         "default": true,
         "description": "Send a notification when a limit reaches the critical level"
     },
-    "anthropic-enabled": {
-        "type": "switch",
-        "default": true,
-        "description": "Show Claude usage"
+    "anthropic-mode": {
+        "type": "combobox",
+        "default": "auto",
+        "description": "Show Claude usage",
+        "options": {
+            "When signed in": "auto",
+            "Always": "on",
+            "Never": "off"
+        },
+        "tooltip": "\"When signed in\" shows Claude only if a Claude Code sign-in is found."
     },
     "anthropic-credentials-path": {
         "type": "entry",
         "default": "",
         "description": "Claude Code credentials file",
         "tooltip": "Leave empty to use $CLAUDE_CONFIG_DIR/.credentials.json or ~/.claude/.credentials.json.",
-        "dependency": "anthropic-enabled"
+        "dependency": "anthropic-mode!=off"
     },
     "anthropic-help": {
         "type": "label",
         "description": "Uses the sign-in stored by Claude Code. It is read only and never sent anywhere except api.anthropic.com.",
-        "dependency": "anthropic-enabled"
+        "dependency": "anthropic-mode!=off"
     },
-    "codex-enabled": {
-        "type": "switch",
-        "default": false,
+    "codex-mode": {
+        "type": "combobox",
+        "default": "auto",
         "description": "Show Codex usage",
-        "tooltip": "Codex usage limits of your ChatGPT plan. ChatGPT chat message limits are not available."
+        "options": {
+            "When signed in": "auto",
+            "Always": "on",
+            "Never": "off"
+        },
+        "tooltip": "\"When signed in\" shows Codex only if a Codex CLI sign-in is found. These are the Codex limits of your ChatGPT plan; ChatGPT chat message limits are not available."
     },
     "codex-auth-path": {
         "type": "entry",
         "default": "",
         "description": "Codex CLI credentials file",
         "tooltip": "Leave empty to use $CODEX_HOME/auth.json or ~/.codex/auth.json.",
-        "dependency": "codex-enabled"
+        "dependency": "codex-mode!=off"
     },
     "codex-help": {
         "type": "label",
         "description": "Uses the sign-in stored by the Codex CLI. It is read only and never sent anywhere except chatgpt.com.",
-        "dependency": "codex-enabled"
+        "dependency": "codex-mode!=off"
     }
 }

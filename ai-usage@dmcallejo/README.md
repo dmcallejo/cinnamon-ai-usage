@@ -8,9 +8,12 @@ Currently supported:
 - **Claude** (Pro, Max, Team and Enterprise plans): current session, weekly
   limits and extra usage spending.
 - **Codex** (ChatGPT Plus, Pro, Business and other plans with Codex): 5-hour
-  and weekly limits. Disabled by default; turn it on in the settings.
+  and weekly limits.
 
-The applet is built around providers, so more services can be added later.
+Each provider appears automatically when its sign-in is found, and also when
+you sign in later while the applet is running. You can force a provider to
+always or never show in the settings. The applet is built around providers,
+so more services can be added later.
 
 ## Features
 
@@ -71,9 +74,9 @@ Codex's `/status` command does.
 | Show extra usage spending in the menu | On | Pay-as-you-go credits, if enabled on your plan |
 | Refresh every | 5 minutes | 1 to 60 minutes |
 | Warning / Critical level | 75% / 90% | Colors and notifications |
-| Show Claude usage | On | |
+| Show Claude usage | When signed in | Or Always / Never |
 | Claude Code credentials file | empty | Custom path to `.credentials.json` |
-| Show Codex usage | Off | |
+| Show Codex usage | When signed in | Or Always / Never |
 | Codex CLI credentials file | empty | Custom path to `auth.json` |
 
 ## Privacy

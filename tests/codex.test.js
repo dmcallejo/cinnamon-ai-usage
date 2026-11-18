@@ -104,9 +104,9 @@ test("auth path honours setting and CODEX_HOME, and is watched", () => {
     assert.deepEqual(makeProvider().provider.watchPaths(), [`${HOME}/.codex/auth.json`]);
 });
 
-test("missing file and API key sign-ins are config errors", async () => {
+test("missing file means not signed in; API key sign-ins are config errors", async () => {
     const readError = Object.assign(new Error("nope"), {code: "ENOENT"});
-    await assertProviderError(makeProvider({readError}).provider.fetch(null), ErrorKind.CONFIG);
+    await assertProviderError(makeProvider({readError}).provider.fetch(null), ErrorKind.NOT_FOUND);
     const apiKeyOnly = {auth_mode: "apikey", OPENAI_API_KEY: "sk-x", tokens: null};
     const {provider, calls} = makeProvider({auth: apiKeyOnly});
     await assertProviderError(provider.fetch(null), ErrorKind.CONFIG);

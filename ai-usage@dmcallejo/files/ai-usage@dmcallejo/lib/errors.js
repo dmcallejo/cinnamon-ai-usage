@@ -4,7 +4,8 @@
 // This file must not use `imports.*` so it can be unit tested under Node.
 
 const ErrorKind = Object.freeze({
-    CONFIG: "config",          // missing or unreadable credentials, bad settings
+    NOT_FOUND: "not-found",    // no credentials file: the user is not signed in
+    CONFIG: "config",          // unreadable or unusable credentials, bad settings
     AUTH: "auth",              // expired or rejected credentials
     RATE_LIMITED: "rate-limited",
     NETWORK: "network",        // connection failures, timeouts
