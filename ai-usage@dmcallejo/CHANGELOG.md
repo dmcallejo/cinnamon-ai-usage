@@ -12,7 +12,8 @@
 - The panel shows a symbol per provider next to its percentages, in every
   display mode. Each provider's icon can be replaced with any theme icon or
   image file.
-- "Panel shows" selector in the menu to pin one provider to the panel.
+- "Panel shows" selector in the menu to pin one provider to the panel, or
+  to follow the provider with the most recent activity.
 - When a sign-in expires, the last known numbers stay in the menu, dimmed,
   with the time they were last updated.
 - In automatic mode the panel leaves out providers whose data is stale, and

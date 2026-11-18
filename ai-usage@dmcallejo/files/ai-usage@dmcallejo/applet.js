@@ -20,7 +20,7 @@ const util = require("./lib/util");
 const {ErrorKind, ProviderError} = require("./lib/errors");
 const {HttpClient} = require("./lib/http");
 const {readJSON, readText, watchFile} = require("./lib/files");
-const {panelSegments} = require("./lib/panel");
+const {panelSegments, usageIncreased} = require("./lib/panel");
 const {AnthropicProvider} = require("./providers/anthropic");
 const {CodexProvider} = require("./providers/codex");
 const {KimiProvider} = require("./providers/kimi");
@@ -32,6 +32,8 @@ const PROVIDER_CLASSES = [AnthropicProvider, CodexProvider, KimiProvider];
 const MODE_AUTO = "auto";
 const MODE_ON = "on";
 const MODE_OFF = "off";
+// "Panel shows" value that follows the provider whose usage rose last.
+const PANEL_LATEST = "latest";
 
 const LABEL_TICK_SECONDS = 60;
 const STALE_OPACITY = 140;
@@ -240,8 +242,11 @@ class AiUsageApplet extends Applet.Applet {
         if (Date.now() < state.backoffUntil)
             return;
         try {
+            const previous = state.data;
             state.data = await state.provider.fetch(cancellable);
             state.updatedAt = new Date();
+            if (usageIncreased(previous, state.data))
+                state.changedAt = state.updatedAt;
             state.error = null;
             state.signedIn = true;
         } catch (e) {
@@ -281,11 +286,20 @@ class AiUsageApplet extends Applet.Applet {
     }
 
     // The provider pinned to the panel, if it is currently shown at all.
-    // A pinned provider that is signed out or turned off falls back to automatic.
+    // A pinned provider that is signed out or turned off falls back to
+    // automatic, and so does "most recent activity" until some usage rises.
     _pinnedState() {
         if (!this.panelProvider)
             return null;
-        return this._visibleStates().find((state) => state.provider.id === this.panelProvider) || null;
+        const visible = this._visibleStates();
+        if (this.panelProvider === PANEL_LATEST) {
+            const active = visible.filter((state) => state.changedAt && !state.error &&
+                this._displayLimits(state).length > 0);
+            if (active.length === 0)
+                return null;
+            return active.reduce((a, b) => (b.changedAt > a.changedAt ? b : a));
+        }
+        return visible.find((state) => state.provider.id === this.panelProvider) || null;
     }
 
     // Providers the panel shows. A pinned provider is always shown (dimmed if
@@ -572,13 +586,23 @@ class AiUsageApplet extends Applet.Applet {
     // Quick choice of which provider the panel shows.
     _addPanelProviderSelector(visible) {
         const pinned = this._pinnedState();
-        const current = pinned ? pinned.provider.name : _("Automatic");
+        const choices = [
+            {id: "", label: _("Automatic")},
+            {id: PANEL_LATEST, label: _("Most recent activity")},
+        ].concat(visible.map((state) => ({id: state.provider.id, label: state.provider.name})));
+        // A pin to a provider that is not shown falls back to automatic.
+        const selected = choices.some((choice) => choice.id === this.panelProvider) ? this.panelProvider : "";
+
+        let current;
+        if (selected === PANEL_LATEST)
+            current = pinned ? _("Most recent activity (%s)").format(pinned.provider.name) : _("Most recent activity");
+        else
+            current = pinned ? pinned.provider.name : _("Automatic");
         const submenu = new PopupMenu.PopupSubMenuMenuItem(_("Panel shows: %s").format(current));
-        const choices = [{id: "", label: _("Automatic")}]
-            .concat(visible.map((state) => ({id: state.provider.id, label: state.provider.name})));
+
         for (const choice of choices) {
             const item = new PopupMenu.PopupMenuItem(choice.label);
-            item.setOrnament(PopupMenu.OrnamentType.DOT, (pinned ? pinned.provider.id : "") === choice.id);
+            item.setOrnament(PopupMenu.OrnamentType.DOT, selected === choice.id);
             item.connect("activate", () => {
                 this.panelProvider = choice.id;
                 this._render();

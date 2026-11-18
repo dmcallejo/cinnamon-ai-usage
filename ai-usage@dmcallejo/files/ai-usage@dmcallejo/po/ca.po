@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:32+0100\n"
+"POT-Creation-Date: 2026-11-18 11:52+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Catalan\n"
@@ -13,40 +13,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:96
+#: applet.js:98
 msgid "AI usage limits"
 msgstr "Límits d'ús d'IA"
 
-#: applet.js:106 applet.js:541
+#: applet.js:108 applet.js:583
 msgid "Refresh now"
 msgstr "Actualitza ara"
 
-#: applet.js:266
+#: applet.js:271
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
 
-#: applet.js:342
+#: applet.js:385
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Es restableix en %s (%s)"
 
-#: applet.js:471
+#: applet.js:513
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, es restableix en %s"
 
-#: applet.js:478 applet.js:525
+#: applet.js:520 applet.js:567
 #, javascript-format
 msgid "Last updated at %s."
 msgstr "Última actualització a les %s."
 
-#: applet.js:487
+#: applet.js:529
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 "Tots els proveïdors estan desactivats a la configuració de la miniaplicació."
 
-#: applet.js:488
+#: applet.js:530
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
@@ -54,45 +54,54 @@ msgstr ""
 "No s'ha trobat cap sessió. Inicia sessió a Claude Code, a la CLI de Codex o "
 "a Kimi Code i la miniaplicació la detectarà automàticament."
 
-#: applet.js:503
+#: applet.js:545
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (pla %s)"
 
-#: applet.js:514
+#: applet.js:556
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:520
+#: applet.js:562
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: applet.js:528
+#: applet.js:570
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Obre la pàgina d'ús de %s"
 
-#: applet.js:539
+#: applet.js:581
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualitzat a les %s"
 
-#: applet.js:547 applet.js:549
+#: applet.js:590 applet.js:600
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: applet.js:548
+#: applet.js:591 applet.js:598
+msgid "Most recent activity"
+msgstr "Activitat més recent"
+
+#: applet.js:598
+#, javascript-format
+msgid "Most recent activity (%s)"
+msgstr "Activitat més recent (%s)"
+
+#: applet.js:601
 #, javascript-format
 msgid "Panel shows: %s"
 msgstr "El quadre mostra: %s"
 
-#: applet.js:619
+#: applet.js:671
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:620
+#: applet.js:672
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Es restableix en %s."
@@ -147,7 +156,7 @@ msgstr ""
 "No s'ha trobat cap sessió de Claude Code a %s. Inicia sessió primer amb "
 "Claude Code."
 
-#: providers/anthropic.js:189 providers/codex.js:149 providers/kimi.js:300
+#: providers/anthropic.js:189 providers/codex.js:151 providers/kimi.js:300
 #, javascript-format
 msgid "Could not parse %s."
 msgstr "No s'ha pogut llegir %s."
@@ -176,7 +185,7 @@ msgstr ""
 "Claude ha rebutjat la sessió. Envia un missatge a Claude Code per renovar-"
 "la."
 
-#: providers/anthropic.js:219 providers/codex.js:178 providers/kimi.js:331
+#: providers/anthropic.js:219 providers/codex.js:180 providers/kimi.js:331
 msgid "Too many requests. Retrying later."
 msgstr "Massa peticions. Es tornarà a provar més tard."
 
@@ -215,29 +224,29 @@ msgstr "%s, %s"
 msgid "Code review"
 msgstr "Revisió de codi"
 
-#: providers/codex.js:146
+#: providers/codex.js:148
 #, javascript-format
 msgid "No Codex sign-in found at %s. Sign in with the Codex CLI first."
 msgstr ""
 "No s'ha trobat cap sessió de Codex a %s. Inicia sessió primer amb la CLI de "
 "Codex."
 
-#: providers/codex.js:156
+#: providers/codex.js:158
 #, javascript-format
 msgid "No ChatGPT sign-in found in %s. API keys do not have plan limits."
 msgstr ""
 "No hi ha cap sessió de ChatGPT a %s. Les claus d'API no tenen límits de pla."
 
-#: providers/codex.js:175
+#: providers/codex.js:177
 msgid "ChatGPT rejected the Codex sign-in. Run Codex to renew it."
 msgstr "ChatGPT ha rebutjat la sessió de Codex. Executa Codex per renovar-la."
 
-#: providers/codex.js:180
+#: providers/codex.js:182
 #, javascript-format
 msgid "Unexpected response from Codex (HTTP %d)."
 msgstr "Resposta inesperada de Codex (HTTP %d)."
 
-#: providers/codex.js:184
+#: providers/codex.js:186
 msgid "Codex returned no usage data."
 msgstr "Codex no ha retornat dades d'ús."
 

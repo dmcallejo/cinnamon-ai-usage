@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:32+0100\n"
+"POT-Creation-Date: 2026-11-18 11:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,83 +17,92 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: applet.js:96
+#: applet.js:98
 msgid "AI usage limits"
 msgstr ""
 
-#: applet.js:106 applet.js:541
+#: applet.js:108 applet.js:583
 msgid "Refresh now"
 msgstr ""
 
-#: applet.js:266
+#: applet.js:271
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr ""
 
-#: applet.js:342
+#: applet.js:385
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr ""
 
-#: applet.js:471
+#: applet.js:513
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr ""
 
-#: applet.js:478 applet.js:525
+#: applet.js:520 applet.js:567
 #, javascript-format
 msgid "Last updated at %s."
 msgstr ""
 
-#: applet.js:487
+#: applet.js:529
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 
-#: applet.js:488
+#: applet.js:530
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
 msgstr ""
 
-#: applet.js:503
+#: applet.js:545
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr ""
 
-#: applet.js:514
+#: applet.js:556
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: applet.js:520
+#: applet.js:562
 msgid "Loading..."
 msgstr ""
 
-#: applet.js:528
+#: applet.js:570
 #, javascript-format
 msgid "Open %s usage page"
 msgstr ""
 
-#: applet.js:539
+#: applet.js:581
 #, javascript-format
 msgid "Updated at %s"
 msgstr ""
 
-#: applet.js:547 applet.js:549
+#: applet.js:590 applet.js:600
 msgid "Automatic"
 msgstr ""
 
-#: applet.js:548
+#: applet.js:591 applet.js:598
+msgid "Most recent activity"
+msgstr ""
+
+#: applet.js:598
+#, javascript-format
+msgid "Most recent activity (%s)"
+msgstr ""
+
+#: applet.js:601
 #, javascript-format
 msgid "Panel shows: %s"
 msgstr ""
 
-#: applet.js:619
+#: applet.js:671
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr ""
 
-#: applet.js:620
+#: applet.js:672
 #, javascript-format
 msgid "Resets in %s."
 msgstr ""
@@ -146,7 +155,7 @@ msgstr ""
 msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
 msgstr ""
 
-#: providers/anthropic.js:189 providers/codex.js:149 providers/kimi.js:300
+#: providers/anthropic.js:189 providers/codex.js:151 providers/kimi.js:300
 #, javascript-format
 msgid "Could not parse %s."
 msgstr ""
@@ -169,7 +178,7 @@ msgid ""
 "Claude rejected the sign-in. Send a message in Claude Code to renew it."
 msgstr ""
 
-#: providers/anthropic.js:219 providers/codex.js:178 providers/kimi.js:331
+#: providers/anthropic.js:219 providers/codex.js:180 providers/kimi.js:331
 msgid "Too many requests. Retrying later."
 msgstr ""
 
@@ -208,26 +217,26 @@ msgstr ""
 msgid "Code review"
 msgstr ""
 
-#: providers/codex.js:146
+#: providers/codex.js:148
 #, javascript-format
 msgid "No Codex sign-in found at %s. Sign in with the Codex CLI first."
 msgstr ""
 
-#: providers/codex.js:156
+#: providers/codex.js:158
 #, javascript-format
 msgid "No ChatGPT sign-in found in %s. API keys do not have plan limits."
 msgstr ""
 
-#: providers/codex.js:175
+#: providers/codex.js:177
 msgid "ChatGPT rejected the Codex sign-in. Run Codex to renew it."
 msgstr ""
 
-#: providers/codex.js:180
+#: providers/codex.js:182
 #, javascript-format
 msgid "Unexpected response from Codex (HTTP %d)."
 msgstr ""
 
-#: providers/codex.js:184
+#: providers/codex.js:186
 msgid "Codex returned no usage data."
 msgstr ""
 

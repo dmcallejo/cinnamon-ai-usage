@@ -26,8 +26,9 @@ so more services can be added later.
   limit, or just the icons.
 - Optional countdown to the next reset in the panel.
 - Popup menu with a progress bar, percentage and reset time for every limit.
-- "Panel shows" in the menu to pin one provider to the panel, or go back to
-  automatic. Automatic leaves out providers whose sign-in has expired, and
+- "Panel shows" in the menu: automatic, one specific provider, or "Most
+  recent activity", which follows the provider whose usage went up last
+  (checked at each refresh). Automatic leaves out providers whose sign-in has expired, and
   "Highest usage" also skips providers whose limit is used up, so it shows
   what you can still use. They stay in the menu, and return to the panel
   when nothing else is left.

@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const {appletRequire} = require("./helpers");
 
 const util = appletRequire("lib/util.js");
-const {panelSegments, worstSeverity} = appletRequire("lib/panel.js");
+const {panelSegments, worstSeverity, usageIncreased} = appletRequire("lib/panel.js");
 
 const PROVIDERS = [
     {id: "anthropic", limits: [{percent: 13, resetsAt: "s"}, {percent: 21, resetsAt: "w"}]},
@@ -57,4 +57,14 @@ test("reset is omitted when disabled or unknown", () => {
 test("no providers means no segments", () => {
     assert.deepEqual(panelSegments([], "highest", options()), []);
     assert.equal(worstSeverity([]), "normal");
+});
+
+test("usageIncreased only counts rises of limits seen before", () => {
+    const snap = (...pairs) => ({limits: pairs.map(([id, percent]) => ({id, percent}))});
+    assert.equal(usageIncreased(null, snap(["a", 10])), false);
+    assert.equal(usageIncreased(snap(["a", 10]), snap(["a", 10])), false);
+    assert.equal(usageIncreased(snap(["a", 10]), snap(["a", 12])), true);
+    assert.equal(usageIncreased(snap(["a", 90]), snap(["a", 0])), false);
+    assert.equal(usageIncreased(snap(["a", 10]), snap(["a", 5], ["b", 50])), false);
+    assert.equal(usageIncreased(snap(["a", 10], ["b", 1]), snap(["a", 5], ["b", 2])), true);
 });

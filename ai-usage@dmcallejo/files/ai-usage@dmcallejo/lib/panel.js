@@ -68,4 +68,13 @@ function panelSegments(providers, mode, options) {
     });
 }
 
-module.exports = {panelSegments, worstSeverity};
+// True when any limit present in both snapshots went up. Drops (resets) and
+// the first snapshot do not count as activity.
+function usageIncreased(previous, current) {
+    if (!previous || !current)
+        return false;
+    const before = new Map(previous.limits.map((limit) => [limit.id, limit.percent]));
+    return current.limits.some((limit) => before.has(limit.id) && limit.percent > before.get(limit.id));
+}
+
+module.exports = {panelSegments, worstSeverity, usageIncreased};
