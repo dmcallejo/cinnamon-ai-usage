@@ -27,9 +27,10 @@ so more services can be added later.
 - Optional countdown to the next reset in the panel.
 - Popup menu with a progress bar, percentage and reset time for every limit.
 - "Panel shows" in the menu to pin one provider to the panel, or go back to
-  automatic. Automatic skips providers whose limit is used up or whose
-  sign-in has expired, so the panel shows what you can still use. They stay
-  in the menu, and appear in the panel again when nothing else is left.
+  automatic. Automatic leaves out providers whose sign-in has expired, and
+  "Highest usage" also skips providers whose limit is used up, so it shows
+  what you can still use. They stay in the menu, and return to the panel
+  when nothing else is left.
 - Warning and critical colors with configurable thresholds.
 - Desktop notification when a limit reaches the critical level.
 - Middle click, or "Refresh now" in the menu, to update immediately.

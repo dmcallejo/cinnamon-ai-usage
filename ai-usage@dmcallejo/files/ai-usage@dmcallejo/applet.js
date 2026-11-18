@@ -289,19 +289,24 @@ class AiUsageApplet extends Applet.Applet {
     }
 
     // Providers the panel shows. A pinned provider is always shown (dimmed if
-    // stale). Otherwise the panel prefers, in order: up-to-date providers that
-    // can still be used, up-to-date providers whose limit is used up, and
-    // stale data (expired sign-in, offline) when nothing else is left.
+    // stale). Otherwise stale data (expired sign-in, offline) is left out
+    // unless nothing is up to date. "Highest usage" picks a single limit, so
+    // it also skips providers whose limit is used up when another one can
+    // still be used; the list modes show every up-to-date provider.
     _panelStates() {
         const pinned = this._pinnedState();
         if (pinned)
             return [pinned];
         const withData = this._visibleStates().filter((state) => this._displayLimits(state).length > 0);
         const fresh = withData.filter((state) => !this._isStale(state));
-        const usable = fresh.filter((state) => !this._isExhausted(state));
-        if (usable.length > 0)
-            return usable;
-        return fresh.length > 0 ? fresh : withData;
+        if (fresh.length === 0)
+            return withData;
+        if (this.panelDisplay === "highest") {
+            const usable = fresh.filter((state) => !this._isExhausted(state));
+            if (usable.length > 0)
+                return usable;
+        }
+        return fresh;
     }
 
     // A provider is exhausted when it says so, or when any limit is used up.
