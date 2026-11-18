@@ -5,7 +5,7 @@ const {appletRequire, gettext: _} = require("./helpers");
 
 const util = appletRequire("lib/util.js");
 const {ErrorKind, ProviderError} = appletRequire("lib/errors.js");
-const {KimiProvider, parseUsage} = appletRequire("providers/kimi.js");
+const {KimiProvider, parseUsage, parseConfig} = appletRequire("providers/kimi.js");
 
 const HOME = "/home/tester";
 const VALID_CREDENTIALS = {
@@ -16,7 +16,23 @@ const VALID_CREDENTIALS = {
     token_type: "Bearer",
 };
 
-function makeProvider({credentials = VALID_CREDENTIALS, response, readError, env = {}, settings = {}} = {}) {
+const CONFIG_TOML = `default_model = "kimi-code/kimi-for-coding"
+
+[providers."managed:kimi-code"]
+type = "kimi"
+api_key = ""
+base_url = "https://api.kimi.ai/coding/v1"
+
+[providers."managed:kimi-code".oauth]
+storage = "file"
+key = "oauth/kimi-code-env-0123abcd"
+oauth_host = "https://auth.kimi.ai"
+
+[services.moonshot_search]
+base_url = "https://api.kimi.ai/coding/v1/search"
+`;
+
+function makeProvider({credentials = VALID_CREDENTIALS, response, readError, config = null, env = {}, settings = {}} = {}) {
     const calls = {read: [], http: []};
     const ctx = {
         _,
@@ -26,6 +42,12 @@ function makeProvider({credentials = VALID_CREDENTIALS, response, readError, env
         homeDir: HOME,
         getenv: (name) => env[name] || null,
         getSetting: (key) => settings[key],
+        readText: async (path) => {
+            calls.read.push(path);
+            if (config === null)
+                throw Object.assign(new Error("missing"), {code: "ENOENT"});
+            return config;
+        },
         readJSON: async (path) => {
             calls.read.push(path);
             if (readError)
@@ -99,20 +121,42 @@ test("booster wallet spending is shown when a monthly cap is set", () => {
     assert.equal(parseUsage({usages: {limit_5h: {used_ratio: 0}}, boosterWallet: {monthlyChargeLimitEnabled: false}}, _, util).spend, null);
 });
 
-test("fetch reads the Kimi Code sign-in and calls the usages endpoint", async () => {
-    const {provider, calls} = makeProvider();
+test("parseConfig finds the credentials name and base URL of the managed provider", () => {
+    assert.deepEqual(parseConfig(CONFIG_TOML), {baseUrl: "https://api.kimi.ai/coding/v1", credentialsName: "kimi-code-env-0123abcd"});
+    assert.deepEqual(parseConfig("[other]\nkey = \"x\"\n"), {baseUrl: null, credentialsName: null});
+    assert.equal(parseConfig('[providers."managed:kimi-code".oauth]\nkey = "oauth/../.."\n').credentialsName, null);
+});
+
+test("fetch follows config.toml to the credentials file and endpoint", async () => {
+    const {provider, calls} = makeProvider({config: CONFIG_TOML});
     const result = await provider.fetch(null);
     assert.equal(result.limits.length, 2);
-    assert.equal(calls.read[0], `${HOME}/.kimi-code/credentials/kimi-code.json`);
-    assert.equal(calls.http[0].url, "https://api.kimi.com/coding/v1/usages");
+    assert.deepEqual(calls.read, [`${HOME}/.kimi-code/config.toml`, `${HOME}/.kimi-code/credentials/kimi-code-env-0123abcd.json`]);
+    assert.equal(calls.http[0].url, "https://api.kimi.ai/coding/v1/usages");
     assert.equal(calls.http[0].headers.Authorization, "Bearer kimi-token");
+});
+
+test("without config.toml the defaults are used", async () => {
+    const {provider, calls} = makeProvider();
+    await provider.fetch(null);
+    assert.equal(calls.read[1], `${HOME}/.kimi-code/credentials/kimi-code.json`);
+    assert.equal(calls.http[0].url, "https://api.kimi.com/coding/v1/usages");
+});
+
+test("the token is never sent outside Kimi's API hosts", async () => {
+    const evil = CONFIG_TOML.replace("https://api.kimi.ai/coding/v1", "https://example.com/steal");
+    const {provider, calls} = makeProvider({config: evil, env: {}});
+    await provider.fetch(null);
+    assert.equal(calls.http[0].url, "https://api.kimi.com/coding/v1/usages");
+    assert.equal(makeProvider({env: {KIMI_CODE_BASE_URL: "http://api.kimi.ai/coding/v1"}}).provider.usageUrl(), "https://api.kimi.com/coding/v1/usages");
 });
 
 test("paths and base URL honour settings and environment", () => {
     assert.equal(makeProvider({settings: {"credentials-path": "~/k.json"}}).provider.credentialsPath(), `${HOME}/k.json`);
     assert.equal(makeProvider({env: {KIMI_CODE_HOME: "/kh"}}).provider.credentialsPath(), "/kh/credentials/kimi-code.json");
     assert.equal(makeProvider({env: {KIMI_CODE_BASE_URL: "https://api.kimi.ai/coding/v1/"}}).provider.usageUrl(), "https://api.kimi.ai/coding/v1/usages");
-    assert.deepEqual(makeProvider().provider.watchPaths(), [`${HOME}/.kimi-code/credentials/kimi-code.json`]);
+    assert.deepEqual(makeProvider().provider.watchPaths(), [`${HOME}/.kimi-code/config.toml`, `${HOME}/.kimi-code/credentials`]);
+    assert.deepEqual(makeProvider({settings: {"credentials-path": "/k.json"}}).provider.watchPaths(), ["/k.json"]);
 });
 
 test("missing file means not signed in; bad files are config errors", async () => {

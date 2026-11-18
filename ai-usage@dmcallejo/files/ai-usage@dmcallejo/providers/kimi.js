@@ -19,6 +19,10 @@
 // Providers receive every dependency through `ctx` (see CONTRIBUTING.md).
 
 const DEFAULT_BASE_URL = "https://api.kimi.com/coding/v1";
+const DEFAULT_CREDENTIALS_NAME = "kimi-code";
+const PROVIDER_SECTION = 'providers."managed:kimi-code"';
+// The token is only ever sent to Kimi's own API hosts, whatever the config says.
+const ALLOWED_HOSTS = /^https:\/\/api\.kimi\.(com|ai)(\/|$)/;
 const DASHBOARD_URL = "https://www.kimi.com/code/console";
 
 const WINDOW_ORDER = ["limit_5h", "limit_7d", "limit_month_code", "limit_month_total"];
@@ -162,6 +166,33 @@ function parseSpend(body, _) {
     };
 }
 
+// Minimal reader for the two values needed from Kimi Code's config.toml:
+// [providers."managed:kimi-code"] base_url, and its .oauth table's key
+// (e.g. "oauth/kimi-code-env-0123abcd", stored as credentials/<last part>.json).
+function parseConfig(text) {
+    const result = {baseUrl: null, credentialsName: null};
+    let section = "";
+    for (const rawLine of String(text).split("\n")) {
+        const line = rawLine.trim();
+        const header = line.match(/^\[([^\]]+)\]$/);
+        if (header) {
+            section = header[1].trim();
+            continue;
+        }
+        const pair = line.match(/^([A-Za-z0-9_-]+)\s*=\s*"([^"]*)"/);
+        if (!pair)
+            continue;
+        if (section === PROVIDER_SECTION && pair[1] === "base_url")
+            result.baseUrl = pair[2];
+        if (section === `${PROVIDER_SECTION}.oauth` && pair[1] === "key") {
+            const name = pair[2].split("/").pop();
+            if (/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(name))
+                result.credentialsName = name;
+        }
+    }
+    return result;
+}
+
 function parsePlan(body) {
     const user = body.user && typeof body.user === "object" ? body.user : {};
     const membership = user.membership && typeof user.membership === "object" ? user.membership : {};
@@ -213,29 +244,49 @@ class KimiProvider {
         return DASHBOARD_URL;
     }
 
-    credentialsPath() {
-        const {getSetting, getenv, homeDir, util} = this._ctx;
+    _dataDir() {
+        const {getenv, homeDir, util} = this._ctx;
+        const home = getenv("KIMI_CODE_HOME");
+        return home ? util.expandHome(home, homeDir) : `${homeDir}/.kimi-code`;
+    }
+
+    // Reads config.toml; a missing or unreadable file means defaults.
+    async _config(cancellable) {
+        try {
+            return parseConfig(await this._ctx.readText(`${this._dataDir()}/config.toml`, cancellable));
+        } catch (e) {
+            if (e.code === "ENOENT")
+                return {baseUrl: null, credentialsName: null};
+            throw e;
+        }
+    }
+
+    credentialsPath(config = {}) {
+        const {getSetting, homeDir, util} = this._ctx;
         const custom = (getSetting("credentials-path") || "").trim();
         if (custom)
             return util.expandHome(custom, homeDir);
-        const home = getenv("KIMI_CODE_HOME");
-        const dataDir = home ? util.expandHome(home, homeDir) : `${homeDir}/.kimi-code`;
-        return `${dataDir}/credentials/kimi-code.json`;
+        return `${this._dataDir()}/credentials/${config.credentialsName || DEFAULT_CREDENTIALS_NAME}.json`;
     }
 
-    usageUrl() {
-        const base = (this._ctx.getenv("KIMI_CODE_BASE_URL") || DEFAULT_BASE_URL).replace(/\/+$/, "");
-        return `${base}/usages`;
+    usageUrl(config = {}) {
+        let base = this._ctx.getenv("KIMI_CODE_BASE_URL") || config.baseUrl || DEFAULT_BASE_URL;
+        if (!ALLOWED_HOSTS.test(base))
+            base = DEFAULT_BASE_URL;
+        return `${base.replace(/\/+$/, "")}/usages`;
     }
 
-    // Kimi Code rewrites this file when it renews the sign-in.
+    // Kimi Code rewrites its credentials when it renews the sign-in (about
+    // every 15 minutes while it runs) and names the file in config.toml.
     watchPaths() {
-        return [this.credentialsPath()];
+        const custom = (this._ctx.getSetting("credentials-path") || "").trim();
+        if (custom)
+            return [this.credentialsPath()];
+        return [`${this._dataDir()}/config.toml`, `${this._dataDir()}/credentials`];
     }
 
-    async _readToken(cancellable) {
+    async _readToken(path, cancellable) {
         const {_, readJSON, ErrorKind, ProviderError} = this._ctx;
-        const path = this.credentialsPath();
 
         let credentials;
         try {
@@ -267,9 +318,10 @@ class KimiProvider {
 
     async fetch(cancellable) {
         const {_, http, util, ErrorKind, ProviderError} = this._ctx;
-        const token = await this._readToken(cancellable);
+        const config = await this._config(cancellable);
+        const token = await this._readToken(this.credentialsPath(config), cancellable);
 
-        const response = await http.getJSON(this.usageUrl(), {"Authorization": `Bearer ${token}`}, cancellable);
+        const response = await http.getJSON(this.usageUrl(config), {"Authorization": `Bearer ${token}`}, cancellable);
 
         if (response.status === 401 || response.status === 403) {
             throw new ProviderError(ErrorKind.AUTH,
@@ -291,4 +343,4 @@ class KimiProvider {
     }
 }
 
-module.exports = {KimiProvider, parseUsage};
+module.exports = {KimiProvider, parseUsage, parseConfig};

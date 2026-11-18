@@ -218,12 +218,12 @@
         "type": "entry",
         "default": "",
         "description": "Kimi Code credentials file",
-        "tooltip": "Leave empty to use $KIMI_CODE_HOME/credentials/kimi-code.json or ~/.kimi-code/credentials/kimi-code.json.",
+        "tooltip": "Leave empty to use the file named in Kimi Code's config.toml.",
         "dependency": "kimi-mode!=off"
     },
     "kimi-help": {
         "type": "label",
-        "description": "Uses the sign-in stored by Kimi Code. It is read only and never sent anywhere except api.kimi.com.",
+        "description": "Uses the sign-in stored by Kimi Code. It is read only and never sent anywhere except api.kimi.com or api.kimi.ai.",
         "dependency": "kimi-mode!=off"
     }
 }

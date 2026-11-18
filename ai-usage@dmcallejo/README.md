@@ -73,11 +73,14 @@ Codex's `/status` command does.
 ### Kimi
 
 You need to be signed in to Kimi Code (`/login` inside Kimi Code). The applet
-reads `~/.kimi-code/credentials/kimi-code.json` (or
-`$KIMI_CODE_HOME/credentials/kimi-code.json`) and asks `api.kimi.com` for
-your quota, the same way Kimi Code's `/usage` command does. Set
-`KIMI_CODE_BASE_URL` in the session environment to use another region's
-endpoint, as with Kimi Code itself.
+finds the sign-in and the API endpoint through Kimi Code's own
+`~/.kimi-code/config.toml` (or `$KIMI_CODE_HOME`) and asks Kimi for your
+quota, the same way Kimi Code's `/usage` command does. The token is only
+sent to `api.kimi.com` or `api.kimi.ai`.
+
+- Kimi Code's sign-in lasts about 15 minutes and is renewed while Kimi Code
+  runs. When Kimi Code has not run for a while the applet shows that the
+  sign-in has expired; it recovers as soon as Kimi Code renews it.
 
 - The endpoint is not a documented public API. Kimi has a known bug where
   some percentages read 0% during real use; when the response also contains

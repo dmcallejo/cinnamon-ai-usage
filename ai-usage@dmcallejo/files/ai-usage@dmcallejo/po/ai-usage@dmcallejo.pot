@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:03+0100\n"
+"POT-Creation-Date: 2026-11-18 11:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,65 +21,65 @@ msgstr ""
 msgid "AI usage limits"
 msgstr ""
 
-#: applet.js:103 applet.js:499
+#: applet.js:103 applet.js:500
 msgid "Refresh now"
 msgstr ""
 
-#: applet.js:260
+#: applet.js:261
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr ""
 
-#: applet.js:308
+#: applet.js:309
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr ""
 
-#: applet.js:435
+#: applet.js:436
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr ""
 
-#: applet.js:449
+#: applet.js:450
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 
-#: applet.js:450
+#: applet.js:451
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
 msgstr ""
 
-#: applet.js:465
+#: applet.js:466
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr ""
 
-#: applet.js:476
+#: applet.js:477
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: applet.js:482
+#: applet.js:483
 msgid "Loading..."
 msgstr ""
 
-#: applet.js:488
+#: applet.js:489
 #, javascript-format
 msgid "Open %s usage page"
 msgstr ""
 
-#: applet.js:497
+#: applet.js:498
 #, javascript-format
 msgid "Updated at %s"
 msgstr ""
 
-#: applet.js:556
+#: applet.js:557
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr ""
 
-#: applet.js:557
+#: applet.js:558
 #, javascript-format
 msgid "Resets in %s."
 msgstr ""
@@ -123,7 +123,7 @@ msgstr ""
 msgid "Weekly, Sonnet"
 msgstr ""
 
-#: providers/anthropic.js:92 providers/anthropic.js:108 providers/kimi.js:157
+#: providers/anthropic.js:92 providers/anthropic.js:108 providers/kimi.js:161
 msgid "Extra usage"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgstr ""
 msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
 msgstr ""
 
-#: providers/anthropic.js:189 providers/codex.js:149 providers/kimi.js:249
+#: providers/anthropic.js:189 providers/codex.js:149 providers/kimi.js:300
 #, javascript-format
 msgid "Could not parse %s."
 msgstr ""
@@ -155,7 +155,7 @@ msgid ""
 "Claude rejected the sign-in. Send a message in Claude Code to renew it."
 msgstr ""
 
-#: providers/anthropic.js:219 providers/codex.js:178 providers/kimi.js:279
+#: providers/anthropic.js:219 providers/codex.js:178 providers/kimi.js:331
 msgid "Too many requests. Retrying later."
 msgstr ""
 
@@ -168,11 +168,11 @@ msgstr ""
 msgid "Claude returned no usage data."
 msgstr ""
 
-#: providers/codex.js:26 providers/kimi.js:35
+#: providers/codex.js:26 providers/kimi.js:39
 msgid "5-hour limit"
 msgstr ""
 
-#: providers/codex.js:28 providers/kimi.js:37
+#: providers/codex.js:28 providers/kimi.js:41
 msgid "Weekly limit"
 msgstr ""
 
@@ -181,7 +181,7 @@ msgstr ""
 msgid "%s limit"
 msgstr ""
 
-#: providers/codex.js:31 providers/kimi.js:43
+#: providers/codex.js:31 providers/kimi.js:47
 msgid "Usage limit"
 msgstr ""
 
@@ -217,39 +217,39 @@ msgstr ""
 msgid "Codex returned no usage data."
 msgstr ""
 
-#: providers/kimi.js:39
+#: providers/kimi.js:43
 msgid "Monthly, Kimi Code"
 msgstr ""
 
-#: providers/kimi.js:41
+#: providers/kimi.js:45
 msgid "Monthly, all Kimi usage"
 msgstr ""
 
-#: providers/kimi.js:246
+#: providers/kimi.js:297
 #, javascript-format
 msgid "No Kimi Code sign-in found at %s. Sign in with Kimi Code first."
 msgstr ""
 
-#: providers/kimi.js:255
+#: providers/kimi.js:306
 #, javascript-format
 msgid "No Kimi Code sign-in found in %s."
 msgstr ""
 
-#: providers/kimi.js:263
+#: providers/kimi.js:314
 msgid ""
 "The Kimi Code sign-in has expired. Send a message in Kimi Code to renew it."
 msgstr ""
 
-#: providers/kimi.js:276
+#: providers/kimi.js:328
 msgid "Kimi rejected the sign-in. Send a message in Kimi Code to renew it."
 msgstr ""
 
-#: providers/kimi.js:281
+#: providers/kimi.js:333
 #, javascript-format
 msgid "Unexpected response from Kimi (HTTP %d)."
 msgstr ""
 
-#: providers/kimi.js:285 providers/kimi.js:289
+#: providers/kimi.js:337 providers/kimi.js:341
 msgid "Kimi returned no usage data."
 msgstr ""
 
@@ -468,13 +468,11 @@ msgid "Kimi Code credentials file"
 msgstr ""
 
 #. settings-schema.json->kimi-credentials-path->tooltip
-msgid ""
-"Leave empty to use $KIMI_CODE_HOME/credentials/kimi-code.json or ~/.kimi-"
-"code/credentials/kimi-code.json."
+msgid "Leave empty to use the file named in Kimi Code's config.toml."
 msgstr ""
 
 #. settings-schema.json->kimi-help->description
 msgid ""
 "Uses the sign-in stored by Kimi Code. It is read only and never sent "
-"anywhere except api.kimi.com."
+"anywhere except api.kimi.com or api.kimi.ai."
 msgstr ""

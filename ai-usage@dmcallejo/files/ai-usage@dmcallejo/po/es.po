@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:03+0100\n"
+"POT-Creation-Date: 2026-11-18 11:12+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Spanish\n"
@@ -17,31 +17,31 @@ msgstr ""
 msgid "AI usage limits"
 msgstr "Límites de uso de IA"
 
-#: applet.js:103 applet.js:499
+#: applet.js:103 applet.js:500
 msgid "Refresh now"
 msgstr "Actualizar ahora"
 
-#: applet.js:260
+#: applet.js:261
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No se pudo contactar con %s. Revisa tu conexión."
 
-#: applet.js:308
+#: applet.js:309
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Se restablece en %s (%s)"
 
-#: applet.js:435
+#: applet.js:436
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, se restablece en %s"
 
-#: applet.js:449
+#: applet.js:450
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 "Todos los proveedores están desactivados en la configuración del applet."
 
-#: applet.js:450
+#: applet.js:451
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
@@ -49,36 +49,36 @@ msgstr ""
 "No se encontró ninguna sesión. Inicia sesión en Claude Code, en la CLI de "
 "Codex o en Kimi Code y el applet la detectará automáticamente."
 
-#: applet.js:465
+#: applet.js:466
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (plan %s)"
 
-#: applet.js:476
+#: applet.js:477
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:482
+#: applet.js:483
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: applet.js:488
+#: applet.js:489
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Abrir la página de uso de %s"
 
-#: applet.js:497
+#: applet.js:498
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualizado a las %s"
 
-#: applet.js:556
+#: applet.js:557
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:557
+#: applet.js:558
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Se restablece en %s."
@@ -122,7 +122,7 @@ msgstr "Semanal, Opus"
 msgid "Weekly, Sonnet"
 msgstr "Semanal, Sonnet"
 
-#: providers/anthropic.js:92 providers/anthropic.js:108 providers/kimi.js:157
+#: providers/anthropic.js:92 providers/anthropic.js:108 providers/kimi.js:161
 msgid "Extra usage"
 msgstr "Uso adicional"
 
@@ -133,7 +133,7 @@ msgstr ""
 "No se encontró ninguna sesión de Claude Code en %s. Inicia sesión primero "
 "con Claude Code."
 
-#: providers/anthropic.js:189 providers/codex.js:149 providers/kimi.js:249
+#: providers/anthropic.js:189 providers/codex.js:149 providers/kimi.js:300
 #, javascript-format
 msgid "Could not parse %s."
 msgstr "No se pudo leer %s."
@@ -161,7 +161,7 @@ msgid ""
 msgstr ""
 "Claude rechazó la sesión. Envía un mensaje en Claude Code para renovarla."
 
-#: providers/anthropic.js:219 providers/codex.js:178 providers/kimi.js:279
+#: providers/anthropic.js:219 providers/codex.js:178 providers/kimi.js:331
 msgid "Too many requests. Retrying later."
 msgstr "Demasiadas peticiones. Se reintentará más tarde."
 
@@ -174,11 +174,11 @@ msgstr "Respuesta inesperada de Claude (HTTP %d)."
 msgid "Claude returned no usage data."
 msgstr "Claude no devolvió datos de uso."
 
-#: providers/codex.js:26 providers/kimi.js:35
+#: providers/codex.js:26 providers/kimi.js:39
 msgid "5-hour limit"
 msgstr "Límite de 5 horas"
 
-#: providers/codex.js:28 providers/kimi.js:37
+#: providers/codex.js:28 providers/kimi.js:41
 msgid "Weekly limit"
 msgstr "Límite semanal"
 
@@ -187,7 +187,7 @@ msgstr "Límite semanal"
 msgid "%s limit"
 msgstr "Límite de %s"
 
-#: providers/codex.js:31 providers/kimi.js:43
+#: providers/codex.js:31 providers/kimi.js:47
 msgid "Usage limit"
 msgstr "Límite de uso"
 
@@ -227,43 +227,43 @@ msgstr "Respuesta inesperada de Codex (HTTP %d)."
 msgid "Codex returned no usage data."
 msgstr "Codex no devolvió datos de uso."
 
-#: providers/kimi.js:39
+#: providers/kimi.js:43
 msgid "Monthly, Kimi Code"
 msgstr "Mensual, Kimi Code"
 
-#: providers/kimi.js:41
+#: providers/kimi.js:45
 msgid "Monthly, all Kimi usage"
 msgstr "Mensual, todo el uso de Kimi"
 
-#: providers/kimi.js:246
+#: providers/kimi.js:297
 #, javascript-format
 msgid "No Kimi Code sign-in found at %s. Sign in with Kimi Code first."
 msgstr ""
 "No se encontró ninguna sesión de Kimi Code en %s. Inicia sesión primero con "
 "Kimi Code."
 
-#: providers/kimi.js:255
+#: providers/kimi.js:306
 #, javascript-format
 msgid "No Kimi Code sign-in found in %s."
 msgstr "No hay una sesión de Kimi Code en %s."
 
-#: providers/kimi.js:263
+#: providers/kimi.js:314
 msgid ""
 "The Kimi Code sign-in has expired. Send a message in Kimi Code to renew it."
 msgstr ""
 "La sesión de Kimi Code ha caducado. Envía un mensaje en Kimi Code para "
 "renovarla."
 
-#: providers/kimi.js:276
+#: providers/kimi.js:328
 msgid "Kimi rejected the sign-in. Send a message in Kimi Code to renew it."
 msgstr "Kimi rechazó la sesión. Envía un mensaje en Kimi Code para renovarla."
 
-#: providers/kimi.js:281
+#: providers/kimi.js:333
 #, javascript-format
 msgid "Unexpected response from Kimi (HTTP %d)."
 msgstr "Respuesta inesperada de Kimi (HTTP %d)."
 
-#: providers/kimi.js:285 providers/kimi.js:289
+#: providers/kimi.js:337 providers/kimi.js:341
 msgid "Kimi returned no usage data."
 msgstr "Kimi no devolvió datos de uso."
 
@@ -507,17 +507,15 @@ msgid "Kimi Code credentials file"
 msgstr "Archivo de credenciales de Kimi Code"
 
 #. settings-schema.json->kimi-credentials-path->tooltip
-msgid ""
-"Leave empty to use $KIMI_CODE_HOME/credentials/kimi-code.json or ~/.kimi-"
-"code/credentials/kimi-code.json."
+msgid "Leave empty to use the file named in Kimi Code's config.toml."
 msgstr ""
-"Déjalo vacío para usar $KIMI_CODE_HOME/credentials/kimi-code.json o ~/.kimi-"
-"code/credentials/kimi-code.json."
+"Déjalo vacío para usar el archivo indicado en el config.toml de Kimi Code."
 
 #. settings-schema.json->kimi-help->description
 msgid ""
 "Uses the sign-in stored by Kimi Code. It is read only and never sent "
-"anywhere except api.kimi.com."
+"anywhere except api.kimi.com or api.kimi.ai."
 msgstr ""
 "Usa la sesión guardada por Kimi Code. Solo se lee y nunca se envía a ningún "
-"sitio salvo a api.kimi.com."
+"sitio salvo a api.kimi.com o api.kimi.ai."
+

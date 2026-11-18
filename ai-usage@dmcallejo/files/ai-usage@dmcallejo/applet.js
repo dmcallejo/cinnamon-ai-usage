@@ -19,7 +19,7 @@ function _(text) {
 const util = require("./lib/util");
 const {ErrorKind, ProviderError} = require("./lib/errors");
 const {HttpClient} = require("./lib/http");
-const {readJSON, watchFile} = require("./lib/files");
+const {readJSON, readText, watchFile} = require("./lib/files");
 const {panelSegments} = require("./lib/panel");
 const {AnthropicProvider} = require("./providers/anthropic");
 const {CodexProvider} = require("./providers/codex");
@@ -119,6 +119,7 @@ class AiUsageApplet extends Applet.Applet {
             ProviderError,
             http: this._http,
             readJSON,
+            readText,
             homeDir: GLib.get_home_dir(),
             getenv: (name) => GLib.getenv(name),
         };
