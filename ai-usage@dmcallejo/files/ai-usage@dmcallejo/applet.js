@@ -20,10 +20,11 @@ const {ErrorKind, ProviderError} = require("./lib/errors");
 const {HttpClient} = require("./lib/http");
 const {readJSON, watchFile} = require("./lib/files");
 const {AnthropicProvider} = require("./providers/anthropic");
+const {CodexProvider} = require("./providers/codex");
 
 // To add a provider: implement the interface described in providers/README.md,
 // add its class here and an "<id>-enabled" switch to settings-schema.json.
-const PROVIDER_CLASSES = [AnthropicProvider];
+const PROVIDER_CLASSES = [AnthropicProvider, CodexProvider];
 
 const LABEL_TICK_SECONDS = 60;
 const MIN_REFRESH_MINUTES = 1;

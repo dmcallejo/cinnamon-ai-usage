@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 09:08+0100\n"
+"POT-Creation-Date: 2026-11-18 10:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,63 +17,63 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: applet.js:77
+#: applet.js:78
 msgid "AI usage limits"
 msgstr ""
 
-#: applet.js:87 applet.js:406
+#: applet.js:88 applet.js:407
 msgid "Refresh now"
 msgstr ""
 
-#: applet.js:224
+#: applet.js:225
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr ""
 
-#: applet.js:294
+#: applet.js:295
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr ""
 
-#: applet.js:348
+#: applet.js:349
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr ""
 
-#: applet.js:356 applet.js:366
+#: applet.js:357 applet.js:367
 msgid "No provider is enabled. Enable one in the applet settings."
 msgstr ""
 
-#: applet.js:372
+#: applet.js:373
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr ""
 
-#: applet.js:383
+#: applet.js:384
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: applet.js:389
+#: applet.js:390
 msgid "Loading..."
 msgstr ""
 
-#: applet.js:395
+#: applet.js:396
 #, javascript-format
 msgid "Open %s usage page"
 msgstr ""
 
-#: applet.js:404
+#: applet.js:405
 #, javascript-format
 msgid "Updated at %s"
 msgstr ""
 
-#: applet.js:463
+#: applet.js:464
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr ""
 
-#: applet.js:464
+#: applet.js:465
 #, javascript-format
 msgid "Resets in %s."
 msgstr ""
@@ -126,7 +126,7 @@ msgstr ""
 msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
 msgstr ""
 
-#: providers/anthropic.js:184
+#: providers/anthropic.js:184 providers/codex.js:144
 #, javascript-format
 msgid "Could not parse %s."
 msgstr ""
@@ -149,7 +149,7 @@ msgid ""
 "Claude rejected the sign-in. Send a message in Claude Code to renew it."
 msgstr ""
 
-#: providers/anthropic.js:214
+#: providers/anthropic.js:214 providers/codex.js:173
 msgid "Too many requests. Retrying later."
 msgstr ""
 
@@ -162,14 +162,63 @@ msgstr ""
 msgid "Claude returned no usage data."
 msgstr ""
 
+#: providers/codex.js:26
+msgid "5-hour limit"
+msgstr ""
+
+#: providers/codex.js:28
+msgid "Weekly limit"
+msgstr ""
+
+#: providers/codex.js:30
+#, javascript-format
+msgid "%s limit"
+msgstr ""
+
+#: providers/codex.js:31
+msgid "Usage limit"
+msgstr ""
+
+#: providers/codex.js:59
+#, javascript-format
+msgid "%s, %s"
+msgstr ""
+
+#: providers/codex.js:72
+msgid "Code review"
+msgstr ""
+
+#: providers/codex.js:141
+#, javascript-format
+msgid "No Codex sign-in found at %s. Sign in with the Codex CLI first."
+msgstr ""
+
+#: providers/codex.js:151
+#, javascript-format
+msgid "No ChatGPT sign-in found in %s. API keys do not have plan limits."
+msgstr ""
+
+#: providers/codex.js:170
+msgid "ChatGPT rejected the Codex sign-in. Run Codex to renew it."
+msgstr ""
+
+#: providers/codex.js:175
+#, javascript-format
+msgid "Unexpected response from Codex (HTTP %d)."
+msgstr ""
+
+#: providers/codex.js:179
+msgid "Codex returned no usage data."
+msgstr ""
+
 #. metadata.json->name
 msgid "AI Usage Limits"
 msgstr ""
 
 #. metadata.json->description
 msgid ""
-"Shows the usage limits of your AI subscriptions (Claude) in the panel, with "
-"time until they reset."
+"Shows the usage limits of your AI subscriptions (Claude, Codex) in the "
+"panel, with time until they reset."
 msgstr ""
 
 #. settings-schema.json->general-page->title
@@ -194,6 +243,10 @@ msgstr ""
 
 #. settings-schema.json->anthropic-section->title
 msgid "Claude (Anthropic)"
+msgstr ""
+
+#. settings-schema.json->codex-section->title
+msgid "Codex (OpenAI)"
 msgstr ""
 
 #. settings-schema.json->panel-display->description
@@ -283,4 +336,28 @@ msgstr ""
 msgid ""
 "Uses the sign-in stored by Claude Code. It is read only and never sent "
 "anywhere except api.anthropic.com."
+msgstr ""
+
+#. settings-schema.json->codex-enabled->description
+msgid "Show Codex usage"
+msgstr ""
+
+#. settings-schema.json->codex-enabled->tooltip
+msgid ""
+"Codex usage limits of your ChatGPT plan. ChatGPT chat message limits are not"
+" available."
+msgstr ""
+
+#. settings-schema.json->codex-auth-path->description
+msgid "Codex CLI credentials file"
+msgstr ""
+
+#. settings-schema.json->codex-auth-path->tooltip
+msgid "Leave empty to use $CODEX_HOME/auth.json or ~/.codex/auth.json."
+msgstr ""
+
+#. settings-schema.json->codex-help->description
+msgid ""
+"Uses the sign-in stored by the Codex CLI. It is read only and never sent "
+"anywhere except chatgpt.com."
 msgstr ""

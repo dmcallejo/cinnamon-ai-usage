@@ -1,9 +1,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ai-usage@dmcallejo 1.0.1\n"
+"Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 09:08+0100\n"
+"POT-Creation-Date: 2026-11-18 10:13+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Catalan\n"
@@ -13,65 +13,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:77
+#: applet.js:78
 msgid "AI usage limits"
 msgstr "Límits d'ús d'IA"
 
-#: applet.js:87 applet.js:406
+#: applet.js:88 applet.js:407
 msgid "Refresh now"
 msgstr "Actualitza ara"
 
-#: applet.js:224
+#: applet.js:225
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
 
-#: applet.js:294
+#: applet.js:295
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Es restableix en %s (%s)"
 
-#: applet.js:348
+#: applet.js:349
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, es restableix en %s"
 
-#: applet.js:356 applet.js:366
+#: applet.js:357 applet.js:367
 msgid "No provider is enabled. Enable one in the applet settings."
 msgstr ""
 "No hi ha cap proveïdor activat. Activa'n un a la configuració de la "
 "miniaplicació."
 
-#: applet.js:372
+#: applet.js:373
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (pla %s)"
 
-#: applet.js:383
+#: applet.js:384
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:389
+#: applet.js:390
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: applet.js:395
+#: applet.js:396
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Obre la pàgina d'ús de %s"
 
-#: applet.js:404
+#: applet.js:405
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualitzat a les %s"
 
-#: applet.js:463
+#: applet.js:464
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:464
+#: applet.js:465
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Es restableix en %s."
@@ -126,7 +126,7 @@ msgstr ""
 "No s'ha trobat cap sessió de Claude Code a %s. Inicia sessió primer amb "
 "Claude Code."
 
-#: providers/anthropic.js:184
+#: providers/anthropic.js:184 providers/codex.js:144
 #, javascript-format
 msgid "Could not parse %s."
 msgstr "No s'ha pogut llegir %s."
@@ -155,7 +155,7 @@ msgstr ""
 "Claude ha rebutjat la sessió. Envia un missatge a Claude Code per renovar-"
 "la."
 
-#: providers/anthropic.js:214
+#: providers/anthropic.js:214 providers/codex.js:173
 msgid "Too many requests. Retrying later."
 msgstr "Massa peticions. Es tornarà a provar més tard."
 
@@ -168,17 +168,69 @@ msgstr "Resposta inesperada de Claude (HTTP %d)."
 msgid "Claude returned no usage data."
 msgstr "Claude no ha retornat dades d'ús."
 
+#: providers/codex.js:26
+msgid "5-hour limit"
+msgstr "Límit de 5 hores"
+
+#: providers/codex.js:28
+msgid "Weekly limit"
+msgstr "Límit setmanal"
+
+#: providers/codex.js:30
+#, javascript-format
+msgid "%s limit"
+msgstr "Límit de %s"
+
+#: providers/codex.js:31
+msgid "Usage limit"
+msgstr "Límit d'ús"
+
+#: providers/codex.js:59
+#, javascript-format
+msgid "%s, %s"
+msgstr "%s, %s"
+
+#: providers/codex.js:72
+msgid "Code review"
+msgstr "Revisió de codi"
+
+#: providers/codex.js:141
+#, javascript-format
+msgid "No Codex sign-in found at %s. Sign in with the Codex CLI first."
+msgstr ""
+"No s'ha trobat cap sessió de Codex a %s. Inicia sessió primer amb la CLI de "
+"Codex."
+
+#: providers/codex.js:151
+#, javascript-format
+msgid "No ChatGPT sign-in found in %s. API keys do not have plan limits."
+msgstr ""
+"No hi ha cap sessió de ChatGPT a %s. Les claus d'API no tenen límits de pla."
+
+#: providers/codex.js:170
+msgid "ChatGPT rejected the Codex sign-in. Run Codex to renew it."
+msgstr "ChatGPT ha rebutjat la sessió de Codex. Executa Codex per renovar-la."
+
+#: providers/codex.js:175
+#, javascript-format
+msgid "Unexpected response from Codex (HTTP %d)."
+msgstr "Resposta inesperada de Codex (HTTP %d)."
+
+#: providers/codex.js:179
+msgid "Codex returned no usage data."
+msgstr "Codex no ha retornat dades d'ús."
+
 #. metadata.json->name
 msgid "AI Usage Limits"
 msgstr "Límits d'ús d'IA"
 
 #. metadata.json->description
 msgid ""
-"Shows the usage limits of your AI subscriptions (Claude) in the panel, with "
-"time until they reset."
+"Shows the usage limits of your AI subscriptions (Claude, Codex) in the "
+"panel, with time until they reset."
 msgstr ""
-"Mostra al quadre els límits d'ús de les teves subscripcions d'IA (Claude) i "
-"quant falta perquè es restableixin."
+"Mostra al quadre els límits d'ús de les teves subscripcions d'IA (Claude, "
+"Codex) i quant falta perquè es restableixin."
 
 #. settings-schema.json->general-page->title
 msgid "General"
@@ -203,6 +255,10 @@ msgstr "Avisos"
 #. settings-schema.json->anthropic-section->title
 msgid "Claude (Anthropic)"
 msgstr "Claude (Anthropic)"
+
+#. settings-schema.json->codex-section->title
+msgid "Codex (OpenAI)"
+msgstr "Codex (OpenAI)"
 
 #. settings-schema.json->panel-display->description
 msgid "Panel text"
@@ -300,3 +356,32 @@ msgid ""
 msgstr ""
 "Utilitza la sessió desada per Claude Code. Només es llegeix i mai no s'envia"
 " enlloc excepte a api.anthropic.com."
+
+#. settings-schema.json->codex-enabled->description
+msgid "Show Codex usage"
+msgstr "Mostra l'ús de Codex"
+
+#. settings-schema.json->codex-enabled->tooltip
+msgid ""
+"Codex usage limits of your ChatGPT plan. ChatGPT chat message limits are not"
+" available."
+msgstr ""
+"Límits d'ús de Codex del teu pla de ChatGPT. Els límits de missatges del xat"
+" de ChatGPT no estan disponibles."
+
+#. settings-schema.json->codex-auth-path->description
+msgid "Codex CLI credentials file"
+msgstr "Fitxer de credencials de la CLI de Codex"
+
+#. settings-schema.json->codex-auth-path->tooltip
+msgid "Leave empty to use $CODEX_HOME/auth.json or ~/.codex/auth.json."
+msgstr ""
+"Deixa-ho buit per utilitzar $CODEX_HOME/auth.json o ~/.codex/auth.json."
+
+#. settings-schema.json->codex-help->description
+msgid ""
+"Uses the sign-in stored by the Codex CLI. It is read only and never sent "
+"anywhere except chatgpt.com."
+msgstr ""
+"Utilitza la sessió desada per la CLI de Codex. Només es llegeix i mai no "
+"s'envia enlloc excepte a chatgpt.com."

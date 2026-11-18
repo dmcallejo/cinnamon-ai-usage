@@ -1,8 +1,8 @@
 # AI Usage Limits for Cinnamon
 
 A Cinnamon panel applet that shows how much of your AI subscription limits
-you have used and when they reset. It supports Claude (Anthropic) today and is
-designed so other providers, such as OpenAI, can be added as plugins.
+you have used and when they reset. It supports Claude (Anthropic) and Codex
+(OpenAI), and new providers can be added as separate modules.
 
 ![Screenshot](ai-usage@dmcallejo/screenshot.png)
 
@@ -35,5 +35,5 @@ make reload  # reload the applet after editing
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
 
-Claude is a trademark of Anthropic. This project is not affiliated with or
-endorsed by Anthropic.
+Claude is a trademark of Anthropic. Codex and ChatGPT are trademarks of
+OpenAI. This project is not affiliated with or endorsed by either company.

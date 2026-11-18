@@ -7,6 +7,8 @@ Currently supported:
 
 - **Claude** (Pro, Max, Team and Enterprise plans): current session, weekly
   limits and extra usage spending.
+- **Codex** (ChatGPT Plus, Pro, Business and other plans with Codex): 5-hour
+  and weekly limits. Disabled by default; turn it on in the settings.
 
 The applet is built around providers, so more services can be added later.
 
@@ -45,6 +47,21 @@ Good to know:
 - Anthropic API keys have rate limits, not plan limits, so they are not
   supported.
 
+### Codex
+
+You need to be signed in to the Codex CLI with your ChatGPT account
+(`codex login`). The applet reads `~/.codex/auth.json` (or
+`$CODEX_HOME/auth.json`) and asks `chatgpt.com` for your limits, the same way
+Codex's `/status` command does.
+
+- These are the Codex limits of your ChatGPT plan. Message limits of the
+  ChatGPT chat apps are not available from OpenAI and are not shown.
+- The file is only read, the token is only sent to `chatgpt.com`, and the
+  account details included in the response are ignored.
+- The endpoint is not a documented public API and may change.
+- Sign-ins that use an OpenAI API key have no plan limits and are not
+  supported.
+
 ## Settings
 
 | Setting | Default | Description |
@@ -54,7 +71,10 @@ Good to know:
 | Show extra usage spending in the menu | On | Pay-as-you-go credits, if enabled on your plan |
 | Refresh every | 5 minutes | 1 to 60 minutes |
 | Warning / Critical level | 75% / 90% | Colors and notifications |
+| Show Claude usage | On | |
 | Claude Code credentials file | empty | Custom path to `.credentials.json` |
+| Show Codex usage | Off | |
+| Codex CLI credentials file | empty | Custom path to `auth.json` |
 
 ## Privacy
 

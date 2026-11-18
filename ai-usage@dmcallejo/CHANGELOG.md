@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+- New Codex provider: 5-hour and weekly Codex limits of a ChatGPT plan, read
+  from the Codex CLI sign-in. Off by default.
+
 ## 1.0.1
 
 - Refresh as soon as Claude Code renews its sign-in, instead of waiting for

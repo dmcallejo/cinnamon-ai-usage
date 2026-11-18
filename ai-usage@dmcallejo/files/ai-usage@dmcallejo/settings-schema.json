@@ -1,39 +1,71 @@
 {
     "layout": {
         "type": "layout",
-        "pages": ["general-page", "providers-page"],
+        "pages": [
+            "general-page",
+            "providers-page"
+        ],
         "general-page": {
             "type": "page",
             "title": "General",
-            "sections": ["panel-section", "refresh-section", "alerts-section"]
+            "sections": [
+                "panel-section",
+                "refresh-section",
+                "alerts-section"
+            ]
         },
         "providers-page": {
             "type": "page",
             "title": "Providers",
-            "sections": ["anthropic-section"]
+            "sections": [
+                "anthropic-section",
+                "codex-section"
+            ]
         },
         "panel-section": {
             "type": "section",
             "title": "Panel",
-            "keys": ["panel-display", "show-reset-in-panel", "show-extra-usage"]
+            "keys": [
+                "panel-display",
+                "show-reset-in-panel",
+                "show-extra-usage"
+            ]
         },
         "refresh-section": {
             "type": "section",
             "title": "Updates",
-            "keys": ["refresh-interval"]
+            "keys": [
+                "refresh-interval"
+            ]
         },
         "alerts-section": {
             "type": "section",
             "title": "Alerts",
-            "keys": ["warning-threshold", "critical-threshold", "notify-critical"]
+            "keys": [
+                "warning-threshold",
+                "critical-threshold",
+                "notify-critical"
+            ]
         },
         "anthropic-section": {
             "type": "section",
             "title": "Claude (Anthropic)",
-            "keys": ["anthropic-enabled", "anthropic-credentials-path", "anthropic-help"]
+            "keys": [
+                "anthropic-enabled",
+                "anthropic-credentials-path",
+                "anthropic-help"
+            ]
+        },
+        "codex-section": {
+            "type": "section",
+            "title": "Codex (OpenAI)",
+            "keys": [
+                "codex-enabled",
+                "codex-auth-path",
+                "codex-help"
+            ]
         }
     },
-
     "panel-display": {
         "type": "combobox",
         "default": "highest",
@@ -91,7 +123,6 @@
         "default": true,
         "description": "Send a notification when a limit reaches the critical level"
     },
-
     "anthropic-enabled": {
         "type": "switch",
         "default": true,
@@ -108,5 +139,23 @@
         "type": "label",
         "description": "Uses the sign-in stored by Claude Code. It is read only and never sent anywhere except api.anthropic.com.",
         "dependency": "anthropic-enabled"
+    },
+    "codex-enabled": {
+        "type": "switch",
+        "default": false,
+        "description": "Show Codex usage",
+        "tooltip": "Codex usage limits of your ChatGPT plan. ChatGPT chat message limits are not available."
+    },
+    "codex-auth-path": {
+        "type": "entry",
+        "default": "",
+        "description": "Codex CLI credentials file",
+        "tooltip": "Leave empty to use $CODEX_HOME/auth.json or ~/.codex/auth.json.",
+        "dependency": "codex-enabled"
+    },
+    "codex-help": {
+        "type": "label",
+        "description": "Uses the sign-in stored by the Codex CLI. It is read only and never sent anywhere except chatgpt.com.",
+        "dependency": "codex-enabled"
     }
 }

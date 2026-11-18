@@ -17,6 +17,7 @@ ai-usage@dmcallejo/                 What goes into the Spices pull request
     lib/http.js                     Async libsoup 2/3 wrapper
     lib/files.js                    Async JSON file reader
     providers/anthropic.js          Claude provider
+    providers/codex.js              Codex (OpenAI) provider
     settings-schema.json, stylesheet.css, icons/, po/
 tests/                              Node unit tests for the pure modules
 assets/                             Source artwork (not shipped)
@@ -35,7 +36,7 @@ to review:
 - No minified code, binaries or compiled translations (`.mo`).
 - Network access only to the enabled providers' official domains.
 
-## Adding a provider (for example OpenAI)
+## Adding a provider
 
 1. Create `files/ai-usage@dmcallejo/providers/<id>.js` exporting a class with
    this interface:
@@ -48,6 +49,7 @@ to review:
        get id() { return ExampleProvider.id; }
        get name() { return "Example"; }                // shown in the UI
        get dashboardUrl() { return "https://..."; }    // or null
+       watchPaths() { return ["/path/to/credentials"]; } // optional
        async fetch(cancellable) {
            // return {plan, limits: [{id, label, percent, resetsAt}], spend}
            // throw new ctx.ProviderError(ctx.ErrorKind.AUTH, ctx._("..."))
