@@ -43,7 +43,6 @@ const RATE_LIMIT_BACKOFF_MS = 15 * 60 * 1000;
 const STUCK_REFRESH_MS = 2 * 60 * 1000;
 // Credential files are often written in several steps; wait for them to settle.
 const WATCH_DEBOUNCE_SECONDS = 2;
-const BAR_WIDTH = 240;
 const SEVERITY_CLASSES = ["ai-usage-warning", "ai-usage-critical"];
 
 function isCancelled(error) {
@@ -621,6 +620,33 @@ class AiUsageApplet extends Applet.Applet {
         this.menu.addMenuItem(item);
     }
 
+    // Progress bar drawn at whatever width the menu gives it. The track is the
+    // widget's CSS background; the fill uses its CSS foreground color, which
+    // the severity classes change.
+    _makeBar(percent, severity) {
+        const bar = new St.DrawingArea({style_class: "ai-usage-bar", x_expand: true});
+        this._setSeverityClass(bar, severity);
+        bar.connect("repaint", (area) => {
+            const cr = area.get_context();
+            const [width, height] = area.get_surface_size();
+            const fill = Math.round((width * Math.min(100, Math.max(0, percent))) / 100);
+            if (fill > 0) {
+                const color = area.get_theme_node().get_foreground_color();
+                const radius = Math.min(height / 2, fill / 2);
+                cr.setSourceRGBA(color.red / 255, color.green / 255, color.blue / 255, color.alpha / 255);
+                cr.newSubPath();
+                cr.arc(fill - radius, radius, radius, -Math.PI / 2, 0);
+                cr.arc(fill - radius, height - radius, radius, 0, Math.PI / 2);
+                cr.arc(radius, height - radius, radius, Math.PI / 2, Math.PI);
+                cr.arc(radius, radius, radius, Math.PI, 1.5 * Math.PI);
+                cr.closePath();
+                cr.fill();
+            }
+            cr.$dispose();
+        });
+        return bar;
+    }
+
     _addLimitItem(label, percent, detail, stale = false) {
         const severity = this._severity(percent);
         const item = new PopupMenu.PopupBaseMenuItem({reactive: false});
@@ -633,15 +659,7 @@ class AiUsageApplet extends Applet.Applet {
         row.add_child(value);
         box.add_child(row);
 
-        const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        const width = BAR_WIDTH * scale;
-        const trough = new St.BoxLayout({style_class: "ai-usage-bar"});
-        trough.set_width(width);
-        const fill = new St.Widget({style_class: "ai-usage-bar-fill"});
-        fill.set_width(Math.round((width * percent) / 100));
-        this._setSeverityClass(fill, severity);
-        trough.add_child(fill);
-        box.add_child(trough);
+        box.add_child(this._makeBar(percent, severity));
 
         if (detail)
             box.add_child(new St.Label({text: detail, style_class: "ai-usage-limit-detail"}));

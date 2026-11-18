@@ -20,6 +20,8 @@
   "Highest usage" skips providers whose limit is used up, unless nothing
   else is left. Windows that have reset since are hidden,
   and stale numbers never trigger notifications.
+- Fix: progress bars were too short when the menu was wider than 240 px
+  (100% did not fill the bar). Bars now scale with the menu.
 - Fix: rate limiting (HTTP 429) was reported as a connection error and the
   15-minute back-off did not apply on libsoup 3.
 

@@ -41,24 +41,21 @@
     color: rgba(128, 128, 128, 1);
 }
 
+/* Track = background; fill = foreground color (drawn in applet.js). */
 .ai-usage-bar {
     height: 6px;
+    min-width: 240px;
     border-radius: 3px;
     background-color: rgba(128, 128, 128, 0.3);
+    color: #3a8fd9;
 }
 
-.ai-usage-bar-fill {
-    height: 6px;
-    border-radius: 3px;
-    background-color: #3a8fd9;
+.ai-usage-bar.ai-usage-warning {
+    color: #f0a30a;
 }
 
-.ai-usage-bar-fill.ai-usage-warning {
-    background-color: #f0a30a;
-}
-
-.ai-usage-bar-fill.ai-usage-critical {
-    background-color: #e5484d;
+.ai-usage-bar.ai-usage-critical {
+    color: #e5484d;
 }
 
 .ai-usage-info {
