@@ -1,0 +1,17 @@
+{
+    "_comment": "Shape reported publicly in MoonshotAI/kimi-code#3908 (legacy plan): ratios stuck at 0 while counters are live. Values anonymised.",
+    "user": {"userId": "REDACTED", "region": "REGION_OVERSEA", "membership": {"level": "LEVEL_ADVANCED"}},
+    "usage": {"limit": "100", "used": "29", "remaining": "71", "resetTime": "2026-10-02T12:58:51.471957Z"},
+    "limits": [
+        {
+            "window": {"duration": 300, "timeUnit": "TIME_UNIT_MINUTE"},
+            "detail": {"limit": "100", "used": "88", "remaining": "12", "resetTime": "2026-10-01T01:58:51.471957Z"}
+        }
+    ],
+    "usages": {
+        "limit_5h": {"used_ratio": 0, "reset_time": "2026-10-01T01:58:50Z"},
+        "limit_7d": {"used_ratio": 0, "reset_time": "2026-10-02T12:58:50Z"}
+    },
+    "parallel": {"limit": "4"},
+    "totalQuota": {"limit": "100", "remaining": "99"}
+}

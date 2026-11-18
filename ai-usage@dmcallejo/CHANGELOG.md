@@ -4,6 +4,8 @@
 
 - New Codex provider: 5-hour and weekly Codex limits of a ChatGPT plan, read
   from the Codex CLI sign-in.
+- New Kimi provider: Kimi Code membership quota (5-hour, weekly, monthly)
+  and extra usage, read from the Kimi Code sign-in.
 - Providers show automatically when their sign-in is found, including
   sign-ins made while the applet runs. Each can be set to "Always" or
   "Never" instead.

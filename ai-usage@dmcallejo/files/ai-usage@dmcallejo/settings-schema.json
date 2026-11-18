@@ -19,7 +19,8 @@
             "title": "Providers",
             "sections": [
                 "anthropic-section",
-                "codex-section"
+                "codex-section",
+                "kimi-section"
             ]
         },
         "panel-section": {
@@ -65,6 +66,16 @@
                 "codex-icon",
                 "codex-auth-path",
                 "codex-help"
+            ]
+        },
+        "kimi-section": {
+            "type": "section",
+            "title": "Kimi Code (Moonshot AI)",
+            "keys": [
+                "kimi-mode",
+                "kimi-icon",
+                "kimi-credentials-path",
+                "kimi-help"
             ]
         }
     },
@@ -184,5 +195,35 @@
         "type": "label",
         "description": "Uses the sign-in stored by the Codex CLI. It is read only and never sent anywhere except chatgpt.com.",
         "dependency": "codex-mode!=off"
+    },
+    "kimi-mode": {
+        "type": "combobox",
+        "default": "auto",
+        "description": "Show Kimi usage",
+        "options": {
+            "When signed in": "auto",
+            "Always": "on",
+            "Never": "off"
+        },
+        "tooltip": "\"When signed in\" shows Kimi only if a Kimi Code sign-in is found."
+    },
+    "kimi-icon": {
+        "type": "iconfilechooser",
+        "default": "",
+        "description": "Panel icon",
+        "tooltip": "Leave empty to use the built-in Kimi symbol. You can choose any icon or image file instead.",
+        "dependency": "kimi-mode!=off"
+    },
+    "kimi-credentials-path": {
+        "type": "entry",
+        "default": "",
+        "description": "Kimi Code credentials file",
+        "tooltip": "Leave empty to use $KIMI_CODE_HOME/credentials/kimi-code.json or ~/.kimi-code/credentials/kimi-code.json.",
+        "dependency": "kimi-mode!=off"
+    },
+    "kimi-help": {
+        "type": "label",
+        "description": "Uses the sign-in stored by Kimi Code. It is read only and never sent anywhere except api.kimi.com.",
+        "dependency": "kimi-mode!=off"
     }
 }

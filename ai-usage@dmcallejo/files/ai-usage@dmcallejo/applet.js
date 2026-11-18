@@ -23,10 +23,11 @@ const {readJSON, watchFile} = require("./lib/files");
 const {panelSegments} = require("./lib/panel");
 const {AnthropicProvider} = require("./providers/anthropic");
 const {CodexProvider} = require("./providers/codex");
+const {KimiProvider} = require("./providers/kimi");
 
 // To add a provider: implement the interface described in providers/README.md,
 // add its class here and an "<id>-mode" combobox to settings-schema.json.
-const PROVIDER_CLASSES = [AnthropicProvider, CodexProvider];
+const PROVIDER_CLASSES = [AnthropicProvider, CodexProvider, KimiProvider];
 
 const MODE_AUTO = "auto";
 const MODE_ON = "on";
@@ -446,7 +447,7 @@ class AiUsageApplet extends Applet.Applet {
     _noProviderText() {
         if (this._states.length === 0)
             return _("All providers are turned off in the applet settings.");
-        return _("No sign-in found. Sign in to Claude Code or the Codex CLI, then the applet picks it up automatically.");
+        return _("No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then the applet picks it up automatically.");
     }
 
     // ----- Menu ----------------------------------------------------------

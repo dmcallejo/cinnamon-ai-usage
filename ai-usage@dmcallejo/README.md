@@ -9,6 +9,8 @@ Currently supported:
   limits and extra usage spending.
 - **Codex** (ChatGPT Plus, Pro, Business and other plans with Codex): 5-hour
   and weekly limits.
+- **Kimi** (Kimi membership plans with Kimi Code): 5-hour window, weekly
+  quota on legacy plans, monthly quotas and extra usage when reported.
 
 Each provider appears automatically when its sign-in is found, and also when
 you sign in later while the applet is running. You can force a provider to
@@ -68,6 +70,21 @@ Codex's `/status` command does.
 - Sign-ins that use an OpenAI API key have no plan limits and are not
   supported.
 
+### Kimi
+
+You need to be signed in to Kimi Code (`/login` inside Kimi Code). The applet
+reads `~/.kimi-code/credentials/kimi-code.json` (or
+`$KIMI_CODE_HOME/credentials/kimi-code.json`) and asks `api.kimi.com` for
+your quota, the same way Kimi Code's `/usage` command does. Set
+`KIMI_CODE_BASE_URL` in the session environment to use another region's
+endpoint, as with Kimi Code itself.
+
+- The endpoint is not a documented public API. Kimi has a known bug where
+  some percentages read 0% during real use; when the response also contains
+  the raw counters, the applet uses the higher value.
+- Moonshot AI Open Platform API keys (`api.moonshot.ai`) have a balance, not
+  plan limits, and are not supported.
+
 ## Settings
 
 | Setting | Default | Description |
@@ -82,12 +99,15 @@ Codex's `/status` command does.
 | Show Codex usage | When signed in | Or Always / Never |
 | Panel icon (per provider) | built-in symbol | Any theme icon or image file |
 | Codex CLI credentials file | empty | Custom path to `auth.json` |
+| Show Kimi usage | When signed in | Or Always / Never |
+| Kimi Code credentials file | empty | Custom path to `kimi-code.json` |
 
 ## Icons
 
 The built-in provider symbols are generic drawings made for this applet. They
-are not the logos of Anthropic or OpenAI, whose trademark guidelines do not
-allow logos to be shipped or recolored without permission. If you want a
+are not the logos of Anthropic, OpenAI or Moonshot AI. Anthropic's and
+OpenAI's trademark guidelines do not allow logos to be shipped or recolored
+without permission. If you want a
 different picture in your own panel, pick it under **Panel icon**; images
 keep their own colors, symbolic icons follow the panel theme.
 

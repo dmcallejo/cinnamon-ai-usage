@@ -19,6 +19,7 @@ ai-usage@dmcallejo/                 What goes into the Spices pull request
     lib/panel.js                    Pure logic for the panel segments
     providers/anthropic.js          Claude provider
     providers/codex.js              Codex (OpenAI) provider
+    providers/kimi.js               Kimi Code (Moonshot AI) provider
     settings-schema.json, stylesheet.css, icons/, po/
 tests/                              Node unit tests for the pure modules
 assets/                             Source artwork (not shipped)
