@@ -162,6 +162,12 @@ class AnthropicProvider {
         return `${homeDir}/.claude/.credentials.json`;
     }
 
+    // Claude Code rewrites this file when it renews the sign-in; the applet
+    // refreshes as soon as that happens instead of waiting for the next tick.
+    watchPaths() {
+        return [this.credentialsPath()];
+    }
+
     async _readToken(cancellable) {
         const {_, readJSON, ErrorKind, ProviderError} = this._ctx;
         const path = this.credentialsPath();
@@ -186,7 +192,7 @@ class AnthropicProvider {
         }
         if (Number(oauth.expiresAt) > 0 && Number(oauth.expiresAt) <= Date.now()) {
             throw new ProviderError(ErrorKind.AUTH,
-                _("The Claude Code sign-in has expired. Open Claude Code to renew it."));
+                _("The Claude Code sign-in has expired. Send a message in Claude Code to renew it."));
         }
         return {token: oauth.accessToken, plan: oauth.subscriptionType || null};
     }
@@ -202,7 +208,7 @@ class AnthropicProvider {
 
         if (response.status === 401 || response.status === 403) {
             throw new ProviderError(ErrorKind.AUTH,
-                _("Claude rejected the sign-in. Open Claude Code to renew it."));
+                _("Claude rejected the sign-in. Send a message in Claude Code to renew it."));
         }
         if (response.status === 429)
             throw new ProviderError(ErrorKind.RATE_LIMITED, _("Too many requests. Retrying later."));

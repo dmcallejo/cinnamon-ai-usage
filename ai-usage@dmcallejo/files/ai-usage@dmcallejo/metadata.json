@@ -2,6 +2,6 @@
     "uuid": "ai-usage@dmcallejo",
     "name": "AI Usage Limits",
     "description": "Shows the usage limits of your AI subscriptions (Claude) in the panel, with time until they reset.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "max-instances": 1
 }

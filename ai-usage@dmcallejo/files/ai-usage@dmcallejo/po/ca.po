@@ -1,9 +1,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ai-usage@dmcallejo 1.0.0\n"
-"Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-applets/issues\n"
-"POT-Creation-Date: 2026-11-17 13:29+0100\n"
+"Project-Id-Version: ai-usage@dmcallejo 1.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 09:08+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Catalan\n"
@@ -13,65 +13,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:70
+#: applet.js:77
 msgid "AI usage limits"
 msgstr "Límits d'ús d'IA"
 
-#: applet.js:80 applet.js:353
+#: applet.js:87 applet.js:406
 msgid "Refresh now"
 msgstr "Actualitza ara"
 
-#: applet.js:171
+#: applet.js:224
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
 
-#: applet.js:241
+#: applet.js:294
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Es restableix en %s (%s)"
 
-#: applet.js:295
+#: applet.js:348
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, es restableix en %s"
 
-#: applet.js:303 applet.js:313
+#: applet.js:356 applet.js:366
 msgid "No provider is enabled. Enable one in the applet settings."
 msgstr ""
 "No hi ha cap proveïdor activat. Activa'n un a la configuració de la "
 "miniaplicació."
 
-#: applet.js:319
+#: applet.js:372
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (pla %s)"
 
-#: applet.js:330
+#: applet.js:383
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:336
+#: applet.js:389
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: applet.js:342
+#: applet.js:395
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Obre la pàgina d'ús de %s"
 
-#: applet.js:351
+#: applet.js:404
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualitzat a les %s"
 
-#: applet.js:410
+#: applet.js:463
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:411
+#: applet.js:464
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Es restableix en %s."
@@ -119,19 +119,19 @@ msgstr "Setmanal, Sonnet"
 msgid "Extra usage"
 msgstr "Ús addicional"
 
-#: providers/anthropic.js:175
+#: providers/anthropic.js:181
 #, javascript-format
 msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
 msgstr ""
 "No s'ha trobat cap sessió de Claude Code a %s. Inicia sessió primer amb "
 "Claude Code."
 
-#: providers/anthropic.js:178
+#: providers/anthropic.js:184
 #, javascript-format
 msgid "Could not parse %s."
 msgstr "No s'ha pogut llegir %s."
 
-#: providers/anthropic.js:185
+#: providers/anthropic.js:191
 #, javascript-format
 msgid ""
 "No Claude subscription sign-in found in %s. API keys do not have plan "
@@ -140,24 +140,31 @@ msgstr ""
 "No hi ha cap sessió de subscripció de Claude a %s. Les claus d'API no tenen "
 "límits de pla."
 
-#: providers/anthropic.js:189
-msgid "The Claude Code sign-in has expired. Open Claude Code to renew it."
-msgstr "La sessió de Claude Code ha caducat. Obre Claude Code per renovar-la."
+#: providers/anthropic.js:195
+msgid ""
+"The Claude Code sign-in has expired. Send a message in Claude Code to renew "
+"it."
+msgstr ""
+"La sessió de Claude Code ha caducat. Envia un missatge a Claude Code per "
+"renovar-la."
 
-#: providers/anthropic.js:205
-msgid "Claude rejected the sign-in. Open Claude Code to renew it."
-msgstr "Claude ha rebutjat la sessió. Obre Claude Code per renovar-la."
+#: providers/anthropic.js:211
+msgid ""
+"Claude rejected the sign-in. Send a message in Claude Code to renew it."
+msgstr ""
+"Claude ha rebutjat la sessió. Envia un missatge a Claude Code per renovar-"
+"la."
 
-#: providers/anthropic.js:208
+#: providers/anthropic.js:214
 msgid "Too many requests. Retrying later."
 msgstr "Massa peticions. Es tornarà a provar més tard."
 
-#: providers/anthropic.js:210
+#: providers/anthropic.js:216
 #, javascript-format
 msgid "Unexpected response from Claude (HTTP %d)."
 msgstr "Resposta inesperada de Claude (HTTP %d)."
 
-#: providers/anthropic.js:214
+#: providers/anthropic.js:220
 msgid "Claude returned no usage data."
 msgstr "Claude no ha retornat dades d'ús."
 

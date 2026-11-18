@@ -37,8 +37,9 @@ Good to know:
 - The credentials file is only read. The applet never refreshes or rewrites
   your sign-in, and the token is only sent to `api.anthropic.com`.
 - Claude Code renews its sign-in while you use it. If you have not used
-  Claude Code for a while the applet shows "sign-in has expired"; opening
-  Claude Code fixes it.
+  Claude Code for a while the applet shows "sign-in has expired". Sending
+  any message in Claude Code renews it, and the applet notices the new
+  sign-in within a couple of seconds.
 - The usage endpoint is the one Claude Code uses, not a documented public API.
   If Anthropic changes it, the applet shows an error until it is updated.
 - Anthropic API keys have rate limits, not plan limits, so they are not

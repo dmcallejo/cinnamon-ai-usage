@@ -96,6 +96,11 @@ test("credentials path honours setting and CLAUDE_CONFIG_DIR", () => {
     assert.equal(makeProvider({env: {CLAUDE_CONFIG_DIR: "/cfg"}}).provider.credentialsPath(), "/cfg/.credentials.json");
 });
 
+test("watches the credentials file so renewals are picked up at once", () => {
+    assert.deepEqual(makeProvider().provider.watchPaths(), [`${HOME}/.claude/.credentials.json`]);
+    assert.deepEqual(makeProvider({settings: {"credentials-path": "/x/c.json"}}).provider.watchPaths(), ["/x/c.json"]);
+});
+
 test("missing credentials file is a config error", async () => {
     const readError = Object.assign(new Error("nope"), {code: "ENOENT"});
     const {provider, calls} = makeProvider({readError});

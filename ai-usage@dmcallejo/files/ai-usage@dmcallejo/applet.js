@@ -18,7 +18,7 @@ function _(text) {
 const util = require("./lib/util");
 const {ErrorKind, ProviderError} = require("./lib/errors");
 const {HttpClient} = require("./lib/http");
-const {readJSON} = require("./lib/files");
+const {readJSON, watchFile} = require("./lib/files");
 const {AnthropicProvider} = require("./providers/anthropic");
 
 // To add a provider: implement the interface described in providers/README.md,
@@ -30,6 +30,8 @@ const MIN_REFRESH_MINUTES = 1;
 const RATE_LIMIT_BACKOFF_MS = 15 * 60 * 1000;
 // Requests time out after 20 s; anything still pending after this is stuck.
 const STUCK_REFRESH_MS = 2 * 60 * 1000;
+// Credential files are often written in several steps; wait for them to settle.
+const WATCH_DEBOUNCE_SECONDS = 2;
 const BAR_WIDTH = 240;
 const SEVERITY_CLASSES = ["ai-usage-warning", "ai-usage-critical"];
 
@@ -46,6 +48,8 @@ class AiUsageApplet extends Applet.TextIconApplet {
         this._labelTimerId = 0;
         this._cancellable = null;
         this._refreshStartedAt = 0;
+        this._monitors = [];
+        this._watchDebounceId = 0;
         this._destroyed = false;
         this._lastUpdated = null;
         this._notified = new Set();
@@ -115,6 +119,45 @@ class AiUsageApplet extends Applet.TextIconApplet {
                     backoffUntil: 0,
                 };
             });
+        this._watchProviderFiles();
+    }
+
+    // ----- Credential file watching ---------------------------------------
+
+    _watchProviderFiles() {
+        this._stopWatching();
+        for (const {provider} of this._states) {
+            const paths = typeof provider.watchPaths === "function" ? provider.watchPaths() : [];
+            for (const path of paths) {
+                try {
+                    this._monitors.push(watchFile(path, () => this._onWatchedFileChanged()));
+                } catch (e) {
+                    global.logWarning(`[${UUID}] Cannot watch ${path}: ${e.message}`);
+                }
+            }
+        }
+    }
+
+    _stopWatching() {
+        for (const monitor of this._monitors)
+            monitor.cancel();
+        this._monitors = [];
+        if (this._watchDebounceId) {
+            GLib.source_remove(this._watchDebounceId);
+            this._watchDebounceId = 0;
+        }
+    }
+
+    _onWatchedFileChanged() {
+        if (this._watchDebounceId)
+            GLib.source_remove(this._watchDebounceId);
+        this._watchDebounceId = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, WATCH_DEBOUNCE_SECONDS, () => {
+            this._watchDebounceId = 0;
+            // A request already running may be using the old credentials.
+            this._cancelRequests();
+            this._refresh();
+            return GLib.SOURCE_REMOVE;
+        });
     }
 
     _onProvidersChanged() {
@@ -445,6 +488,7 @@ class AiUsageApplet extends Applet.TextIconApplet {
             GLib.source_remove(this._labelTimerId);
             this._labelTimerId = 0;
         }
+        this._stopWatching();
         this._cancelRequests();
         this._http.destroy();
         this.settings.finalize();

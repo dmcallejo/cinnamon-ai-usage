@@ -37,4 +37,24 @@ function readJSON(path, cancellable) {
     });
 }
 
-module.exports = {readJSON};
+// Calls `callback` when the file at `path` is created, changed or replaced
+// (tools often save by writing a temporary file and renaming it over the
+// original). Returns the Gio.FileMonitor; call `cancel()` on it to stop.
+function watchFile(path, callback) {
+    const monitor = Gio.File.new_for_path(path).monitor_file(Gio.FileMonitorFlags.WATCH_MOVES, null);
+    monitor.connect("changed", (m, file, otherFile, eventType) => {
+        switch (eventType) {
+        case Gio.FileMonitorEvent.CHANGES_DONE_HINT:
+        case Gio.FileMonitorEvent.CREATED:
+        case Gio.FileMonitorEvent.RENAMED:
+        case Gio.FileMonitorEvent.MOVED_IN:
+            callback();
+            break;
+        default:
+            break;
+        }
+    });
+    return monitor;
+}
+
+module.exports = {readJSON, watchFile};
