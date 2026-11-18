@@ -288,6 +288,18 @@ class AiUsageApplet extends Applet.Applet {
         return this._visibleStates().find((state) => state.provider.id === this.panelProvider) || null;
     }
 
+    // Providers the panel shows. A pinned provider is always shown (dimmed if
+    // stale). Otherwise only providers with up-to-date data are shown, and
+    // stale ones only when nothing is up to date (for example, offline).
+    _panelStates() {
+        const pinned = this._pinnedState();
+        if (pinned)
+            return [pinned];
+        const withData = this._visibleStates().filter((state) => this._displayLimits(state).length > 0);
+        const fresh = withData.filter((state) => !this._isStale(state));
+        return fresh.length > 0 ? fresh : withData;
+    }
+
     _isStale(state) {
         return Boolean(state.data && state.error);
     }
@@ -425,8 +437,7 @@ class AiUsageApplet extends Applet.Applet {
         const visible = this._visibleStates();
         const hasError = visible.some((state) => state.error);
         const byId = new Map(visible.map((state) => [state.provider.id, state]));
-        const providers = visible
-            .filter((state) => this._pinnedState() === null || state === this._pinnedState())
+        const providers = this._panelStates()
             .map((state) => ({id: state.provider.id, limits: this._displayLimits(state)}))
             .filter((provider) => provider.limits.length > 0);
         const segments = panelSegments(providers, this.panelDisplay, {

@@ -27,7 +27,8 @@ so more services can be added later.
 - Optional countdown to the next reset in the panel.
 - Popup menu with a progress bar, percentage and reset time for every limit.
 - "Panel shows" in the menu to pin one provider to the panel, or go back to
-  automatic.
+  automatic. Automatic skips providers whose sign-in has expired, unless
+  none is up to date.
 - Warning and critical colors with configurable thresholds.
 - Desktop notification when a limit reaches the critical level.
 - Middle click, or "Refresh now" in the menu, to update immediately.
@@ -81,9 +82,10 @@ quota, the same way Kimi Code's `/usage` command does. The token is only
 sent to `api.kimi.com` or `api.kimi.ai`.
 
 - Kimi Code's sign-in lasts about 15 minutes and is renewed while Kimi Code
-  runs. When Kimi Code has not run for a while the applet keeps showing the
-  last known numbers, dimmed and with the time they were last updated, and
-  updates again as soon as Kimi Code renews the sign-in.
+  runs. When Kimi Code has not run for a while the menu keeps the last known
+  numbers, dimmed and with the time they were last updated, and the panel
+  leaves Kimi out. Both update again as soon as Kimi Code renews the
+  sign-in.
 
 - The endpoint is not a documented public API. Kimi has a known bug where
   some percentages read 0% during real use; when the response also contains
