@@ -54,6 +54,12 @@ test("parseUsage reads the 5-hour and weekly windows", () => {
     assert.equal(usage.limits[0].resetsAt.getTime(), 1795008218 * 1000);
 });
 
+test("parseUsage reports when the server blocks requests", () => {
+    assert.equal(parseUsage(fixture, _, util).blocked, false);
+    const reached = {rate_limit: Object.assign({}, fixture.rate_limit, {allowed: false, limit_reached: true})};
+    assert.equal(parseUsage(reached, _, util).blocked, true);
+});
+
 test("parseUsage never exposes account identity", () => {
     const text = JSON.stringify(parseUsage(fixture, _, util));
     assert.doesNotMatch(text, /someone@example\.com|user-REDACTED|00000000-0000/);
@@ -83,7 +89,7 @@ test("parseUsage includes code review and additional limits", () => {
 });
 
 test("parseUsage tolerates bad bodies", () => {
-    assert.deepEqual(parseUsage(null, _, util), {plan: null, limits: []});
+    assert.deepEqual(parseUsage(null, _, util), {plan: null, limits: [], blocked: false});
     assert.deepEqual(parseUsage({rate_limit: {primary_window: {used_percent: null}}}, _, util).limits, []);
 });
 

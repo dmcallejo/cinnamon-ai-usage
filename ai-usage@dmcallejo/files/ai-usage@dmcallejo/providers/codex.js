@@ -66,7 +66,7 @@ function parseRateLimit(rateLimit, idPrefix, labelPrefix, now, _, util) {
 
 function parseUsage(body, _, util, now = Date.now()) {
     if (!body || typeof body !== "object")
-        return {plan: null, limits: []};
+        return {plan: null, limits: [], blocked: false};
 
     const limits = parseRateLimit(body.rate_limit, "codex", null, now, _, util);
     limits.push(...parseRateLimit(body.code_review_rate_limit, "code-review", _("Code review"), now, _, util));
@@ -83,7 +83,9 @@ function parseUsage(body, _, util, now = Date.now()) {
     }
 
     const plan = typeof body.plan_type === "string" && body.plan_type ? body.plan_type : null;
-    return {plan, limits};
+    const rateLimit = body.rate_limit && typeof body.rate_limit === "object" ? body.rate_limit : {};
+    const blocked = rateLimit.limit_reached === true || rateLimit.allowed === false;
+    return {plan, limits, blocked};
 }
 
 class CodexProvider {
@@ -187,6 +189,7 @@ class CodexProvider {
             plan: usage.plan ? util.capitalize(usage.plan) : null,
             limits: usage.limits,
             spend: null,
+            blocked: usage.blocked,
         };
     }
 }

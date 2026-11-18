@@ -58,7 +58,9 @@ to review:
        get iconFile() { return "provider-example-symbolic.svg"; } // in icons/
        watchPaths() { return ["/path/to/credentials"]; } // optional
        async fetch(cancellable) {
-           // return {plan, limits: [{id, label, percent, resetsAt}], spend}
+           // return {plan, limits: [{id, label, percent, resetsAt}], spend,
+           //         blocked} (blocked: optional, true when the service
+           //         refuses requests even if no limit shows 100%)
            // throw new ctx.ProviderError(ctx.ErrorKind.AUTH, ctx._("..."))
        }
    }

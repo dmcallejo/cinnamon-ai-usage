@@ -14,8 +14,9 @@
   image file.
 - "Panel shows" selector in the menu to pin one provider to the panel.
 - When a sign-in expires, the last known numbers stay in the menu, dimmed,
-  with the time they were last updated. In automatic mode the panel leaves
-  that provider out, unless no provider is up to date. Windows that have reset since are hidden,
+  with the time they were last updated.
+- In automatic mode the panel leaves out providers whose limit is used up
+  or whose data is stale, unless nothing else is left. Windows that have reset since are hidden,
   and stale numbers never trigger notifications.
 - Fix: rate limiting (HTTP 429) was reported as a connection error and the
   15-minute back-off did not apply on libsoup 3.
