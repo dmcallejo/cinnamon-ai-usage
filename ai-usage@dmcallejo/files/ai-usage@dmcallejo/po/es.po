@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:12+0100\n"
+"POT-Creation-Date: 2026-11-18 11:26+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Spanish\n"
@@ -13,35 +13,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:93
+#: applet.js:94
 msgid "AI usage limits"
 msgstr "Límites de uso de IA"
 
-#: applet.js:103 applet.js:500
+#: applet.js:104 applet.js:527
 msgid "Refresh now"
 msgstr "Actualizar ahora"
 
-#: applet.js:261
+#: applet.js:264
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No se pudo contactar con %s. Revisa tu conexión."
 
-#: applet.js:309
+#: applet.js:332
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Se restablece en %s (%s)"
 
-#: applet.js:436
+#: applet.js:460
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, se restablece en %s"
 
-#: applet.js:450
+#: applet.js:467 applet.js:514
+#, javascript-format
+msgid "Last updated at %s."
+msgstr "Última actualización a las %s."
+
+#: applet.js:476
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 "Todos los proveedores están desactivados en la configuración del applet."
 
-#: applet.js:451
+#: applet.js:477
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
@@ -49,36 +54,36 @@ msgstr ""
 "No se encontró ninguna sesión. Inicia sesión en Claude Code, en la CLI de "
 "Codex o en Kimi Code y el applet la detectará automáticamente."
 
-#: applet.js:466
+#: applet.js:492
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (plan %s)"
 
-#: applet.js:477
+#: applet.js:503
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:483
+#: applet.js:509
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: applet.js:489
+#: applet.js:517
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Abrir la página de uso de %s"
 
-#: applet.js:498
+#: applet.js:525
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualizado a las %s"
 
-#: applet.js:557
+#: applet.js:586
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:558
+#: applet.js:587
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Se restablece en %s."
@@ -518,4 +523,3 @@ msgid ""
 msgstr ""
 "Usa la sesión guardada por Kimi Code. Solo se lee y nunca se envía a ningún "
 "sitio salvo a api.kimi.com o api.kimi.ai."
-

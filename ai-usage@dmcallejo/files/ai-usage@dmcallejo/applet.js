@@ -34,6 +34,7 @@ const MODE_ON = "on";
 const MODE_OFF = "off";
 
 const LABEL_TICK_SECONDS = 60;
+const STALE_OPACITY = 140;
 const MIN_REFRESH_MINUTES = 1;
 const RATE_LIMIT_BACKOFF_MS = 15 * 60 * 1000;
 // Requests time out after 20 s; anything still pending after this is stuck.
@@ -238,6 +239,7 @@ class AiUsageApplet extends Applet.Applet {
             return;
         try {
             state.data = await state.provider.fetch(cancellable);
+            state.updatedAt = new Date();
             state.error = null;
             state.signedIn = true;
         } catch (e) {
@@ -253,14 +255,35 @@ class AiUsageApplet extends Applet.Applet {
                 state.error = e.message;
                 if (e.kind === ErrorKind.RATE_LIMITED)
                     state.backoffUntil = Date.now() + RATE_LIMIT_BACKOFF_MS;
-                // Stale numbers would be misleading after a sign-in problem.
-                if (e.kind === ErrorKind.AUTH || e.kind === ErrorKind.CONFIG)
+                // Unusable credentials: the old numbers may belong to another
+                // account. An expired sign-in keeps them, shown as stale.
+                if (e.kind === ErrorKind.CONFIG)
                     state.data = null;
             } else {
                 global.logWarning(`[${UUID}] ${state.provider.name}: ${e.message}`);
                 state.error = _("Could not reach %s. Check your connection.").format(state.provider.name);
             }
         }
+    }
+
+    // Limits to display for a provider. Data that failed to refresh is kept
+    // (and shown as stale), except windows that have reset since: their old
+    // percentage is known to be wrong.
+    _displayLimits(state) {
+        if (!state.data)
+            return [];
+        if (!state.error)
+            return state.data.limits;
+        const now = Date.now();
+        return state.data.limits.filter((limit) => !limit.resetsAt || limit.resetsAt.getTime() > now);
+    }
+
+    _isStale(state) {
+        return Boolean(state.data && state.error);
+    }
+
+    _timeText(date) {
+        return GLib.DateTime.new_from_unix_local(Math.floor(date.getTime() / 1000)).format("%H:%M");
     }
 
     _startRefreshTimer() {
@@ -385,6 +408,7 @@ class AiUsageApplet extends Applet.Applet {
             segment.add_child(label);
         }
         this._panelBox.add_child(segment);
+        return segment;
     }
 
     _renderPanel() {
@@ -392,8 +416,8 @@ class AiUsageApplet extends Applet.Applet {
         const hasError = visible.some((state) => state.error);
         const byId = new Map(visible.map((state) => [state.provider.id, state]));
         const providers = visible
-            .filter((state) => state.data)
-            .map((state) => ({id: state.provider.id, limits: state.data.limits}));
+            .map((state) => ({id: state.provider.id, limits: this._displayLimits(state)}))
+            .filter((provider) => provider.limits.length > 0);
         const segments = panelSegments(providers, this.panelDisplay, {
             showReset: this.showResetInPanel,
             compact: this._isVertical(),
@@ -413,13 +437,13 @@ class AiUsageApplet extends Applet.Applet {
             this._addPanelSegment(this._makeIcon("", "ai-usage-symbolic.svg", util.SEVERITY_NORMAL), text, util.SEVERITY_NORMAL);
         }
         for (const segment of segments) {
-            const {provider} = byId.get(segment.providerId);
-            const custom = this[`_setting_${provider.id}_icon`];
-            this._addPanelSegment(this._makeIcon(custom, provider.iconFile, segment.severity), segment.text, segment.severity);
+            const state = byId.get(segment.providerId);
+            const custom = this[`_setting_${state.provider.id}_icon`];
+            const actor = this._addPanelSegment(
+                this._makeIcon(custom, state.provider.iconFile, segment.severity), segment.text, segment.severity);
+            // Dim numbers that failed to refresh.
+            actor.opacity = this._isStale(state) ? STALE_OPACITY : 255;
         }
-
-        // Dim the applet while showing data that failed to refresh.
-        this.actor.opacity = hasError && segments.length > 0 ? 160 : 255;
     }
 
     _renderTooltip() {
@@ -429,7 +453,7 @@ class AiUsageApplet extends Applet.Applet {
             const plan = data && data.plan ? ` (${data.plan})` : "";
             lines.push(`${provider.name}${plan}`);
             if (data) {
-                for (const limit of data.limits) {
+                for (const limit of this._displayLimits(state)) {
                     const reset = this._resetText(limit);
                     const value = util.formatPercent(limit.percent);
                     lines.push(reset
@@ -439,6 +463,8 @@ class AiUsageApplet extends Applet.Applet {
             }
             if (error)
                 lines.push(error);
+            if (this._isStale(state) && state.updatedAt)
+                lines.push(_("Last updated at %s.").format(this._timeText(state.updatedAt)));
         }
         if (lines.length === 0)
             lines.push(this._noProviderText());
@@ -470,20 +496,22 @@ class AiUsageApplet extends Applet.Applet {
             this.menu.addMenuItem(header);
 
             if (data) {
-                for (const limit of data.limits)
-                    this._addLimitItem(limit.label, limit.percent, this._resetDetail(limit));
+                for (const limit of this._displayLimits(state))
+                    this._addLimitItem(limit.label, limit.percent, this._resetDetail(limit), this._isStale(state));
                 if (data.spend && this.showExtraUsage) {
                     const spend = data.spend;
                     const detail = _("%s of %s").format(
                         util.formatMoney(spend.used, spend.currency),
                         util.formatMoney(spend.limit, spend.currency));
-                    this._addLimitItem(spend.label, spend.percent, detail);
+                    this._addLimitItem(spend.label, spend.percent, detail, this._isStale(state));
                 }
             } else if (!error) {
                 this._addInfoItem(_("Loading..."));
             }
             if (error)
                 this._addInfoItem(error, "ai-usage-error");
+            if (this._isStale(state) && state.updatedAt)
+                this._addInfoItem(_("Last updated at %s.").format(this._timeText(state.updatedAt)), "ai-usage-dim");
 
             if (provider.dashboardUrl) {
                 this.menu.addAction(_("Open %s usage page").format(provider.name), () => {
@@ -494,8 +522,7 @@ class AiUsageApplet extends Applet.Applet {
         }
 
         if (this._lastUpdated) {
-            const time = GLib.DateTime.new_from_unix_local(Math.floor(this._lastUpdated.getTime() / 1000));
-            this._addInfoItem(_("Updated at %s").format(time.format("%H:%M")), "ai-usage-dim");
+            this._addInfoItem(_("Updated at %s").format(this._timeText(this._lastUpdated)), "ai-usage-dim");
         }
         this.menu.addAction(_("Refresh now"), () => this._refresh());
     }
@@ -509,7 +536,7 @@ class AiUsageApplet extends Applet.Applet {
         this.menu.addMenuItem(item);
     }
 
-    _addLimitItem(label, percent, detail) {
+    _addLimitItem(label, percent, detail, stale = false) {
         const severity = this._severity(percent);
         const item = new PopupMenu.PopupBaseMenuItem({reactive: false});
         const box = new St.BoxLayout({vertical: true, style_class: "ai-usage-limit", x_expand: true});
@@ -534,6 +561,8 @@ class AiUsageApplet extends Applet.Applet {
         if (detail)
             box.add_child(new St.Label({text: detail, style_class: "ai-usage-limit-detail"}));
 
+        if (stale)
+            box.opacity = STALE_OPACITY;
         item.addActor(box, {expand: true});
         this.menu.addMenuItem(item);
     }
@@ -542,15 +571,15 @@ class AiUsageApplet extends Applet.Applet {
 
     _notifyCriticalLimits() {
         const current = new Set();
-        for (const {provider, data} of this._visibleStates()) {
-            if (!data)
-                continue;
-            for (const limit of data.limits) {
+        for (const state of this._visibleStates()) {
+            const {provider} = state;
+            for (const limit of this._displayLimits(state)) {
                 if (this._severity(limit.percent) !== util.SEVERITY_CRITICAL)
                     continue;
                 const key = `${provider.id}:${limit.id}`;
                 current.add(key);
-                if (!this.notifyCritical || this._notified.has(key))
+                // Never notify from stale numbers.
+                if (!this.notifyCritical || this._notified.has(key) || this._isStale(state))
                     continue;
                 const reset = this._resetText(limit);
                 Main.notify(

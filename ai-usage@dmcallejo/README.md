@@ -79,8 +79,9 @@ quota, the same way Kimi Code's `/usage` command does. The token is only
 sent to `api.kimi.com` or `api.kimi.ai`.
 
 - Kimi Code's sign-in lasts about 15 minutes and is renewed while Kimi Code
-  runs. When Kimi Code has not run for a while the applet shows that the
-  sign-in has expired; it recovers as soon as Kimi Code renews it.
+  runs. When Kimi Code has not run for a while the applet keeps showing the
+  last known numbers, dimmed and with the time they were last updated, and
+  updates again as soon as Kimi Code renews the sign-in.
 
 - The endpoint is not a documented public API. Kimi has a known bug where
   some percentages read 0% during real use; when the response also contains

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:12+0100\n"
+"POT-Creation-Date: 2026-11-18 11:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,69 +17,74 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: applet.js:93
+#: applet.js:94
 msgid "AI usage limits"
 msgstr ""
 
-#: applet.js:103 applet.js:500
+#: applet.js:104 applet.js:527
 msgid "Refresh now"
 msgstr ""
 
-#: applet.js:261
+#: applet.js:264
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr ""
 
-#: applet.js:309
+#: applet.js:332
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr ""
 
-#: applet.js:436
+#: applet.js:460
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr ""
 
-#: applet.js:450
+#: applet.js:467 applet.js:514
+#, javascript-format
+msgid "Last updated at %s."
+msgstr ""
+
+#: applet.js:476
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 
-#: applet.js:451
+#: applet.js:477
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
 msgstr ""
 
-#: applet.js:466
+#: applet.js:492
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr ""
 
-#: applet.js:477
+#: applet.js:503
 #, javascript-format
 msgid "%s of %s"
 msgstr ""
 
-#: applet.js:483
+#: applet.js:509
 msgid "Loading..."
 msgstr ""
 
-#: applet.js:489
+#: applet.js:517
 #, javascript-format
 msgid "Open %s usage page"
 msgstr ""
 
-#: applet.js:498
+#: applet.js:525
 #, javascript-format
 msgid "Updated at %s"
 msgstr ""
 
-#: applet.js:557
+#: applet.js:586
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr ""
 
-#: applet.js:558
+#: applet.js:587
 #, javascript-format
 msgid "Resets in %s."
 msgstr ""

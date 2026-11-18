@@ -12,6 +12,9 @@
 - The panel shows a symbol per provider next to its percentages, in every
   display mode. Each provider's icon can be replaced with any theme icon or
   image file.
+- When a sign-in expires, the last known numbers stay visible, dimmed, with
+  the time they were last updated. Windows that have reset since are hidden,
+  and stale numbers never trigger notifications.
 - Fix: rate limiting (HTTP 429) was reported as a connection error and the
   15-minute back-off did not apply on libsoup 3.
 
