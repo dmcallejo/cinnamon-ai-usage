@@ -26,6 +26,8 @@ so more services can be added later.
   limit, or just the icons.
 - Optional countdown to the next reset in the panel.
 - Popup menu with a progress bar, percentage and reset time for every limit.
+- "Panel shows" in the menu to pin one provider to the panel, or go back to
+  automatic.
 - Warning and critical colors with configurable thresholds.
 - Desktop notification when a limit reaches the critical level.
 - Middle click, or "Refresh now" in the menu, to update immediately.

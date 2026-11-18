@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 11:26+0100\n"
+"POT-Creation-Date: 2026-11-18 11:32+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Catalan\n"
@@ -13,40 +13,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:94
+#: applet.js:96
 msgid "AI usage limits"
 msgstr "Límits d'ús d'IA"
 
-#: applet.js:104 applet.js:527
+#: applet.js:106 applet.js:541
 msgid "Refresh now"
 msgstr "Actualitza ara"
 
-#: applet.js:264
+#: applet.js:266
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
 
-#: applet.js:332
+#: applet.js:342
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Es restableix en %s (%s)"
 
-#: applet.js:460
+#: applet.js:471
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, es restableix en %s"
 
-#: applet.js:467 applet.js:514
+#: applet.js:478 applet.js:525
 #, javascript-format
 msgid "Last updated at %s."
 msgstr "Última actualització a les %s."
 
-#: applet.js:476
+#: applet.js:487
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 "Tots els proveïdors estan desactivats a la configuració de la miniaplicació."
 
-#: applet.js:477
+#: applet.js:488
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
@@ -54,36 +54,45 @@ msgstr ""
 "No s'ha trobat cap sessió. Inicia sessió a Claude Code, a la CLI de Codex o "
 "a Kimi Code i la miniaplicació la detectarà automàticament."
 
-#: applet.js:492
+#: applet.js:503
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (pla %s)"
 
-#: applet.js:503
+#: applet.js:514
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:509
+#: applet.js:520
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: applet.js:517
+#: applet.js:528
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Obre la pàgina d'ús de %s"
 
-#: applet.js:525
+#: applet.js:539
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualitzat a les %s"
 
-#: applet.js:586
+#: applet.js:547 applet.js:549
+msgid "Automatic"
+msgstr "Automàtic"
+
+#: applet.js:548
+#, javascript-format
+msgid "Panel shows: %s"
+msgstr "El quadre mostra: %s"
+
+#: applet.js:619
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:587
+#: applet.js:620
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Es restableix en %s."

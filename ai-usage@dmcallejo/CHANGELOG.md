@@ -12,6 +12,7 @@
 - The panel shows a symbol per provider next to its percentages, in every
   display mode. Each provider's icon can be replaced with any theme icon or
   image file.
+- "Panel shows" selector in the menu to pin one provider to the panel.
 - When a sign-in expires, the last known numbers stay visible, dimmed, with
   the time they were last updated. Windows that have reset since are hidden,
   and stale numbers never trigger notifications.

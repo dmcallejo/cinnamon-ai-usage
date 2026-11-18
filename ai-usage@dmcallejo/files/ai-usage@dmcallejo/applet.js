@@ -70,6 +70,8 @@ class AiUsageApplet extends Applet.Applet {
         this.settings.bind("panel-display", "panelDisplay", () => this._render());
         this.settings.bind("show-reset-in-panel", "showResetInPanel", () => this._render());
         this.settings.bind("show-extra-usage", "showExtraUsage", () => this._render());
+        // Provider id pinned to the panel from the menu; "" means automatic.
+        this.settings.bind("panel-provider", "panelProvider", () => this._render());
         this.settings.bind("warning-threshold", "warningThreshold", () => this._render());
         this.settings.bind("critical-threshold", "criticalThreshold", () => this._render());
         this.settings.bind("notify-critical", "notifyCritical");
@@ -278,6 +280,14 @@ class AiUsageApplet extends Applet.Applet {
         return state.data.limits.filter((limit) => !limit.resetsAt || limit.resetsAt.getTime() > now);
     }
 
+    // The provider pinned to the panel, if it is currently shown at all.
+    // A pinned provider that is signed out or turned off falls back to automatic.
+    _pinnedState() {
+        if (!this.panelProvider)
+            return null;
+        return this._visibleStates().find((state) => state.provider.id === this.panelProvider) || null;
+    }
+
     _isStale(state) {
         return Boolean(state.data && state.error);
     }
@@ -416,6 +426,7 @@ class AiUsageApplet extends Applet.Applet {
         const hasError = visible.some((state) => state.error);
         const byId = new Map(visible.map((state) => [state.provider.id, state]));
         const providers = visible
+            .filter((state) => this._pinnedState() === null || state === this._pinnedState())
             .map((state) => ({id: state.provider.id, limits: this._displayLimits(state)}))
             .filter((provider) => provider.limits.length > 0);
         const segments = panelSegments(providers, this.panelDisplay, {
@@ -521,10 +532,32 @@ class AiUsageApplet extends Applet.Applet {
             this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         }
 
+        if (visible.length > 1)
+            this._addPanelProviderSelector(visible);
+
         if (this._lastUpdated) {
             this._addInfoItem(_("Updated at %s").format(this._timeText(this._lastUpdated)), "ai-usage-dim");
         }
         this.menu.addAction(_("Refresh now"), () => this._refresh());
+    }
+
+    // Quick choice of which provider the panel shows.
+    _addPanelProviderSelector(visible) {
+        const pinned = this._pinnedState();
+        const current = pinned ? pinned.provider.name : _("Automatic");
+        const submenu = new PopupMenu.PopupSubMenuMenuItem(_("Panel shows: %s").format(current));
+        const choices = [{id: "", label: _("Automatic")}]
+            .concat(visible.map((state) => ({id: state.provider.id, label: state.provider.name})));
+        for (const choice of choices) {
+            const item = new PopupMenu.PopupMenuItem(choice.label);
+            item.setOrnament(PopupMenu.OrnamentType.DOT, (pinned ? pinned.provider.id : "") === choice.id);
+            item.connect("activate", () => {
+                this.panelProvider = choice.id;
+                this._render();
+            });
+            submenu.menu.addMenuItem(item);
+        }
+        this.menu.addMenuItem(submenu);
     }
 
     _addInfoItem(text, styleClass) {

@@ -104,6 +104,10 @@
         "description": "Show extra usage spending in the menu",
         "tooltip": "Pay-as-you-go credits used after the plan limits are reached, when your plan has them enabled."
     },
+    "panel-provider": {
+        "type": "generic",
+        "default": ""
+    },
     "refresh-interval": {
         "type": "spinbutton",
         "default": 5,
