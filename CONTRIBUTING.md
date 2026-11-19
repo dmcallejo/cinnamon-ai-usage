@@ -81,7 +81,7 @@ to review:
 
    `percent` is 0 to 100, `resetsAt` a `Date` or `null`, `spend` either
    `null` or `{label, used, limit, currency, percent}`. Put the limit that
-   matters most first: the "Main limit of each provider" panel mode uses it.
+   matters most first: the "Main limit" panel text uses it.
 
 2. Register the class in `PROVIDER_CLASSES` in `applet.js`.
 3. Draw a 16x16 symbolic SVG in `icons/` (single color `#bebebe`). Do not

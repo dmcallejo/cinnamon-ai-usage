@@ -22,16 +22,21 @@ so more services can be added later.
 - A symbol per provider in the panel, so you can tell which one each
   percentage belongs to. Choose your own icon or image per provider if you
   prefer.
-- Panel text with the highest usage, the main limit of each provider, every
-  limit, or just the icons.
+- Panel text per provider: its highest limit, its main limit, every limit,
+  or just the icon.
 - Optional countdown to the next reset in the panel.
 - Popup menu with a progress bar, percentage and reset time for every limit.
-- "Panel shows" in the menu: "Most recent activity" (default), which
-  follows the provider whose usage went up last, also across restarts;
-  automatic; or one specific provider. Automatic leaves out providers whose sign-in has expired, and
-  "Highest usage" also skips providers whose limit is used up, so it shows
-  what you can still use. They stay in the menu, and return to the panel
-  when nothing else is left.
+- "Panel shows" in the menu chooses which providers appear in the panel:
+  - **Automatic** (default): the provider whose usage went up most
+    recently, remembered across restarts. Until there is activity, the one
+    with the highest usage.
+  - **Highest usage**: the provider with the highest limit.
+  - **All providers**: every provider.
+  - **A specific provider**.
+
+  Automatic and Highest usage skip providers whose limit is used up or whose
+  sign-in has expired, so the panel shows what you can still use. They stay
+  in the menu.
 - Warning and critical colors with configurable thresholds.
 - Desktop notification when a limit reaches the critical level.
 - Middle click, or "Refresh now" in the menu, to update immediately.
@@ -100,7 +105,7 @@ sent to `api.kimi.com` or `api.kimi.ai`.
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| Panel text | Highest usage | Which percentages appear next to the icon |
+| Panel text | Highest limit | Which limits appear next to each provider icon |
 | Show time until reset in the panel | On | Only when a single limit is shown |
 | Show extra usage spending in the menu | On | Pay-as-you-go credits, if enabled on your plan |
 | Refresh every | 5 minutes | 1 to 60 minutes |

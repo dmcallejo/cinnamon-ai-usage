@@ -12,15 +12,18 @@
 - The panel shows a symbol per provider next to its percentages, in every
   display mode. Each provider's icon can be replaced with any theme icon or
   image file.
-- "Panel shows" selector in the menu to pin one provider to the panel, or
-  to follow the provider with the most recent activity (the default). The
-  last activity is remembered across restarts.
+- "Panel shows" selector in the menu: Automatic (most recent activity, the
+  default), Highest usage, All providers, or one provider. The last
+  activity is remembered across restarts.
+- "Panel text" now applies to each provider: Highest limit, Main limit, All
+  limits or Icon only.
 - When a sign-in expires, the last known numbers stay in the menu, dimmed,
   with the time they were last updated.
-- In automatic mode the panel leaves out providers whose data is stale, and
-  "Highest usage" skips providers whose limit is used up, unless nothing
-  else is left. Windows that have reset since are hidden,
-  and stale numbers never trigger notifications.
+- Automatic and Highest usage leave out providers whose data is stale or
+  whose limit is used up, unless nothing else is left. Windows that have
+  reset since are hidden, and stale numbers never trigger notifications.
+- Settings have one page per provider, so every option fits on screen
+  (Cinnamon's settings window cannot scroll).
 - Fix: progress bars were too short when the menu was wider than 240 px
   (100% did not fill the bar). Bars now scale with the menu.
 - Fix: rate limiting (HTTP 429) was reported as a connection error and the

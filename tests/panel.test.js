@@ -18,8 +18,12 @@ const options = (extra = {}) => Object.assign({
     formatPercent: util.formatPercent,
 }, extra);
 
-test("highest shows the provider of the highest limit, with its reset", () => {
-    assert.deepEqual(panelSegments(PROVIDERS, "highest", options()), [
+test("highest shows each provider's highest limit, with the reset when alone", () => {
+    assert.deepEqual(panelSegments(PROVIDERS, "highest", options()).map((s) => [s.providerId, s.text]), [
+        ["anthropic", "21%"],
+        ["codex", "71%"],
+    ]);
+    assert.deepEqual(panelSegments(PROVIDERS.slice(1), "highest", options()), [
         {providerId: "codex", text: "71% · in 5h", severity: "normal"},
     ]);
 });
@@ -50,8 +54,9 @@ test("compact keeps only the highest percentage per icon", () => {
 });
 
 test("reset is omitted when disabled or unknown", () => {
-    assert.equal(panelSegments(PROVIDERS, "highest", options({showReset: false}))[0].text, "71%");
-    assert.equal(panelSegments(PROVIDERS, "highest", options({resetText: () => ""}))[0].text, "71%");
+    const codex = PROVIDERS.slice(1);
+    assert.equal(panelSegments(codex, "highest", options({showReset: false}))[0].text, "71%");
+    assert.equal(panelSegments(codex, "highest", options({resetText: () => ""}))[0].text, "71%");
 });
 
 test("no providers means no segments", () => {

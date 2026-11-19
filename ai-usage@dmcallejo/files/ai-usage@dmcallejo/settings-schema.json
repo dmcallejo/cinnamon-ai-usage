@@ -3,7 +3,9 @@
         "type": "layout",
         "pages": [
             "general-page",
-            "providers-page"
+            "anthropic-page",
+            "codex-page",
+            "kimi-page"
         ],
         "general-page": {
             "type": "page",
@@ -14,12 +16,24 @@
                 "alerts-section"
             ]
         },
-        "providers-page": {
+        "anthropic-page": {
             "type": "page",
-            "title": "Providers",
+            "title": "Claude",
             "sections": [
-                "anthropic-section",
-                "codex-section",
+                "anthropic-section"
+            ]
+        },
+        "codex-page": {
+            "type": "page",
+            "title": "Codex",
+            "sections": [
+                "codex-section"
+            ]
+        },
+        "kimi-page": {
+            "type": "page",
+            "title": "Kimi",
+            "sections": [
                 "kimi-section"
             ]
         },
@@ -84,12 +98,12 @@
         "default": "highest",
         "description": "Panel text",
         "options": {
-            "Highest usage": "highest",
-            "Main limit of each provider": "primary",
+            "Highest limit": "highest",
+            "Main limit": "primary",
             "All limits": "all",
             "Icon only": "icon"
         },
-        "tooltip": "Which percentages to show next to the icon. The menu always shows every limit."
+        "tooltip": "Which limits to show next to each provider icon. Which providers appear is chosen in the menu, under \"Panel shows\". The menu always shows every limit."
     },
     "show-reset-in-panel": {
         "type": "switch",
@@ -106,7 +120,7 @@
     },
     "panel-provider": {
         "type": "generic",
-        "default": "latest"
+        "default": ""
     },
     "activity-state": {
         "type": "generic",

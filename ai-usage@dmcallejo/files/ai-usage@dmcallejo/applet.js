@@ -32,8 +32,13 @@ const PROVIDER_CLASSES = [AnthropicProvider, CodexProvider, KimiProvider];
 const MODE_AUTO = "auto";
 const MODE_ON = "on";
 const MODE_OFF = "off";
-// "Panel shows" value that follows the provider whose usage rose last.
-const PANEL_LATEST = "latest";
+// "Panel shows" values besides a provider id. "" (automatic) follows the
+// provider whose usage rose last; "latest" is its old name, kept for
+// existing settings.
+const PANEL_AUTO = "";
+const PANEL_LEGACY_LATEST = "latest";
+const PANEL_HIGHEST = "highest";
+const PANEL_ALL = "all";
 
 const LABEL_TICK_SECONDS = 60;
 const STALE_OPACITY = 140;
@@ -310,42 +315,61 @@ class AiUsageApplet extends Applet.Applet {
         this.settings.setValue("activity-state", all);
     }
 
-    // The provider pinned to the panel, if it is currently shown at all.
-    // A pinned provider that is signed out or turned off falls back to
-    // automatic, and so does "most recent activity" until some usage rises.
-    _pinnedState() {
-        if (!this.panelProvider)
-            return null;
-        const visible = this._visibleStates();
-        if (this.panelProvider === PANEL_LATEST) {
-            const active = visible.filter((state) => state.changedAt && !state.error &&
-                this._displayLimits(state).length > 0);
-            if (active.length === 0)
-                return null;
-            return active.reduce((a, b) => (b.changedAt > a.changedAt ? b : a));
-        }
-        return visible.find((state) => state.provider.id === this.panelProvider) || null;
+    _panelChoice() {
+        return this.panelProvider === PANEL_LEGACY_LATEST ? PANEL_AUTO : (this.panelProvider || PANEL_AUTO);
     }
 
-    // Providers the panel shows. A pinned provider is always shown (dimmed if
-    // stale). Otherwise stale data (expired sign-in, offline) is left out
-    // unless nothing is up to date. "Highest usage" picks a single limit, so
-    // it also skips providers whose limit is used up when another one can
-    // still be used; the list modes show every up-to-date provider.
-    _panelStates() {
-        const pinned = this._pinnedState();
-        if (pinned)
-            return [pinned];
+    // Providers with data, preferring up-to-date ones; stale data (expired
+    // sign-in, offline) only when nothing is up to date.
+    _candidateStates() {
         const withData = this._visibleStates().filter((state) => this._displayLimits(state).length > 0);
         const fresh = withData.filter((state) => !this._isStale(state));
-        if (fresh.length === 0)
-            return withData;
-        if (this.panelDisplay === "highest") {
-            const usable = fresh.filter((state) => !this._isExhausted(state));
-            if (usable.length > 0)
-                return usable;
+        return fresh.length > 0 ? fresh : withData;
+    }
+
+    _highestPercent(state) {
+        return Math.max(...this._displayLimits(state).map((limit) => limit.percent));
+    }
+
+    // Provider with the highest limit, skipping those whose limit is used up
+    // while another one can still be used.
+    _highestState() {
+        const candidates = this._candidateStates();
+        const usable = candidates.filter((state) => !this._isExhausted(state));
+        const pool = usable.length > 0 ? usable : candidates;
+        if (pool.length === 0)
+            return null;
+        return pool.reduce((a, b) => (this._highestPercent(b) > this._highestPercent(a) ? b : a));
+    }
+
+    // Provider whose usage rose most recently and can still be used.
+    _latestState() {
+        const active = this._candidateStates().filter((state) =>
+            state.changedAt && !this._isStale(state) && !this._isExhausted(state));
+        if (active.length === 0)
+            return null;
+        return active.reduce((a, b) => (b.changedAt > a.changedAt ? b : a));
+    }
+
+    // Providers the panel shows for the "Panel shows" choice:
+    // - automatic: the most recent activity, else the highest usage;
+    // - highest usage: one provider, the one with the highest limit;
+    // - all providers: every provider with up-to-date data;
+    // - a provider: that one, even if stale or used up (falls back to
+    //   automatic when it is not shown at all).
+    _panelStates() {
+        const choice = this._panelChoice();
+        if (choice === PANEL_ALL)
+            return this._candidateStates();
+        if (choice !== PANEL_AUTO && choice !== PANEL_HIGHEST) {
+            const pinned = this._visibleStates().find((state) => state.provider.id === choice);
+            if (pinned)
+                return [pinned];
         }
-        return fresh;
+        const state = choice === PANEL_HIGHEST
+            ? this._highestState()
+            : this._latestState() || this._highestState();
+        return state ? [state] : [];
     }
 
     // A provider is exhausted when it says so, or when any limit is used up.
@@ -610,19 +634,24 @@ class AiUsageApplet extends Applet.Applet {
 
     // Quick choice of which provider the panel shows.
     _addPanelProviderSelector(visible) {
-        const pinned = this._pinnedState();
         const choices = [
-            {id: "", label: _("Automatic")},
-            {id: PANEL_LATEST, label: _("Most recent activity")},
+            {id: PANEL_AUTO, label: _("Automatic (most recent activity)")},
+            {id: PANEL_HIGHEST, label: _("Highest usage")},
+            {id: PANEL_ALL, label: _("All providers")},
         ].concat(visible.map((state) => ({id: state.provider.id, label: state.provider.name})));
-        // A pin to a provider that is not shown falls back to automatic.
-        const selected = choices.some((choice) => choice.id === this.panelProvider) ? this.panelProvider : "";
+        // A provider that is not shown falls back to automatic.
+        const chosen = this._panelChoice();
+        const selected = choices.some((choice) => choice.id === chosen) ? chosen : PANEL_AUTO;
 
+        const shown = this._panelStates();
+        const name = shown.length === 1 ? shown[0].provider.name : null;
         let current;
-        if (selected === PANEL_LATEST)
-            current = pinned ? _("Most recent activity (%s)").format(pinned.provider.name) : _("Most recent activity");
+        if (selected === PANEL_AUTO)
+            current = name ? _("Automatic (%s)").format(name) : _("Automatic");
+        else if (selected === PANEL_HIGHEST)
+            current = name ? _("Highest usage (%s)").format(name) : _("Highest usage");
         else
-            current = pinned ? pinned.provider.name : _("Automatic");
+            current = choices.find((choice) => choice.id === selected).label;
         const submenu = new PopupMenu.PopupSubMenuMenuItem(_("Panel shows: %s").format(current));
 
         for (const choice of choices) {

@@ -23,20 +23,23 @@ function worstSeverity(severities) {
 
 // providers: [{id, limits: [{percent, resetsAt}]}], in display order, only
 //            those with data.
-// mode:      "highest" | "primary" | "all" | "icon"
+// mode:      "highest" (highest limit of each provider) | "primary" |
+//            "all" | "icon"
 // options:   {showReset, compact, severity(percent), resetText(limit),
 //             formatPercent(percent)}
 //            `compact` (vertical panels) keeps only one percentage per icon.
 // Returns:   [{providerId, text, severity}]
 function panelSegments(providers, mode, options) {
-    let entries = [];
+    const entries = [];
     for (const provider of providers) {
-        const limits = mode === "primary" ? provider.limits.slice(0, 1) : provider.limits;
+        let limits = provider.limits;
+        if (mode === "primary")
+            limits = limits.slice(0, 1);
+        else if (mode === "highest" && limits.length > 0)
+            limits = [limits.reduce((a, b) => (b.percent > a.percent ? b : a))];
         for (const limit of limits)
             entries.push({providerId: provider.id, limit});
     }
-    if (mode === "highest" && entries.length > 1)
-        entries = [entries.reduce((a, b) => (b.limit.percent > a.limit.percent ? b : a))];
 
     // Group consecutive entries of the same provider behind a single icon.
     const groups = [];
