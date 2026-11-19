@@ -139,6 +139,7 @@ class AiUsageApplet extends Applet.Applet {
                     error: null,
                     backoffUntil: 0,
                     mode: this._providerMode(ProviderClass),
+                    changedAt: null,
                     // Automatic providers stay hidden until a sign-in is found.
                     signedIn: true,
                 };
@@ -241,11 +242,9 @@ class AiUsageApplet extends Applet.Applet {
         if (Date.now() < state.backoffUntil)
             return;
         try {
-            const previous = state.data;
             state.data = await state.provider.fetch(cancellable);
             state.updatedAt = new Date();
-            if (usageIncreased(previous, state.data))
-                state.changedAt = state.updatedAt;
+            this._trackActivity(state);
             state.error = null;
             state.signedIn = true;
         } catch (e) {
@@ -282,6 +281,33 @@ class AiUsageApplet extends Applet.Applet {
             return state.data.limits;
         const now = Date.now();
         return state.data.limits.filter((limit) => !limit.resetsAt || limit.resetsAt.getTime() > now);
+    }
+
+    // ----- Activity ("Most recent activity") ------------------------------
+
+    // Compares the new data with the last snapshot seen, which is persisted
+    // so a restart neither forgets the last activity nor misses a rise that
+    // happened while Cinnamon was not running. Only writes when it changes.
+    _trackActivity(state) {
+        const id = state.provider.id;
+        const all = Object.assign({}, this.settings.getValue("activity-state") || {});
+        const saved = all[id] || {};
+        const previous = saved.limits
+            ? {limits: Object.entries(saved.limits).map(([limitId, percent]) => ({id: limitId, percent}))}
+            : null;
+        const current = {};
+        for (const limit of state.data.limits)
+            current[limit.id] = limit.percent;
+
+        let changedAt = Number(saved.changedAt) || 0;
+        if (usageIncreased(previous, state.data))
+            changedAt = state.updatedAt.getTime();
+        state.changedAt = changedAt > 0 ? new Date(changedAt) : null;
+
+        if (JSON.stringify(saved.limits || null) === JSON.stringify(current) && (Number(saved.changedAt) || 0) === changedAt)
+            return;
+        all[id] = {changedAt, limits: current};
+        this.settings.setValue("activity-state", all);
     }
 
     // The provider pinned to the panel, if it is currently shown at all.
