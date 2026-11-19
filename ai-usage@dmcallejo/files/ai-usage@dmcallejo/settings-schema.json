@@ -20,21 +20,24 @@
             "type": "page",
             "title": "Claude",
             "sections": [
-                "anthropic-section"
+                "anthropic-section",
+                "anthropic-accounts-section"
             ]
         },
         "codex-page": {
             "type": "page",
             "title": "Codex",
             "sections": [
-                "codex-section"
+                "codex-section",
+                "codex-accounts-section"
             ]
         },
         "kimi-page": {
             "type": "page",
             "title": "Kimi",
             "sections": [
-                "kimi-section"
+                "kimi-section",
+                "kimi-accounts-section"
             ]
         },
         "panel-section": {
@@ -90,6 +93,30 @@
                 "kimi-icon",
                 "kimi-credentials-path",
                 "kimi-help"
+            ]
+        },
+        "anthropic-accounts-section": {
+            "type": "section",
+            "title": "Other accounts",
+            "keys": [
+                "anthropic-accounts-help",
+                "anthropic-accounts"
+            ]
+        },
+        "codex-accounts-section": {
+            "type": "section",
+            "title": "Other accounts",
+            "keys": [
+                "codex-accounts-help",
+                "codex-accounts"
+            ]
+        },
+        "kimi-accounts-section": {
+            "type": "section",
+            "title": "Other accounts",
+            "keys": [
+                "kimi-accounts-help",
+                "kimi-accounts"
             ]
         }
     },
@@ -247,5 +274,107 @@
         "type": "label",
         "description": "Uses the sign-in stored by Kimi Code. It is read only and never sent anywhere except api.kimi.com or api.kimi.ai.",
         "dependency": "kimi-mode!=off"
+    },
+    "anthropic-accounts-help": {
+        "type": "label",
+        "description": "Add an account that Claude Code keeps in its own folder (set with CLAUDE_CONFIG_DIR). The folder is required."
+    },
+    "anthropic-accounts": {
+        "type": "list",
+        "description": "Other accounts",
+        "height": 140,
+        "columns": [
+            {
+                "id": "name",
+                "title": "Name",
+                "type": "string"
+            },
+            {
+                "id": "folder",
+                "title": "Sign-in folder",
+                "type": "file",
+                "select-dir": true
+            },
+            {
+                "id": "icon",
+                "title": "Panel icon",
+                "type": "icon"
+            },
+            {
+                "id": "enabled",
+                "title": "Enabled",
+                "type": "boolean",
+                "default": true
+            }
+        ],
+        "default": []
+    },
+    "codex-accounts-help": {
+        "type": "label",
+        "description": "Add an account that the Codex CLI keeps in its own folder (set with CODEX_HOME). The folder is required."
+    },
+    "codex-accounts": {
+        "type": "list",
+        "description": "Other accounts",
+        "height": 140,
+        "columns": [
+            {
+                "id": "name",
+                "title": "Name",
+                "type": "string"
+            },
+            {
+                "id": "folder",
+                "title": "Sign-in folder",
+                "type": "file",
+                "select-dir": true
+            },
+            {
+                "id": "icon",
+                "title": "Panel icon",
+                "type": "icon"
+            },
+            {
+                "id": "enabled",
+                "title": "Enabled",
+                "type": "boolean",
+                "default": true
+            }
+        ],
+        "default": []
+    },
+    "kimi-accounts-help": {
+        "type": "label",
+        "description": "Add an account that Kimi Code keeps in its own folder (set with KIMI_CODE_HOME). The folder is required."
+    },
+    "kimi-accounts": {
+        "type": "list",
+        "description": "Other accounts",
+        "height": 140,
+        "columns": [
+            {
+                "id": "name",
+                "title": "Name",
+                "type": "string"
+            },
+            {
+                "id": "folder",
+                "title": "Sign-in folder",
+                "type": "file",
+                "select-dir": true
+            },
+            {
+                "id": "icon",
+                "title": "Panel icon",
+                "type": "icon"
+            },
+            {
+                "id": "enabled",
+                "title": "Enabled",
+                "type": "boolean",
+                "default": true
+            }
+        ],
+        "default": []
     }
 }

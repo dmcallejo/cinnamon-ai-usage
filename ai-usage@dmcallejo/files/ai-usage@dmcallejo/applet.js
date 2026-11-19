@@ -21,6 +21,7 @@ const {ErrorKind, ProviderError} = require("./lib/errors");
 const {HttpClient} = require("./lib/http");
 const {readJSON, readText, watchFile} = require("./lib/files");
 const {panelSegments, usageIncreased} = require("./lib/panel");
+const {parseAccounts} = require("./lib/accounts");
 const {AnthropicProvider} = require("./providers/anthropic");
 const {CodexProvider} = require("./providers/codex");
 const {KimiProvider} = require("./providers/kimi");
@@ -85,6 +86,7 @@ class AiUsageApplet extends Applet.Applet {
         for (const ProviderClass of PROVIDER_CLASSES) {
             const id = ProviderClass.id;
             this.settings.bind(`${id}-mode`, `${id}Mode`, () => this._onProvidersChanged());
+            this.settings.bind(`${id}-accounts`, `_setting_${id}_accounts`, () => this._onProvidersChanged());
             // Providers read their own settings on demand; changes only need a new request.
             for (const key of ProviderClass.settingKeys || [])
                 this.settings.bind(`${id}-${key}`, `_setting_${id}_${key}`, () => this._onProvidersChanged());
@@ -132,24 +134,59 @@ class AiUsageApplet extends Applet.Applet {
             homeDir: GLib.get_home_dir(),
             getenv: (name) => GLib.getenv(name),
         };
-        this._states = PROVIDER_CLASSES
-            .filter((ProviderClass) => this._providerMode(ProviderClass) !== MODE_OFF)
-            .map((ProviderClass) => {
-                const providerCtx = Object.assign({}, ctx, {
-                    getSetting: (key) => this.settings.getValue(`${ProviderClass.id}-${key}`),
-                });
-                return {
-                    provider: new ProviderClass(providerCtx),
-                    data: null,
-                    error: null,
-                    backoffUntil: 0,
-                    mode: this._providerMode(ProviderClass),
-                    changedAt: null,
-                    // Automatic providers stay hidden until a sign-in is found.
-                    signedIn: true,
-                };
-            });
+        this._states = [];
+        for (const ProviderClass of PROVIDER_CLASSES) {
+            const id = ProviderClass.id;
+            const mode = this._providerMode(ProviderClass);
+            if (mode !== MODE_OFF) {
+                const provider = new ProviderClass(Object.assign({}, ctx, {
+                    getSetting: (key) => this.settings.getValue(`${id}-${key}`),
+                }));
+                this._states.push(this._newState(provider, id, provider.name, mode,
+                    () => this[`_setting_${id}_icon`]));
+            }
+            for (const account of this._extraAccounts(ProviderClass)) {
+                // The account's folder replaces the CLI's own config-folder
+                // variable; path settings of the main account do not apply.
+                const provider = new ProviderClass(Object.assign({}, ctx, {
+                    getSetting: () => "",
+                    getenv: (name) => (name === ProviderClass.homeEnv ? account.folder : GLib.getenv(name)),
+                }));
+                const state = this._newState(provider, account.key,
+                    _("%s (%s)").format(provider.name, account.name), MODE_ON, () => account.icon);
+                if (!account.folder)
+                    state.configError = _("Choose the sign-in folder of this account in the applet settings.");
+                this._states.push(state);
+            }
+        }
         this._watchProviderFiles();
+    }
+
+    // key: unique id (activity, notifications, "Panel shows"); name: label.
+    _newState(provider, key, name, mode, customIcon) {
+        return {
+            provider,
+            key,
+            name,
+            customIcon,
+            configError: null,
+            data: null,
+            error: null,
+            backoffUntil: 0,
+            mode,
+            changedAt: null,
+            // Automatic providers stay hidden until a sign-in is found.
+            signedIn: true,
+        };
+    }
+
+    // Enabled rows of "<id>-accounts", with a unique key per account.
+    _extraAccounts(ProviderClass) {
+        return parseAccounts(ProviderClass.id, this.settings.getValue(`${ProviderClass.id}-accounts`), {
+            homeDir: GLib.get_home_dir(),
+            expandHome: util.expandHome,
+            defaultName: (index) => _("Account %d").format(index + 2),
+        });
     }
 
     _providerMode(ProviderClass) {
@@ -166,7 +203,9 @@ class AiUsageApplet extends Applet.Applet {
 
     _watchProviderFiles() {
         this._stopWatching();
-        for (const {provider} of this._states) {
+        for (const {provider, configError} of this._states) {
+            if (configError)
+                continue;
             const paths = typeof provider.watchPaths === "function" ? provider.watchPaths() : [];
             for (const path of paths) {
                 try {
@@ -244,6 +283,10 @@ class AiUsageApplet extends Applet.Applet {
     }
 
     async _refreshProvider(state, cancellable) {
+        if (state.configError) {
+            state.error = state.configError;
+            return;
+        }
         if (Date.now() < state.backoffUntil)
             return;
         try {
@@ -270,8 +313,8 @@ class AiUsageApplet extends Applet.Applet {
                 if (e.kind === ErrorKind.CONFIG)
                     state.data = null;
             } else {
-                global.logWarning(`[${UUID}] ${state.provider.name}: ${e.message}`);
-                state.error = _("Could not reach %s. Check your connection.").format(state.provider.name);
+                global.logWarning(`[${UUID}] ${state.name}: ${e.message}`);
+                state.error = _("Could not reach %s. Check your connection.").format(state.name);
             }
         }
     }
@@ -294,7 +337,7 @@ class AiUsageApplet extends Applet.Applet {
     // so a restart neither forgets the last activity nor misses a rise that
     // happened while Cinnamon was not running. Only writes when it changes.
     _trackActivity(state) {
-        const id = state.provider.id;
+        const id = state.key;
         const all = Object.assign({}, this.settings.getValue("activity-state") || {});
         const saved = all[id] || {};
         const previous = saved.limits
@@ -362,7 +405,7 @@ class AiUsageApplet extends Applet.Applet {
         if (choice === PANEL_ALL)
             return this._candidateStates();
         if (choice !== PANEL_AUTO && choice !== PANEL_HIGHEST) {
-            const pinned = this._visibleStates().find((state) => state.provider.id === choice);
+            const pinned = this._visibleStates().find((state) => state.key === choice);
             if (pinned)
                 return [pinned];
         }
@@ -516,9 +559,9 @@ class AiUsageApplet extends Applet.Applet {
     _renderPanel() {
         const visible = this._visibleStates();
         const hasError = visible.some((state) => state.error);
-        const byId = new Map(visible.map((state) => [state.provider.id, state]));
+        const byId = new Map(visible.map((state) => [state.key, state]));
         const providers = this._panelStates()
-            .map((state) => ({id: state.provider.id, limits: this._displayLimits(state)}))
+            .map((state) => ({id: state.key, limits: this._displayLimits(state)}))
             .filter((provider) => provider.limits.length > 0);
         const segments = panelSegments(providers, this.panelDisplay, {
             showReset: this.showResetInPanel,
@@ -540,7 +583,7 @@ class AiUsageApplet extends Applet.Applet {
         }
         for (const segment of segments) {
             const state = byId.get(segment.providerId);
-            const custom = this[`_setting_${state.provider.id}_icon`];
+            const custom = state.customIcon();
             const actor = this._addPanelSegment(
                 this._makeIcon(custom, state.provider.iconFile, segment.severity), segment.text, segment.severity);
             // Dim numbers that failed to refresh.
@@ -551,9 +594,9 @@ class AiUsageApplet extends Applet.Applet {
     _renderTooltip() {
         const lines = [];
         for (const state of this._visibleStates()) {
-            const {provider, data, error} = state;
+            const {data, error} = state;
             const plan = data && data.plan ? ` (${data.plan})` : "";
-            lines.push(`${provider.name}${plan}`);
+            lines.push(`${state.name}${plan}`);
             if (data) {
                 for (const limit of this._displayLimits(state)) {
                     const reset = this._resetText(limit);
@@ -591,8 +634,8 @@ class AiUsageApplet extends Applet.Applet {
         for (const state of visible) {
             const {provider, data, error} = state;
             const title = data && data.plan
-                ? _("%s (%s plan)").format(provider.name, data.plan)
-                : provider.name;
+                ? _("%s (%s plan)").format(state.name, data.plan)
+                : state.name;
             const header = new PopupMenu.PopupMenuItem(title, {reactive: false});
             header.label.add_style_class_name("ai-usage-provider");
             this.menu.addMenuItem(header);
@@ -638,13 +681,13 @@ class AiUsageApplet extends Applet.Applet {
             {id: PANEL_AUTO, label: _("Automatic (most recent activity)")},
             {id: PANEL_HIGHEST, label: _("Highest usage")},
             {id: PANEL_ALL, label: _("All providers")},
-        ].concat(visible.map((state) => ({id: state.provider.id, label: state.provider.name})));
+        ].concat(visible.map((state) => ({id: state.key, label: state.name})));
         // A provider that is not shown falls back to automatic.
         const chosen = this._panelChoice();
         const selected = choices.some((choice) => choice.id === chosen) ? chosen : PANEL_AUTO;
 
         const shown = this._panelStates();
-        const name = shown.length === 1 ? shown[0].provider.name : null;
+        const name = shown.length === 1 ? shown[0].name : null;
         let current;
         if (selected === PANEL_AUTO)
             current = name ? _("Automatic (%s)").format(name) : _("Automatic");
@@ -730,18 +773,18 @@ class AiUsageApplet extends Applet.Applet {
     _notifyCriticalLimits() {
         const current = new Set();
         for (const state of this._visibleStates()) {
-            const {provider} = state;
+            const {name} = state;
             for (const limit of this._displayLimits(state)) {
                 if (this._severity(limit.percent) !== util.SEVERITY_CRITICAL)
                     continue;
-                const key = `${provider.id}:${limit.id}`;
+                const key = `${state.key}/${limit.id}`;
                 current.add(key);
                 // Never notify from stale numbers.
                 if (!this.notifyCritical || this._notified.has(key) || this._isStale(state))
                     continue;
                 const reset = this._resetText(limit);
                 Main.notify(
-                    _("%s: %s at %s").format(provider.name, limit.label, util.formatPercent(limit.percent)),
+                    _("%s: %s at %s").format(name, limit.label, util.formatPercent(limit.percent)),
                     reset ? _("Resets in %s.").format(reset) : "");
             }
         }

@@ -22,6 +22,8 @@
 - Automatic and Highest usage leave out providers whose data is stale or
   whose limit is used up, unless nothing else is left. Windows that have
   reset since are hidden, and stale numbers never trigger notifications.
+- Several accounts per provider: an "Other accounts" list on each provider
+  tab, each with its own sign-in folder.
 - Settings have one page per provider, so every option fits on screen
   (Cinnamon's settings window cannot scroll).
 - Fix: progress bars were too short when the menu was wider than 240 px

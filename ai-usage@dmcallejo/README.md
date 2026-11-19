@@ -101,6 +101,17 @@ sent to `api.kimi.com` or `api.kimi.ai`.
 - Moonshot AI Open Platform API keys (`api.moonshot.ai`) have a balance, not
   plan limits, and are not supported.
 
+## Several accounts per provider
+
+Each provider tab has an **Other accounts** list. Add a row (**+**) with a
+name and the folder where the provider's CLI keeps that account's sign-in:
+the folder you pass as `CLAUDE_CONFIG_DIR`, `CODEX_HOME` or
+`KIMI_CODE_HOME` when you use that account. The folder is required.
+
+Each account appears separately, for example as "Claude (Work)": in the
+menu, in "Panel shows", and for Automatic and Highest usage. Every extra
+account adds one request per refresh.
+
 ## Settings
 
 | Setting | Default | Description |
@@ -117,6 +128,7 @@ sent to `api.kimi.com` or `api.kimi.ai`.
 | Codex CLI credentials file | empty | Custom path to `auth.json` |
 | Show Kimi usage | When signed in | Or Always / Never |
 | Kimi Code credentials file | empty | Custom path to `kimi-code.json` |
+| Other accounts (per provider) | none | Name, sign-in folder (required), icon, enabled |
 
 ## Icons
 

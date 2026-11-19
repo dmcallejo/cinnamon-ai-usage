@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usage@dmcallejo 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-19 14:51+0100\n"
+"POT-Creation-Date: 2026-11-19 15:00+0100\n"
 "PO-Revision-Date: 2026-11-17 13:30\n"
 "Last-Translator: dmcallejo\n"
 "Language-Team: Catalan\n"
@@ -13,40 +13,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applet.js:102
+#: applet.js:104
 msgid "AI usage limits"
 msgstr "Límits d'ús d'IA"
 
-#: applet.js:112 applet.js:632
+#: applet.js:114 applet.js:675
 msgid "Refresh now"
 msgstr "Actualitza ara"
 
-#: applet.js:274
+#: applet.js:156
+#, javascript-format
+msgid "%s (%s)"
+msgstr "%s (%s)"
+
+#: applet.js:158
+msgid "Choose the sign-in folder of this account in the applet settings."
+msgstr ""
+"Tria la carpeta de la sessió d'aquest compte a la configuració de la "
+"miniaplicació."
+
+#: applet.js:188
+#, javascript-format
+msgid "Account %d"
+msgstr "Compte %d"
+
+#: applet.js:317
 #, javascript-format
 msgid "Could not reach %s. Check your connection."
 msgstr "No s'ha pogut contactar amb %s. Comprova la connexió."
 
-#: applet.js:434
+#: applet.js:477
 #, javascript-format
 msgid "Resets in %s (%s)"
 msgstr "Es restableix en %s (%s)"
 
-#: applet.js:562
+#: applet.js:605
 #, javascript-format
 msgid "%s: %s, resets in %s"
 msgstr "%s: %s, es restableix en %s"
 
-#: applet.js:569 applet.js:616
+#: applet.js:612 applet.js:659
 #, javascript-format
 msgid "Last updated at %s."
 msgstr "Última actualització a les %s."
 
-#: applet.js:578
+#: applet.js:621
 msgid "All providers are turned off in the applet settings."
 msgstr ""
 "Tots els proveïdors estan desactivats a la configuració de la miniaplicació."
 
-#: applet.js:579
+#: applet.js:622
 msgid ""
 "No sign-in found. Sign in to Claude Code, the Codex CLI or Kimi Code, then "
 "the applet picks it up automatically."
@@ -54,67 +70,67 @@ msgstr ""
 "No s'ha trobat cap sessió. Inicia sessió a Claude Code, a la CLI de Codex o "
 "a Kimi Code i la miniaplicació la detectarà automàticament."
 
-#: applet.js:594
+#: applet.js:637
 #, javascript-format
 msgid "%s (%s plan)"
 msgstr "%s (pla %s)"
 
-#: applet.js:605
+#: applet.js:648
 #, javascript-format
 msgid "%s of %s"
 msgstr "%s de %s"
 
-#: applet.js:611
+#: applet.js:654
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: applet.js:619
+#: applet.js:662
 #, javascript-format
 msgid "Open %s usage page"
 msgstr "Obre la pàgina d'ús de %s"
 
-#: applet.js:630
+#: applet.js:673
 #, javascript-format
 msgid "Updated at %s"
 msgstr "Actualitzat a les %s"
 
-#: applet.js:638
+#: applet.js:681
 msgid "Automatic (most recent activity)"
 msgstr "Automàtic (activitat més recent)"
 
-#: applet.js:639 applet.js:652
+#: applet.js:682 applet.js:695
 msgid "Highest usage"
 msgstr "Ús més alt"
 
-#: applet.js:640
+#: applet.js:683
 msgid "All providers"
 msgstr "Tots els proveïdors"
 
-#: applet.js:650
+#: applet.js:693
 #, javascript-format
 msgid "Automatic (%s)"
 msgstr "Automàtic (%s)"
 
-#: applet.js:650
+#: applet.js:693
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: applet.js:652
+#: applet.js:695
 #, javascript-format
 msgid "Highest usage (%s)"
 msgstr "Ús més alt (%s)"
 
-#: applet.js:655
+#: applet.js:698
 #, javascript-format
 msgid "Panel shows: %s"
 msgstr "El quadre mostra: %s"
 
-#: applet.js:744
+#: applet.js:787
 #, javascript-format
 msgid "%s: %s at %s"
 msgstr "%s: %s al %s"
 
-#: applet.js:745
+#: applet.js:788
 #, javascript-format
 msgid "Resets in %s."
 msgstr "Es restableix en %s."
@@ -162,19 +178,19 @@ msgstr "Setmanal, Sonnet"
 msgid "Extra usage"
 msgstr "Ús addicional"
 
-#: providers/anthropic.js:186
+#: providers/anthropic.js:192
 #, javascript-format
 msgid "No Claude Code sign-in found at %s. Sign in with Claude Code first."
 msgstr ""
 "No s'ha trobat cap sessió de Claude Code a %s. Inicia sessió primer amb "
 "Claude Code."
 
-#: providers/anthropic.js:189 providers/codex.js:151 providers/kimi.js:300
+#: providers/anthropic.js:195 providers/codex.js:157 providers/kimi.js:306
 #, javascript-format
 msgid "Could not parse %s."
 msgstr "No s'ha pogut llegir %s."
 
-#: providers/anthropic.js:196
+#: providers/anthropic.js:202
 #, javascript-format
 msgid ""
 "No Claude subscription sign-in found in %s. API keys do not have plan "
@@ -183,7 +199,7 @@ msgstr ""
 "No hi ha cap sessió de subscripció de Claude a %s. Les claus d'API no tenen "
 "límits de pla."
 
-#: providers/anthropic.js:200
+#: providers/anthropic.js:206
 msgid ""
 "The Claude Code sign-in has expired. Send a message in Claude Code to renew "
 "it."
@@ -191,23 +207,23 @@ msgstr ""
 "La sessió de Claude Code ha caducat. Envia un missatge a Claude Code per "
 "renovar-la."
 
-#: providers/anthropic.js:216
+#: providers/anthropic.js:222
 msgid ""
 "Claude rejected the sign-in. Send a message in Claude Code to renew it."
 msgstr ""
 "Claude ha rebutjat la sessió. Envia un missatge a Claude Code per renovar-"
 "la."
 
-#: providers/anthropic.js:219 providers/codex.js:180 providers/kimi.js:331
+#: providers/anthropic.js:225 providers/codex.js:186 providers/kimi.js:337
 msgid "Too many requests. Retrying later."
 msgstr "Massa peticions. Es tornarà a provar més tard."
 
-#: providers/anthropic.js:221
+#: providers/anthropic.js:227
 #, javascript-format
 msgid "Unexpected response from Claude (HTTP %d)."
 msgstr "Resposta inesperada de Claude (HTTP %d)."
 
-#: providers/anthropic.js:225
+#: providers/anthropic.js:231
 msgid "Claude returned no usage data."
 msgstr "Claude no ha retornat dades d'ús."
 
@@ -237,29 +253,29 @@ msgstr "%s, %s"
 msgid "Code review"
 msgstr "Revisió de codi"
 
-#: providers/codex.js:148
+#: providers/codex.js:154
 #, javascript-format
 msgid "No Codex sign-in found at %s. Sign in with the Codex CLI first."
 msgstr ""
 "No s'ha trobat cap sessió de Codex a %s. Inicia sessió primer amb la CLI de "
 "Codex."
 
-#: providers/codex.js:158
+#: providers/codex.js:164
 #, javascript-format
 msgid "No ChatGPT sign-in found in %s. API keys do not have plan limits."
 msgstr ""
 "No hi ha cap sessió de ChatGPT a %s. Les claus d'API no tenen límits de pla."
 
-#: providers/codex.js:177
+#: providers/codex.js:183
 msgid "ChatGPT rejected the Codex sign-in. Run Codex to renew it."
 msgstr "ChatGPT ha rebutjat la sessió de Codex. Executa Codex per renovar-la."
 
-#: providers/codex.js:182
+#: providers/codex.js:188
 #, javascript-format
 msgid "Unexpected response from Codex (HTTP %d)."
 msgstr "Resposta inesperada de Codex (HTTP %d)."
 
-#: providers/codex.js:186
+#: providers/codex.js:192
 msgid "Codex returned no usage data."
 msgstr "Codex no ha retornat dades d'ús."
 
@@ -271,36 +287,36 @@ msgstr "Mensual, Kimi Code"
 msgid "Monthly, all Kimi usage"
 msgstr "Mensual, tot l'ús de Kimi"
 
-#: providers/kimi.js:297
+#: providers/kimi.js:303
 #, javascript-format
 msgid "No Kimi Code sign-in found at %s. Sign in with Kimi Code first."
 msgstr ""
 "No s'ha trobat cap sessió de Kimi Code a %s. Inicia sessió primer amb Kimi "
 "Code."
 
-#: providers/kimi.js:306
+#: providers/kimi.js:312
 #, javascript-format
 msgid "No Kimi Code sign-in found in %s."
 msgstr "No hi ha cap sessió de Kimi Code a %s."
 
-#: providers/kimi.js:314
+#: providers/kimi.js:320
 msgid ""
 "The Kimi Code sign-in has expired. Send a message in Kimi Code to renew it."
 msgstr ""
 "La sessió de Kimi Code ha caducat. Envia un missatge a Kimi Code per "
 "renovar-la."
 
-#: providers/kimi.js:328
+#: providers/kimi.js:334
 msgid "Kimi rejected the sign-in. Send a message in Kimi Code to renew it."
 msgstr ""
 "Kimi ha rebutjat la sessió. Envia un missatge a Kimi Code per renovar-la."
 
-#: providers/kimi.js:333
+#: providers/kimi.js:339
 #, javascript-format
 msgid "Unexpected response from Kimi (HTTP %d)."
 msgstr "Resposta inesperada de Kimi (HTTP %d)."
 
-#: providers/kimi.js:337 providers/kimi.js:341
+#: providers/kimi.js:343 providers/kimi.js:347
 msgid "Kimi returned no usage data."
 msgstr "Kimi no ha retornat dades d'ús."
 
@@ -355,6 +371,15 @@ msgstr "Codex (OpenAI)"
 #. settings-schema.json->kimi-section->title
 msgid "Kimi Code (Moonshot AI)"
 msgstr "Kimi Code (Moonshot AI)"
+
+#. settings-schema.json->anthropic-accounts-section->title
+#. settings-schema.json->codex-accounts-section->title
+#. settings-schema.json->kimi-accounts-section->title
+#. settings-schema.json->anthropic-accounts->description
+#. settings-schema.json->codex-accounts->description
+#. settings-schema.json->kimi-accounts->description
+msgid "Other accounts"
+msgstr "Altres comptes"
 
 #. settings-schema.json->panel-display->description
 msgid "Panel text"
@@ -474,6 +499,9 @@ msgstr ""
 #. settings-schema.json->anthropic-icon->description
 #. settings-schema.json->codex-icon->description
 #. settings-schema.json->kimi-icon->description
+#. settings-schema.json->anthropic-accounts->columns->title
+#. settings-schema.json->codex-accounts->columns->title
+#. settings-schema.json->kimi-accounts->columns->title
 msgid "Panel icon"
 msgstr "Icona del quadre"
 
@@ -567,6 +595,44 @@ msgstr ""
 "Utilitza la sessió desada per Kimi Code. Només es llegeix i mai no s'envia "
 "enlloc excepte a api.kimi.com o api.kimi.ai."
 
-#, javascript-format
+#. settings-schema.json->anthropic-accounts-help->description
+msgid ""
+"Add an account that Claude Code keeps in its own folder (set with "
+"CLAUDE_CONFIG_DIR). The folder is required."
+msgstr ""
+"Afegeix un compte que Claude Code desa a la seva pròpia carpeta (indicada "
+"amb CLAUDE_CONFIG_DIR). La carpeta és obligatòria."
 
+#. settings-schema.json->anthropic-accounts->columns->title
+#. settings-schema.json->codex-accounts->columns->title
+#. settings-schema.json->kimi-accounts->columns->title
+msgid "Name"
+msgstr "Nom"
 
+#. settings-schema.json->anthropic-accounts->columns->title
+#. settings-schema.json->codex-accounts->columns->title
+#. settings-schema.json->kimi-accounts->columns->title
+msgid "Sign-in folder"
+msgstr "Carpeta de la sessió"
+
+#. settings-schema.json->anthropic-accounts->columns->title
+#. settings-schema.json->codex-accounts->columns->title
+#. settings-schema.json->kimi-accounts->columns->title
+msgid "Enabled"
+msgstr "Activat"
+
+#. settings-schema.json->codex-accounts-help->description
+msgid ""
+"Add an account that the Codex CLI keeps in its own folder (set with "
+"CODEX_HOME). The folder is required."
+msgstr ""
+"Afegeix un compte que la CLI de Codex desa a la seva pròpia carpeta "
+"(indicada amb CODEX_HOME). La carpeta és obligatòria."
+
+#. settings-schema.json->kimi-accounts-help->description
+msgid ""
+"Add an account that Kimi Code keeps in its own folder (set with "
+"KIMI_CODE_HOME). The folder is required."
+msgstr ""
+"Afegeix un compte que Kimi Code desa a la seva pròpia carpeta (indicada amb "
+"KIMI_CODE_HOME). La carpeta és obligatòria."

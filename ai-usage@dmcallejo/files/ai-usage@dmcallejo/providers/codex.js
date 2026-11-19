@@ -98,6 +98,12 @@ class CodexProvider {
     }
 
     // Read through ctx.getSetting(); stored as "codex-<key>" in settings-schema.json.
+    // Environment variable the CLI uses for its config folder. Extra accounts
+    // set it to their own folder.
+    static get homeEnv() {
+        return "CODEX_HOME";
+    }
+
     static get settingKeys() {
         return ["auth-path"];
     }

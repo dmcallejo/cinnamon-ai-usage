@@ -135,6 +135,12 @@ class AnthropicProvider {
     }
 
     // Read through ctx.getSetting(); stored as "anthropic-<key>" in settings-schema.json.
+    // Environment variable the CLI uses for its config folder. Extra accounts
+    // set it to their own folder.
+    static get homeEnv() {
+        return "CLAUDE_CONFIG_DIR";
+    }
+
     static get settingKeys() {
         return ["credentials-path"];
     }

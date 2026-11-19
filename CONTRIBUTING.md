@@ -52,6 +52,7 @@ to review:
        constructor(ctx) { this._ctx = ctx; }
        static get id() { return "example"; }          // settings prefix
        static get settingKeys() { return ["api-key"]; } // optional, "<id>-<key>"
+       static get homeEnv() { return "EXAMPLE_HOME"; } // CLI config-folder variable
        get id() { return ExampleProvider.id; }
        get name() { return "Example"; }                // shown in the UI
        get dashboardUrl() { return "https://..."; }    // or null

@@ -223,6 +223,12 @@ class KimiProvider {
     }
 
     // Read through ctx.getSetting(); stored as "kimi-<key>" in settings-schema.json.
+    // Environment variable the CLI uses for its config folder. Extra accounts
+    // set it to their own folder.
+    static get homeEnv() {
+        return "KIMI_CODE_HOME";
+    }
+
     static get settingKeys() {
         return ["credentials-path"];
     }
